@@ -876,12 +876,12 @@
   <div class="section" id="sectionSetup">
     <div class="card">
       <div class="card-title"><span class="icon">👤</span> Participant Setup</div>
-      <div class="card-subtitle">Configure your session. Your Participant ID is automatically assigned to ensure strict anonymity.</div>
+      <div class="card-subtitle">Configure your session. Your 6-character Participant ID is automatically assigned to ensure strict anonymity.</div>
 
       <div class="form-group">
-        <label class="form-label">Participant ID <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 AUTO-ASSIGNED (READ-ONLY)</span></label>
-        <input type="text" class="form-input" id="participantId" readonly style="background: rgba(255,255,255,0.03); cursor: not-allowed; opacity: 0.9; font-family: var(--font-mono); font-weight: 600; color: var(--accent-teal); border-color: rgba(45, 212, 191, 0.3);">
-        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">This anonymous identifier has been generated automatically and cannot be modified.</span>
+        <label class="form-label">Participant ID <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 6-CHARACTER ALPHANUMERIC (AUTO-ASSIGNED)</span></label>
+        <input type="text" class="form-input" id="participantId" readonly style="background: rgba(255,255,255,0.03); cursor: not-allowed; opacity: 0.95; font-family: var(--font-mono); font-size: 18px; letter-spacing: 2px; font-weight: 700; color: var(--accent-teal); border-color: rgba(45, 212, 191, 0.35);">
+        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">This 6-character anonymous identifier has been assigned randomly and cannot be modified.</span>
       </div>
 
       <div class="form-group">
@@ -1363,11 +1363,20 @@ let state = {
 // ============================================================
 //  INIT
 // ============================================================
+function generateParticipantId() {
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let id = '';
+  for (let i = 0; i < 6; i++) {
+    id += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return id;
+}
+
 function init() {
-  // Generate or retrieve persistent participant ID
+  // Generate or retrieve persistent 6-character alphanumeric participant ID
   let pid = localStorage.getItem('nightfast_assigned_pid');
-  if (!pid) {
-    pid = 'P' + String(Math.floor(Math.random() * 900) + 100);
+  if (!pid || pid.length !== 6 || /^P\d{3}$/.test(pid)) {
+    pid = generateParticipantId();
     localStorage.setItem('nightfast_assigned_pid', pid);
   }
   document.getElementById('participantId').value = pid;
@@ -1798,6 +1807,7 @@ function nextScenario() {
       safety: scenario.safety,
       type: scenario.type || 'free-form',
       groundTruth: scenario.groundTruth || null,
+      presentationOrder: state.currentIndex + 1,
       blob: state.currentBlob,
       duration: parseFloat(state.currentDuration),
       timestamp: new Date().toISOString()
@@ -1923,17 +1933,24 @@ async function exportZip() {
     scenarioOrder: state.scenarios.map(s => s.id)
   }, null, 2));
 
+  // Master manifest.csv for immediate Excel / Python pandas loading
+  let csvRows = [
+    ['participant_id', 'scenario_id', 'presentation_order', 'type', 'intent', 'language', 'safety_critical', 'audio_file', 'duration_seconds', 'timestamp', 'ground_truth', 'situation']
+  ];
+
   // Each recording
   for (const rec of state.recordings) {
-    const filename = `${rec.scenarioId}_${rec.lang}`;
+    const filename = `${state.participantId}_${rec.scenarioId}_${rec.lang}`;
 
-    // Audio file
+    // Audio file (includes participantId, scenarioId, and language in filename)
     folder.file(`${filename}.webm`, rec.blob);
 
     // Metadata
     const scenario = SCENARIOS.find(s => s.id === rec.scenarioId);
     const metadata = {
+      participantId: state.participantId,
       scenarioId: rec.scenarioId,
+      presentationOrder: rec.presentationOrder,
       type: rec.type,
       intent: rec.intent,
       language: rec.lang,
@@ -1942,7 +1959,6 @@ async function exportZip() {
       timestamp: rec.timestamp,
       situation: scenario ? scenario.situation : '',
       instruction: scenario ? scenario.instruction : '',
-      participantId: state.participantId,
       environment: state.recordingEnv,
       format: 'audio/webm;codecs=opus',
       targetSampleRate: 16000
@@ -1954,7 +1970,25 @@ async function exportZip() {
     }
 
     folder.file(`${filename}_metadata.json`, JSON.stringify(metadata, null, 2));
+
+    csvRows.push([
+      state.participantId,
+      rec.scenarioId,
+      rec.presentationOrder,
+      rec.type,
+      rec.intent,
+      rec.lang,
+      rec.safety ? 'yes' : 'no',
+      `${filename}.webm`,
+      rec.duration,
+      rec.timestamp,
+      `"${(rec.groundTruth || '').replace(/"/g, '""')}"`,
+      `"${((scenario ? scenario.situation : '')).replace(/"/g, '""')}"`
+    ]);
   }
+
+  const csvContent = csvRows.map(r => r.join(',')).join('\n');
+  folder.file('manifest.csv', csvContent);
 
   // Generate and download
   const content = await zip.generateAsync({ type: 'blob' });
