@@ -831,7 +831,7 @@
 
       <div class="consent-text">
         <h3>1. Purpose of Study</h3>
-        <p>This voice collection session is part of the NIGHT-FAST research project at the University Medical Center Göttingen (UMG) / TU Braunschweig. The purpose is to evaluate the accuracy of a voice-controlled interface for medical drone dispatch. Your voice recordings will be used exclusively for academic research and thesis evaluation.</p>
+        <p>This voice collection session is part of the NIGHT-FAST research project at the University Medical Center Göttingen (UMG). The purpose is to evaluate the accuracy of a voice-controlled interface for medical drone dispatch. Your voice recordings will be used exclusively for academic research and thesis evaluation.</p>
 
         <h3>2. What You Will Do</h3>
         <p>You will be presented with scenario descriptions related to medical drone operations. For each scenario, you will speak a natural voice command in either German or English. Your voice will be recorded via your device's microphone. Each scenario takes approximately 10–30 seconds.</p>
@@ -840,18 +840,18 @@
         <p>We will record:</p>
         <ul style="margin-left: 20px; margin-top: 4px;">
           <li>Your voice recordings (WAV format, 16 kHz mono)</li>
-          <li>A self-assigned participant identifier (no real name required)</li>
+          <li>An automatically assigned anonymous participant identifier (no real name required)</li>
           <li>The scenario prompts and metadata (timestamp, language, browser)</li>
         </ul>
 
         <h3>4. Data Protection (GDPR Art. 6, 13, 14)</h3>
-        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted to any server during the recording process. You may delete your recordings at any time. Your participant ID is self-assigned and does not need to contain personally identifiable information.</p>
+        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted to any server during the recording process. You may delete your recordings at any time. Your participant ID is automatically assigned and contains no personally identifiable information.</p>
 
         <h3>5. Voluntary Participation</h3>
         <p>Your participation is entirely voluntary. You may stop at any time without consequence. You may skip any scenario you are uncomfortable with. You may re-record any response as many times as you wish.</p>
 
         <h3>6. Contact</h3>
-        <p>For questions about this study, contact the NIGHT-FAST research team at UMG/TU Braunschweig.</p>
+        <p>For questions about this study, contact the NIGHT-FAST research team at UMG.</p>
       </div>
 
       <div class="checkbox-group">
@@ -873,11 +873,12 @@
   <div class="section" id="sectionSetup">
     <div class="card">
       <div class="card-title"><span class="icon">👤</span> Participant Setup</div>
-      <div class="card-subtitle">Configure your session. The Participant ID is auto-generated but you can change it.</div>
+      <div class="card-subtitle">Configure your session. Your Participant ID is automatically assigned to ensure strict anonymity.</div>
 
       <div class="form-group">
-        <label class="form-label">Participant ID</label>
-        <input type="text" class="form-input" id="participantId" placeholder="e.g., P001">
+        <label class="form-label">Participant ID <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 AUTO-ASSIGNED (READ-ONLY)</span></label>
+        <input type="text" class="form-input" id="participantId" readonly style="background: rgba(255,255,255,0.03); cursor: not-allowed; opacity: 0.9; font-family: var(--font-mono); font-weight: 600; color: var(--accent-teal); border-color: rgba(45, 212, 191, 0.3);">
+        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">This anonymous identifier has been generated automatically and cannot be modified.</span>
       </div>
 
       <div class="form-group">
@@ -1360,8 +1361,12 @@ let state = {
 //  INIT
 // ============================================================
 function init() {
-  // Generate participant ID
-  const pid = 'P' + String(Math.floor(Math.random() * 900) + 100);
+  // Generate or retrieve persistent participant ID
+  let pid = localStorage.getItem('nightfast_assigned_pid');
+  if (!pid) {
+    pid = 'P' + String(Math.floor(Math.random() * 900) + 100);
+    localStorage.setItem('nightfast_assigned_pid', pid);
+  }
   document.getElementById('participantId').value = pid;
 
   // Consent checkbox

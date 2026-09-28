@@ -29,7 +29,7 @@ Using the same phrases used to build/tune the system would be **data contaminati
 ```
 1. Open index.html in browser
 2. Sign digital consent form (GDPR)
-3. Assign Participant ID (auto-generated or manual)
+3. Auto-assigned anonymous Participant ID (read-only)
 4. Microphone calibration & silent baseline check
 5. Read scenario description → speak natural command
 6. Review & confirm recording, or re-record
