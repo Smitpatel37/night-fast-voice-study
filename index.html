@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIGHT-FAST Voice Collection Tool</title>
+  <meta name="description" content="Voice sample collection platform for evaluating the NIGHT-FAST medical drone dispatch intent parser with real-world speech.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       DESIGN SYSTEM — NIGHT-FAST Voice Collection
+       ============================================ */
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1a1f2e;
+      --bg-card-hover: #222840;
+      --bg-glass: rgba(26, 31, 46, 0.85);
+      --bg-input: #0d1117;
+      --border-subtle: rgba(255,255,255,0.06);
+      --border-active: rgba(99, 179, 237, 0.3);
+
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent-blue: #60a5fa;
+      --accent-teal: #2dd4bf;
+      --accent-red: #f87171;
+      --accent-amber: #fbbf24;
+      --accent-green: #34d399;
+      --accent-purple: #a78bfa;
+
+      --gradient-hero: linear-gradient(135deg, #1e3a5f 0%, #0a0e1a 50%, #1a1030 100%);
+      --gradient-recording: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      --gradient-success: linear-gradient(135deg, #059669 0%, #047857 100%);
+      --gradient-card: linear-gradient(145deg, rgba(30,58,95,0.3) 0%, rgba(26,16,48,0.3) 100%);
+
+      --shadow-glow-blue: 0 0 30px rgba(96, 165, 250, 0.15);
+      --shadow-glow-red: 0 0 40px rgba(248, 113, 113, 0.25);
+      --shadow-glow-green: 0 0 30px rgba(52, 211, 153, 0.2);
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+      --transition-fast: 150ms ease;
+      --transition-normal: 250ms ease;
+      --transition-slow: 400ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Background Effects */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background:
+        radial-gradient(ellipse 800px 600px at 20% 10%, rgba(96,165,250,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 800px at 80% 80%, rgba(167,139,250,0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .app-container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* ============================================
+       HEADER
+       ============================================ */
+    .header {
+      text-align: center;
+      padding: 48px 0 32px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(96, 165, 250, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.15);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    .header-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       PROGRESS BAR
+       ============================================ */
+    .progress-bar-container {
+      margin-bottom: 32px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .progress-label .step-info {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .progress-label .step-info span {
+      color: var(--accent-blue);
+      font-weight: 700;
+    }
+
+    .progress-label .scenario-counter {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .progress-track {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-teal) 100%);
+      border-radius: 2px;
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ============================================
+       SECTIONS / CARDS
+       ============================================ */
+    .section {
+      display: none;
+      animation: fadeSlideUp 0.5s ease forwards;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title .icon {
+      font-size: 20px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       FORM ELEMENTS
+       ============================================ */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: var(--font-sans);
+      transition: border-color var(--transition-fast);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.1);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    select.form-input {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    /* ============================================
+       CONSENT
+       ============================================ */
+    .consent-text {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      max-height: 280px;
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .consent-text h3 {
+      color: var(--text-primary);
+      font-size: 14px;
+      margin: 16px 0 8px;
+    }
+
+    .consent-text h3:first-child { margin-top: 0; }
+
+    .consent-text::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .consent-text::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .consent-text::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--accent-blue);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-group label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #0a0e1a;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #7cb8fc;
+      box-shadow: var(--shadow-glow-blue);
+    }
+
+    .btn-danger {
+      background: var(--accent-red);
+      color: #0a0e1a;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #fca5a5;
+      box-shadow: var(--shadow-glow-red);
+    }
+
+    .btn-success {
+      background: var(--accent-green);
+      color: #0a0e1a;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background: #6ee7b7;
+      box-shadow: var(--shadow-glow-green);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-primary);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-group .btn { flex: 1; }
+
+    /* ============================================
+       SCENARIO DISPLAY
+       ============================================ */
+    .scenario-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scenario-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .scenario-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag-intent {
+      background: rgba(96,165,250,0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(96,165,250,0.2);
+    }
+
+    .tag-lang-de {
+      background: rgba(251,191,36,0.1);
+      color: var(--accent-amber);
+      border: 1px solid rgba(251,191,36,0.2);
+    }
+
+    .tag-lang-en {
+      background: rgba(167,139,250,0.1);
+      color: var(--accent-purple);
+      border: 1px solid rgba(167,139,250,0.2);
+    }
+
+    .tag-safety {
+      background: rgba(248,113,113,0.1);
+      color: var(--accent-red);
+      border: 1px solid rgba(248,113,113,0.2);
+    }
+
+    .scenario-situation {
+      background: var(--gradient-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .scenario-situation-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .scenario-situation-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    .scenario-instruction {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       RECORDING CONTROLS
+       ============================================ */
+    .recording-area {
+      margin-top: 28px;
+    }
+
+    .recording-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 32px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+
+    .recording-controls.is-recording {
+      border-color: rgba(248,113,113,0.3);
+      box-shadow: var(--shadow-glow-red);
+      animation: pulse-border 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { border-color: rgba(248,113,113,0.3); }
+      50% { border-color: rgba(248,113,113,0.6); }
+    }
+
+    .recording-controls.has-recording {
+      border-color: rgba(52,211,153,0.3);
+    }
+
+    .record-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.15);
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-normal);
+      position: relative;
+    }
+
+    .record-btn:hover {
+      border-color: var(--accent-red);
+      box-shadow: var(--shadow-glow-red);
+    }
+
+    .record-btn .inner {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent-red);
+      transition: all var(--transition-normal);
+    }
+
+    .record-btn.is-recording .inner {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      background: var(--accent-red);
+    }
+
+    .record-btn.is-recording {
+      border-color: var(--accent-red);
+      animation: pulse-record 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-record {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(248,113,113,0.3); }
+      50% { box-shadow: 0 0 0 16px rgba(248,113,113,0); }
+    }
+
+    .recording-status {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .recording-status.is-recording {
+      color: var(--accent-red);
+    }
+
+    .recording-status.has-recording {
+      color: var(--accent-green);
+    }
+
+    .recording-timer {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 2px;
+    }
+
+    .recording-timer.is-recording {
+      color: var(--accent-red);
+    }
+
+    /* Waveform */
+    .waveform-container {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .waveform-bar {
+      width: 3px;
+      height: 8px;
+      background: var(--text-muted);
+      border-radius: 2px;
+      transition: height 100ms ease;
+    }
+
+    .waveform-bar.active {
+      background: var(--accent-red);
+    }
+
+    /* Playback */
+    .playback-container {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .playback-container.visible {
+      display: flex;
+    }
+
+    .playback-container audio {
+      width: 100%;
+      max-width: 400px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ============================================
+       CALIBRATION
+       ============================================ */
+    .calibration-meter {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .calibration-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 100ms ease, background 300ms ease;
+      background: var(--accent-green);
+    }
+
+    .calibration-status {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      min-height: 24px;
+    }
+
+    /* ============================================
+       SUMMARY / REVIEW
+       ============================================ */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .summary-stat {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .summary-stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent-blue);
+      font-family: var(--font-mono);
+    }
+
+    .summary-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .recordings-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 24px;
+    }
+
+    .recording-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+    }
+
+    .recording-item:last-child { border-bottom: none; }
+
+    .recording-item .ri-name {
+      color: var(--text-primary);
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .recording-item .ri-meta {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .recording-item .ri-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       COMPLETION
+       ============================================ */
+    .completion-screen {
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .completion-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .completion-screen h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .completion-screen p {
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 640px) {
+      .app-container { padding: 16px 12px 40px; }
+      .card { padding: 20px; }
+      .header h1 { font-size: 1.6rem; }
+      .btn-group { flex-direction: column; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ============================================
+       UTILITY
+       ============================================ */
+    .hidden { display: none !important; }
+    .mt-12 { margin-top: 12px; }
+    .mt-24 { margin-top: 24px; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-muted); }
+    .text-sm { font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- ============================
+       HEADER
+       ============================ -->
+  <header class="header">
+    <div class="header-badge">
+      <span class="dot"></span>
+      NIGHT-FAST · Voice Collection
+    </div>
+    <h1>Voice Sample Recorder</h1>
+    <p>
+      Read each scenario and speak your natural command.
+      Recordings are stored locally and exported as a ZIP — no data leaves your browser.
+    </p>
+  </header>
+
+  <!-- ============================
+       PROGRESS BAR
+       ============================ -->
+  <div class="progress-bar-container" id="progressContainer" style="display:none;">
+    <div class="progress-label">
+      <span class="step-info">Step <span id="currentStep">1</span> of <span id="totalSteps">4</span></span>
+      <span class="scenario-counter" id="scenarioCounter"></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 1 — CONSENT
+       ============================ -->
+  <div class="section active" id="sectionConsent">
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> Participant Consent Form</div>
+      <div class="card-subtitle">Please read the following consent form carefully and confirm your agreement before proceeding.</div>
+
+      <div class="consent-text">
+        <h3>1. Purpose of Study</h3>
+        <p>This voice collection session is part of the NIGHT-FAST research project at the University Medical Center Göttingen (UMG) / TU Braunschweig. The purpose is to evaluate the accuracy of a voice-controlled interface for medical drone dispatch. Your voice recordings will be used exclusively for academic research and thesis evaluation.</p>
+
+        <h3>2. What You Will Do</h3>
+        <p>You will be presented with scenario descriptions related to medical drone operations. For each scenario, you will speak a natural voice command in either German or English. Your voice will be recorded via your device's microphone. Each scenario takes approximately 10–30 seconds.</p>
+
+        <h3>3. Data Collected</h3>
+        <p>We will record:</p>
+        <ul style="margin-left: 20px; margin-top: 4px;">
+          <li>Your voice recordings (WAV format, 16 kHz mono)</li>
+          <li>A self-assigned participant identifier (no real name required)</li>
+          <li>The scenario prompts and metadata (timestamp, language, browser)</li>
+        </ul>
+
+        <h3>4. Data Protection (GDPR Art. 6, 13, 14)</h3>
+        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted to any server during the recording process. You may delete your recordings at any time. Your participant ID is self-assigned and does not need to contain personally identifiable information.</p>
+
+        <h3>5. Voluntary Participation</h3>
+        <p>Your participation is entirely voluntary. You may stop at any time without consequence. You may skip any scenario you are uncomfortable with. You may re-record any response as many times as you wish.</p>
+
+        <h3>6. Contact</h3>
+        <p>For questions about this study, contact the NIGHT-FAST research team at UMG/TU Braunschweig.</p>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="consentCheck">
+        <label for="consentCheck">I have read and understood the consent form. I voluntarily agree to participate and allow my voice recordings to be used for academic evaluation of the NIGHT-FAST system.</label>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btnAcceptConsent" disabled onclick="acceptConsent()">
+          Accept & Continue →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 2 — PARTICIPANT SETUP
+       ============================ -->
+  <div class="section" id="sectionSetup">
+    <div class="card">
+      <div class="card-title"><span class="icon">👤</span> Participant Setup</div>
+      <div class="card-subtitle">Configure your session. The Participant ID is auto-generated but you can change it.</div>
+
+      <div class="form-group">
+        <label class="form-label">Participant ID</label>
+        <input type="text" class="form-input" id="participantId" placeholder="e.g., P001">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Primary Language</label>
+        <select class="form-input" id="primaryLanguage">
+          <option value="both">Both German & English</option>
+          <option value="de">German Only</option>
+          <option value="en">English Only</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Recording Environment</label>
+        <select class="form-input" id="recordingEnv">
+          <option value="quiet_indoor">Quiet Indoor (office / lab)</option>
+          <option value="indoor_noise">Indoor with Background Noise</option>
+          <option value="outdoor">Outdoor</option>
+          <option value="vehicle">Inside Vehicle</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <input type="text" class="form-input" id="participantNotes" placeholder="e.g., native German speaker, slight cold, headset mic...">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="goToSection('sectionConsent', 1)">← Back</button>
+        <button class="btn btn-primary" onclick="goToCalibration()">Calibrate Microphone →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 3 — MICROPHONE CALIBRATION
+       ============================ -->
+  <div class="section" id="sectionCalibration">
+    <div class="card">
+      <div class="card-title"><span class="icon">🎙️</span> Microphone Calibration</div>
+      <div class="card-subtitle">We need to check your microphone is working and measure the ambient noise floor.</div>
+
+      <p class="text-sm text-muted mt-12">1. Click "Start Calibration" and stay silent for 3 seconds (noise floor measurement).</p>
+      <p class="text-sm text-muted mt-12">2. Then speak a few words normally to verify your voice is picked up.</p>
+
+      <div class="calibration-meter mt-24">
+        <div class="calibration-fill" id="calibrationFill" style="width: 0%"></div>
+      </div>
+
+      <div class="calibration-status" id="calibrationStatus">Click Start to begin calibration</div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="goToSection('sectionSetup', 2)">← Back</button>
+        <button class="btn btn-primary" id="btnCalibrate" onclick="startCalibration()">🎙️ Start Calibration</button>
+        <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToRecording()">Calibration Passed ✓ →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 4 — SCENARIO RECORDING
+       ============================ -->
+  <div class="section" id="sectionRecord">
+    <div class="card scenario-card">
+      <div class="scenario-meta" id="scenarioMeta">
+        <!-- Tags injected by JS -->
+      </div>
+
+      <div class="card-title" id="scenarioTitle">Scenario 1 / 28</div>
+      <div class="card-subtitle" id="scenarioSubtitle">Speak your command naturally after reading the scenario below.</div>
+
+      <div class="scenario-situation">
+        <div class="scenario-situation-label" id="scenarioLangLabel">🇩🇪 Scenario — German</div>
+        <div class="scenario-situation-text" id="scenarioText">
+          <!-- Scenario text injected by JS -->
+        </div>
+      </div>
+
+      <div class="scenario-instruction" id="scenarioInstruction">
+        Speak your command naturally. Do NOT read the scenario text — formulate what you would say to the drone system.
+      </div>
+
+      <!-- Recording Controls -->
+      <div class="recording-area">
+        <div class="recording-controls" id="recordingControls">
+          <div class="recording-timer" id="recordingTimer">00:00</div>
+
+          <div class="waveform-container" id="waveformContainer">
+            <!-- 40 waveform bars -->
+          </div>
+
+          <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
+            <div class="inner"></div>
+          </button>
+
+          <div class="recording-status" id="recordingStatus">Tap to record</div>
+
+          <div class="playback-container" id="playbackContainer">
+            <audio id="audioPlayback" controls></audio>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" id="btnSkipScenario" onclick="skipScenario()">Skip</button>
+        <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Re-record</button>
+        <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Save & Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 5 — REVIEW & EXPORT
+       ============================ -->
+  <div class="section" id="sectionReview">
+    <div class="card">
+      <div class="card-title"><span class="icon">📊</span> Session Summary</div>
+      <div class="card-subtitle">Review your recordings before exporting.</div>
+
+      <div class="summary-grid" id="summaryGrid">
+        <!-- Stats injected by JS -->
+      </div>
+
+      <div class="recordings-list" id="recordingsList">
+        <!-- List injected by JS -->
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="exportZip()">📦 Download ZIP</button>
+      </div>
+
+      <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser. No data has been transmitted to any server.</p>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 6 — COMPLETION
+       ============================ -->
+  <div class="section" id="sectionComplete">
+    <div class="card completion-screen">
+      <div class="completion-icon">🎉</div>
+      <h2>Thank You!</h2>
+      <p>Your voice samples have been exported successfully. Please send the ZIP file to the NIGHT-FAST research team for evaluation.</p>
+      <button class="btn btn-ghost" onclick="location.reload()">Start New Session</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- JSZip for ZIP export (loaded from CDN, offline-safe with fallback) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+// ============================================================
+//  SCENARIO BANK — Bilingual, covering all 14 NIGHT-FAST intents
+//  Participants see the SITUATION and speak their OWN command
+// ============================================================
+const SCENARIOS = [
+  // ── create_mission / ask_clarification (delivery orders) ──
+  {
+    id: "S01", intent: "create_mission", safety: false,
+    lang: "de",
+    situation: "Sie befinden sich im Universitätsklinikum Göttingen (UMG). Ein Patient in der Herzchirurgie am Herzzentrum benötigt dringend eine Blutkonserve Typ 0-negativ. Sie sollen den Drohnentransport von der UMG-Blutbank zum Herzzentrum beauftragen.",
+    instruction: "Sprechen Sie den Befehl, den Sie dem System geben würden, um diesen Transport zu starten."
+  },
+  {
+    id: "S02", intent: "create_mission", safety: false,
+    lang: "en",
+    situation: "You are at the University Medical Center Göttingen. A cardiac surgery unit at Herzzentrum urgently needs O-negative blood. You need to dispatch a drone from the UMG blood bank to Herzzentrum.",
+    instruction: "Speak the command you would give the system to initiate this transport."
+  },
+  {
+    id: "S03", intent: "create_mission", safety: false,
+    lang: "de",
+    situation: "Eine Laborprobe (Troponin-Test) muss von der Notaufnahme des Evangelischen Krankenhauses Weende zum Zentrallabor der UMG gebracht werden. Die Probe ist zeitkritisch — maximal 45 Minuten bis zur Analyse.",
+    instruction: "Formulieren Sie Ihren Befehl an das Drohnensystem."
+  },
+  {
+    id: "S04", intent: "create_mission", safety: false,
+    lang: "en",
+    situation: "A biopsy sample needs to be transported from the emergency department at Evangelisches Krankenhaus Weende to the central lab at UMG. The sample is time-critical.",
+    instruction: "Say the command you would use to dispatch the drone."
+  },
+  {
+    id: "S05", intent: "ask_clarification", safety: false,
+    lang: "de",
+    situation: "Sie müssen Medikamente verschicken, sind sich aber nicht sicher, von welchem Standort sie abgeholt werden sollen. Sie wissen nur, dass sie zum Klinikum Braunschweig müssen.",
+    instruction: "Sagen Sie dem System, was Sie brauchen — auch wenn die Informationen unvollständig sind."
+  },
+  {
+    id: "S06", intent: "ask_clarification", safety: false,
+    lang: "en",
+    situation: "You need to send medication somewhere, but you only know the destination (Klinikum Braunschweig) and not the origin. Tell the system what you need.",
+    instruction: "Speak naturally, even if your information is incomplete."
+  },
+
+  // ── abort_mission (safety-critical) ──
+  {
+    id: "S07", intent: "abort_mission", safety: true,
+    lang: "de",
+    situation: "Die Drohne ist gestartet, aber Sie bemerken, dass ein Hubschrauber im Anflug auf die Klinik ist. Die Drohne muss sofort gestoppt werden — die Mission muss komplett abgebrochen werden.",
+    instruction: "Geben Sie den Notfallbefehl zum Abbruch der Mission."
+  },
+  {
+    id: "S08", intent: "abort_mission", safety: true,
+    lang: "en",
+    situation: "The drone has launched but you see a helicopter approaching the clinic's helipad. You need to immediately abort the entire mission.",
+    instruction: "Speak the emergency command to cancel the mission."
+  },
+
+  // ── land (safety-critical) ──
+  {
+    id: "S09", intent: "land", safety: true,
+    lang: "de",
+    situation: "Die Drohne schwebt über dem Landeplatz, aber das automatische Landesystem reagiert nicht. Sie müssen der Drohne manuell den Landebefehl geben.",
+    instruction: "Sprechen Sie den Landebefehl."
+  },
+  {
+    id: "S10", intent: "land", safety: true,
+    lang: "en",
+    situation: "The drone is hovering above the landing pad but the auto-land has not engaged. You need to manually tell the drone to land.",
+    instruction: "Give the landing command."
+  },
+
+  // ── return_to_base (safety-critical) ──
+  {
+    id: "S11", intent: "return_to_base", safety: true,
+    lang: "de",
+    situation: "Der Empfänger am Zielort kann die Lieferung nicht entgegennehmen — die Station ist geschlossen. Die Drohne soll zur Basis zurückkehren.",
+    instruction: "Befehlen Sie der Drohne, zur Basis zurückzufliegen."
+  },
+  {
+    id: "S12", intent: "return_to_base", safety: true,
+    lang: "en",
+    situation: "The receiving station at the destination is closed and nobody can accept the delivery. The drone should return to its base.",
+    instruction: "Tell the drone to fly back to its starting point."
+  },
+
+  // ── loiter (tactical) ──
+  {
+    id: "S13", intent: "loiter", safety: false,
+    lang: "de",
+    situation: "Die Drohne ist fast am Ziel, aber der Landeplatz ist noch nicht frei. Die Drohne soll in der Luft warten und ihre Position halten.",
+    instruction: "Geben Sie den Befehl zum Schweben/Warten."
+  },
+  {
+    id: "S14", intent: "loiter", safety: false,
+    lang: "en",
+    situation: "The drone is approaching the destination but the landing pad is not clear yet. Tell the drone to hover in place and wait.",
+    instruction: "Give the hover/hold command."
+  },
+
+  // ── adjust_altitude (tactical) ──
+  {
+    id: "S15", intent: "adjust_altitude", safety: false,
+    lang: "de",
+    situation: "Die Drohne fliegt zu niedrig über ein Wohngebiet. Sie müssen die Flughöhe auf 120 Meter erhöhen, um die Mindesthöhe einzuhalten.",
+    instruction: "Befehlen Sie die Höhenänderung."
+  },
+  {
+    id: "S16", intent: "adjust_altitude", safety: false,
+    lang: "en",
+    situation: "The drone is flying too low over a residential area. You need to increase the flight altitude to 120 meters to comply with minimum height regulations.",
+    instruction: "Give the altitude change command."
+  },
+
+  // ── change_speed (tactical) ──
+  {
+    id: "S17", intent: "change_speed", safety: false,
+    lang: "de",
+    situation: "Der Wind hat zugenommen. Sie wollen die Geschwindigkeit der Drohne reduzieren, um die Stabilität zu verbessern.",
+    instruction: "Befehlen Sie eine Geschwindigkeitsänderung."
+  },
+  {
+    id: "S18", intent: "change_speed", safety: false,
+    lang: "en",
+    situation: "Wind conditions have worsened. You want to reduce the drone's speed to improve flight stability.",
+    instruction: "Give the speed change command."
+  },
+
+  // ── divert_mission (emergency reroute) ──
+  {
+    id: "S19", intent: "divert_mission", safety: true,
+    lang: "de",
+    situation: "Die Drohne ist unterwegs zum Herzzentrum, aber der dortige Landeplatz ist wegen eines Unfalls gesperrt. Die Drohne muss zum Ausweich-Landeplatz am Klinikum Braunschweig umgeleitet werden.",
+    instruction: "Geben Sie den Umleitungsbefehl."
+  },
+  {
+    id: "S20", intent: "divert_mission", safety: true,
+    lang: "en",
+    situation: "The drone is en route to Herzzentrum but the landing pad there has been closed due to an incident. You need to divert the drone to the backup pad at Klinikum Braunschweig.",
+    instruction: "Give the diversion command."
+  },
+
+  // ── mission_eta (status query) ──
+  {
+    id: "S21", intent: "mission_eta", safety: false,
+    lang: "de",
+    situation: "Sie warten auf eine dringende Lieferung. Sie möchten wissen, wie lange die Drohne noch braucht und wo sie gerade ist.",
+    instruction: "Fragen Sie nach dem Status / der geschätzten Ankunftszeit."
+  },
+  {
+    id: "S22", intent: "mission_eta", safety: false,
+    lang: "en",
+    situation: "You are waiting for an urgent delivery and want to know how long the drone will take and where it currently is.",
+    instruction: "Ask for the status or estimated arrival time."
+  },
+
+  // ── drone_status (telemetry) ──
+  {
+    id: "S23", intent: "drone_status", safety: false,
+    lang: "de",
+    situation: "Vor dem Start einer neuen Mission wollen Sie den Batteriestand und den allgemeinen Zustand der Drohne überprüfen.",
+    instruction: "Fragen Sie nach dem Drohnenstatus."
+  },
+  {
+    id: "S24", intent: "drone_status", safety: false,
+    lang: "en",
+    situation: "Before launching a new mission, you want to check the drone's battery level and general health.",
+    instruction: "Ask about the drone's status."
+  },
+
+  // ── query_payload_health (cold-chain) ──
+  {
+    id: "S25", intent: "query_payload_health", safety: false,
+    lang: "de",
+    situation: "Die Drohne transportiert Blutkonserven, die gekühlt bleiben müssen (2–6 °C). Sie wollen die aktuelle Temperatur im Transportbehälter überprüfen.",
+    instruction: "Fragen Sie nach dem Zustand der Ladung / Temperatur."
+  },
+  {
+    id: "S26", intent: "query_payload_health", safety: false,
+    lang: "en",
+    situation: "The drone is carrying blood products that must stay between 2–6 °C. You want to check the current container temperature and seal integrity.",
+    instruction: "Ask about the payload/container status."
+  },
+
+  // ── launch_mission (execution) ──
+  {
+    id: "S27", intent: "launch_mission", safety: false,
+    lang: "de",
+    situation: "Die Mission ist vollständig konfiguriert und genehmigt. Alle Checks sind bestanden. Sie müssen jetzt den Startbefehl geben.",
+    instruction: "Geben Sie den Startbefehl."
+  },
+  {
+    id: "S28", intent: "launch_mission", safety: false,
+    lang: "en",
+    situation: "The mission has been fully configured and approved. All pre-flight checks have passed. You need to give the launch command now.",
+    instruction: "Give the launch/takeoff command."
+  },
+
+  // ============================================================
+  //  PART B — READ-ALOUD COMMANDS (Scripted, ground-truth)
+  //  Participants read these EXACTLY as written.
+  //  Used for: STT WER measurement, Tier 1/Tier 2 expansion.
+  // ============================================================
+  {
+    id: "R01", intent: "create_mission", safety: false, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Sende eine Blutkonserve von der UMG-Blutbank zum Herzzentrum Göttingen.",
+    situation: "Sende eine Blutkonserve von der UMG-Blutbank zum Herzzentrum Göttingen.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R02", intent: "create_mission", safety: false, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Send blood from the UMG blood bank to Herzzentrum.",
+    situation: "Send blood from the UMG blood bank to Herzzentrum.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R03", intent: "abort_mission", safety: true, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Mission sofort abbrechen.",
+    situation: "Mission sofort abbrechen.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R04", intent: "abort_mission", safety: true, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Abort mission immediately.",
+    situation: "Abort mission immediately.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R05", intent: "land", safety: true, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Drohne sofort landen.",
+    situation: "Drohne sofort landen.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R06", intent: "return_to_base", safety: true, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Return to base now.",
+    situation: "Return to base now.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R07", intent: "loiter", safety: false, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Position halten und schweben.",
+    situation: "Position halten und schweben.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R08", intent: "loiter", safety: false, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Hold position and hover.",
+    situation: "Hold position and hover.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R09", intent: "adjust_altitude", safety: false, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Flughöhe auf 120 Meter erhöhen.",
+    situation: "Flughöhe auf 120 Meter erhöhen.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R10", intent: "change_speed", safety: false, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Reduce speed to 40 kilometers per hour.",
+    situation: "Reduce speed to 40 kilometers per hour.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R11", intent: "divert_mission", safety: true, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Drohne zum Klinikum Braunschweig umleiten.",
+    situation: "Drohne zum Klinikum Braunschweig umleiten.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R12", intent: "mission_eta", safety: false, type: "read-aloud",
+    lang: "en",
+    groundTruth: "What is the estimated time of arrival?",
+    situation: "What is the estimated time of arrival?",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R13", intent: "drone_status", safety: false, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Wie ist der Batteriestand der Drohne?",
+    situation: "Wie ist der Batteriestand der Drohne?",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R14", intent: "query_payload_health", safety: false, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Check the payload temperature.",
+    situation: "Check the payload temperature.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  }
+];
+
+// ============================================================
+//  STATE
+// ============================================================
+let state = {
+  participantId: '',
+  primaryLanguage: 'both',
+  recordingEnv: 'quiet_indoor',
+  notes: '',
+  consentTimestamp: null,
+  scenarios: [],      // filtered scenario list
+  currentIndex: 0,
+  recordings: [],     // { scenarioId, lang, intent, blob, duration, timestamp }
+  skipped: [],
+  isRecording: false,
+  mediaRecorder: null,
+  audioChunks: [],
+  recordingStartTime: null,
+  timerInterval: null,
+  audioStream: null,
+  analyserNode: null,
+  calibrated: false
+};
+
+// ============================================================
+//  INIT
+// ============================================================
+function init() {
+  // Generate participant ID
+  const pid = 'P' + String(Math.floor(Math.random() * 900) + 100);
+  document.getElementById('participantId').value = pid;
+
+  // Consent checkbox
+  document.getElementById('consentCheck').addEventListener('change', function() {
+    document.getElementById('btnAcceptConsent').disabled = !this.checked;
+  });
+
+  // Create waveform bars
+  const waveContainer = document.getElementById('waveformContainer');
+  for (let i = 0; i < 40; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'waveform-bar';
+    waveContainer.appendChild(bar);
+  }
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function goToSection(sectionId, stepNum) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+
+  const progressContainer = document.getElementById('progressContainer');
+  if (stepNum && stepNum >= 1) {
+    progressContainer.style.display = 'block';
+    document.getElementById('currentStep').textContent = stepNum;
+    const totalSteps = 5;
+    document.getElementById('totalSteps').textContent = totalSteps;
+    document.getElementById('progressFill').style.width = ((stepNum / totalSteps) * 100) + '%';
+  }
+}
+
+function updateScenarioProgress() {
+  const counter = document.getElementById('scenarioCounter');
+  counter.textContent = `${state.currentIndex + 1} / ${state.scenarios.length} scenarios`;
+}
+
+// ============================================================
+//  CONSENT
+// ============================================================
+function acceptConsent() {
+  state.consentTimestamp = new Date().toISOString();
+  goToSection('sectionSetup', 2);
+}
+
+// ============================================================
+//  CALIBRATION
+// ============================================================
+async function goToCalibration() {
+  // Save setup
+  state.participantId = document.getElementById('participantId').value || 'P000';
+  state.primaryLanguage = document.getElementById('primaryLanguage').value;
+  state.recordingEnv = document.getElementById('recordingEnv').value;
+  state.notes = document.getElementById('participantNotes').value;
+
+  // Filter scenarios by language
+  let allScenarios;
+  if (state.primaryLanguage === 'both') {
+    allScenarios = [...SCENARIOS];
+  } else {
+    allScenarios = SCENARIOS.filter(s => s.lang === state.primaryLanguage);
+  }
+
+  // Separate free-form (Part A) and read-aloud (Part B)
+  // IMPORTANT: Free-form MUST come first to avoid priming participants
+  // with exact phrasings before they give natural commands
+  const freeForm = allScenarios.filter(s => s.type !== 'read-aloud');
+  const readAloud = allScenarios.filter(s => s.type === 'read-aloud');
+
+  // Shuffle each group independently (Fisher-Yates)
+  const shuffle = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+
+  // Concatenate: all free-form first, then all read-aloud
+  state.scenarios = [...shuffle(freeForm), ...shuffle(readAloud)];
+
+  goToSection('sectionCalibration', 3);
+}
+
+async function startCalibration() {
+  const statusEl = document.getElementById('calibrationStatus');
+  const fillEl = document.getElementById('calibrationFill');
+  const btnCalibrate = document.getElementById('btnCalibrate');
+  const btnDone = document.getElementById('btnCalibrationDone');
+
+  btnCalibrate.disabled = true;
+  statusEl.textContent = 'Requesting microphone access...';
+  statusEl.style.color = 'var(--accent-amber)';
+
+  try {
+    state.audioStream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        sampleRate: 16000,
+        channelCount: 1,
+        echoCancellation: true,
+        noiseSuppression: true
+      }
+    });
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+    const source = audioCtx.createMediaStreamSource(state.audioStream);
+    state.analyserNode = audioCtx.createAnalyser();
+    state.analyserNode.fftSize = 256;
+    source.connect(state.analyserNode);
+
+    const dataArray = new Uint8Array(state.analyserNode.frequencyBinCount);
+
+    statusEl.textContent = '🔇 Stay silent for 3 seconds (measuring noise floor)...';
+    statusEl.style.color = 'var(--accent-amber)';
+
+    let silentReadings = [];
+    const silentInterval = setInterval(() => {
+      state.analyserNode.getByteFrequencyData(dataArray);
+      const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+      silentReadings.push(avg);
+      const pct = Math.min((silentReadings.length / 30) * 100, 100);
+      fillEl.style.width = pct + '%';
+      fillEl.style.background = 'var(--accent-amber)';
+    }, 100);
+
+    await new Promise(r => setTimeout(r, 3000));
+    clearInterval(silentInterval);
+
+    const noiseFloor = silentReadings.reduce((a, b) => a + b, 0) / silentReadings.length;
+
+    statusEl.textContent = '🗣️ Now speak a few words to verify your microphone...';
+    statusEl.style.color = 'var(--accent-blue)';
+
+    let voiceDetected = false;
+    const voiceTimeout = setTimeout(() => {
+      if (!voiceDetected) {
+        statusEl.textContent = '⚠️ No voice detected. Try speaking louder or check your mic.';
+        statusEl.style.color = 'var(--accent-red)';
+        btnCalibrate.disabled = false;
+        btnCalibrate.textContent = '🎙️ Retry Calibration';
+      }
+    }, 8000);
+
+    const voiceInterval = setInterval(() => {
+      state.analyserNode.getByteFrequencyData(dataArray);
+      const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+      const pct = Math.min((avg / 128) * 100, 100);
+      fillEl.style.width = pct + '%';
+
+      if (avg > noiseFloor + 15 && !voiceDetected) {
+        voiceDetected = true;
+        clearTimeout(voiceTimeout);
+        clearInterval(voiceInterval);
+
+        fillEl.style.width = '100%';
+        fillEl.style.background = 'var(--accent-green)';
+        statusEl.textContent = '✅ Microphone calibrated successfully!';
+        statusEl.style.color = 'var(--accent-green)';
+        state.calibrated = true;
+
+        btnDone.classList.remove('hidden');
+        btnCalibrate.classList.add('hidden');
+      }
+    }, 100);
+
+  } catch (err) {
+    statusEl.textContent = '❌ Microphone access denied. Please allow microphone access and try again.';
+    statusEl.style.color = 'var(--accent-red)';
+    btnCalibrate.disabled = false;
+    console.error('Calibration error:', err);
+  }
+}
+
+// ============================================================
+//  RECORDING FLOW
+// ============================================================
+function goToRecording() {
+  state.currentIndex = 0;
+  goToSection('sectionRecord', 4);
+  document.getElementById('scenarioCounter').textContent = `1 / ${state.scenarios.length} scenarios`;
+  loadScenario();
+}
+
+function loadScenario() {
+  const scenario = state.scenarios[state.currentIndex];
+  if (!scenario) {
+    goToReview();
+    return;
+  }
+
+  const isReadAloud = scenario.type === 'read-aloud';
+
+  // Title
+  const partLabel = isReadAloud ? 'Part B · Read-Aloud' : 'Part A · Free-Form';
+  document.getElementById('scenarioTitle').textContent =
+    `${partLabel} — ${state.currentIndex + 1} / ${state.scenarios.length}`;
+
+  // Meta tags
+  const metaContainer = document.getElementById('scenarioMeta');
+  metaContainer.innerHTML = '';
+
+  // Type tag (read-aloud vs free-form)
+  if (isReadAloud) {
+    const typeTag = document.createElement('span');
+    typeTag.className = 'scenario-tag';
+    typeTag.style.background = 'rgba(45,212,191,0.1)';
+    typeTag.style.color = 'var(--accent-teal)';
+    typeTag.style.border = '1px solid rgba(45,212,191,0.2)';
+    typeTag.textContent = '🔊 Read Aloud';
+    metaContainer.appendChild(typeTag);
+  }
+
+  const intentTag = document.createElement('span');
+  intentTag.className = 'scenario-tag tag-intent';
+  intentTag.textContent = scenario.intent;
+  metaContainer.appendChild(intentTag);
+
+  const langTag = document.createElement('span');
+  langTag.className = `scenario-tag ${scenario.lang === 'de' ? 'tag-lang-de' : 'tag-lang-en'}`;
+  langTag.textContent = scenario.lang === 'de' ? '🇩🇪 Deutsch' : '🇬🇧 English';
+  metaContainer.appendChild(langTag);
+
+  if (scenario.safety) {
+    const safetyTag = document.createElement('span');
+    safetyTag.className = 'scenario-tag tag-safety';
+    safetyTag.textContent = '⚠ Safety-Critical';
+    metaContainer.appendChild(safetyTag);
+  }
+
+  // Language label
+  if (isReadAloud) {
+    document.getElementById('scenarioLangLabel').textContent =
+      scenario.lang === 'de' ? '🔊 Befehl vorlesen — Deutsch' : '🔊 Read Aloud — English';
+  } else {
+    document.getElementById('scenarioLangLabel').textContent =
+      scenario.lang === 'de' ? '🇩🇪 Szenario — Deutsch' : '🇬🇧 Scenario — English';
+  }
+
+  // Situation text — larger font for read-aloud commands
+  const situationEl = document.getElementById('scenarioText');
+  situationEl.textContent = scenario.situation;
+  if (isReadAloud) {
+    situationEl.style.fontSize = '20px';
+    situationEl.style.fontWeight = '600';
+    situationEl.style.fontFamily = 'var(--font-mono)';
+    situationEl.style.letterSpacing = '0.3px';
+  } else {
+    situationEl.style.fontSize = '';
+    situationEl.style.fontWeight = '';
+    situationEl.style.fontFamily = '';
+    situationEl.style.letterSpacing = '';
+  }
+
+  // Instruction
+  document.getElementById('scenarioInstruction').textContent = scenario.instruction;
+
+  // Reset recording UI
+  resetRecordingUI();
+  updateScenarioProgress();
+
+  // Update progress
+  const pct = ((state.currentIndex + 1) / state.scenarios.length) * 100;
+  document.getElementById('progressFill').style.width =
+    (75 + (pct * 0.25)) + '%'; // 75%-100% for recording phase (step 4 of 5)
+}
+
+function resetRecordingUI() {
+  document.getElementById('recordingTimer').textContent = '00:00';
+  document.getElementById('recordingTimer').classList.remove('is-recording');
+  document.getElementById('recordingStatus').textContent = 'Tap to record';
+  document.getElementById('recordingStatus').className = 'recording-status';
+  document.getElementById('recordingControls').className = 'recording-controls';
+  document.getElementById('recordBtn').classList.remove('is-recording');
+  document.getElementById('playbackContainer').classList.remove('visible');
+  document.getElementById('btnReRecord').classList.add('hidden');
+  document.getElementById('btnNextScenario').classList.add('hidden');
+
+  // Reset waveform
+  document.querySelectorAll('.waveform-bar').forEach(bar => {
+    bar.style.height = '8px';
+    bar.classList.remove('active');
+  });
+
+  state.audioChunks = [];
+}
+
+async function toggleRecording() {
+  if (state.isRecording) {
+    stopRecording();
+  } else {
+    await startRecording();
+  }
+}
+
+async function startRecording() {
+  try {
+    // Use existing stream if available, otherwise request new
+    if (!state.audioStream || state.audioStream.getTracks().some(t => t.readyState === 'ended')) {
+      state.audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true }
+      });
+    }
+
+    state.audioChunks = [];
+    state.mediaRecorder = new MediaRecorder(state.audioStream, {
+      mimeType: MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+        ? 'audio/webm;codecs=opus'
+        : 'audio/webm'
+    });
+
+    state.mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) state.audioChunks.push(e.data);
+    };
+
+    state.mediaRecorder.onstop = () => {
+      onRecordingComplete();
+    };
+
+    state.mediaRecorder.start(100); // 100ms timeslices
+    state.isRecording = true;
+    state.recordingStartTime = Date.now();
+
+    // Update UI
+    document.getElementById('recordBtn').classList.add('is-recording');
+    document.getElementById('recordingControls').classList.add('is-recording');
+    document.getElementById('recordingTimer').classList.add('is-recording');
+    document.getElementById('recordingStatus').textContent = 'Recording...';
+    document.getElementById('recordingStatus').className = 'recording-status is-recording';
+
+    // Timer
+    state.timerInterval = setInterval(updateTimer, 100);
+
+    // Waveform animation
+    animateWaveform();
+
+  } catch (err) {
+    console.error('Recording error:', err);
+    document.getElementById('recordingStatus').textContent = '❌ Mic error: ' + err.message;
+  }
+}
+
+function stopRecording() {
+  if (state.mediaRecorder && state.mediaRecorder.state !== 'inactive') {
+    state.mediaRecorder.stop();
+  }
+  state.isRecording = false;
+  clearInterval(state.timerInterval);
+
+  document.getElementById('recordBtn').classList.remove('is-recording');
+  document.getElementById('recordingControls').classList.remove('is-recording');
+  document.getElementById('recordingControls').classList.add('has-recording');
+  document.getElementById('recordingTimer').classList.remove('is-recording');
+
+  // Stop waveform
+  document.querySelectorAll('.waveform-bar').forEach(bar => {
+    bar.style.height = '8px';
+    bar.classList.remove('active');
+  });
+}
+
+function onRecordingComplete() {
+  const blob = new Blob(state.audioChunks, { type: 'audio/webm' });
+  const url = URL.createObjectURL(blob);
+  const duration = ((Date.now() - state.recordingStartTime) / 1000).toFixed(1);
+
+  // Show playback
+  const audioEl = document.getElementById('audioPlayback');
+  audioEl.src = url;
+  document.getElementById('playbackContainer').classList.add('visible');
+
+  // Status
+  document.getElementById('recordingStatus').textContent = `✓ Recorded (${duration}s)`;
+  document.getElementById('recordingStatus').className = 'recording-status has-recording';
+
+  // Show action buttons
+  document.getElementById('btnReRecord').classList.remove('hidden');
+  document.getElementById('btnNextScenario').classList.remove('hidden');
+
+  // Store temporarily
+  state.currentBlob = blob;
+  state.currentDuration = duration;
+}
+
+function updateTimer() {
+  const elapsed = (Date.now() - state.recordingStartTime) / 1000;
+  const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+  const secs = Math.floor(elapsed % 60).toString().padStart(2, '0');
+  document.getElementById('recordingTimer').textContent = `${mins}:${secs}`;
+}
+
+function animateWaveform() {
+  if (!state.isRecording) return;
+
+  const bars = document.querySelectorAll('.waveform-bar');
+  if (state.analyserNode) {
+    const dataArray = new Uint8Array(state.analyserNode.frequencyBinCount);
+    state.analyserNode.getByteFrequencyData(dataArray);
+
+    bars.forEach((bar, i) => {
+      const idx = Math.floor((i / bars.length) * dataArray.length);
+      const val = dataArray[idx];
+      const height = Math.max(4, (val / 255) * 50);
+      bar.style.height = height + 'px';
+      bar.classList.toggle('active', val > 30);
+    });
+  }
+
+  requestAnimationFrame(animateWaveform);
+}
+
+function reRecord() {
+  state.currentBlob = null;
+  state.currentDuration = null;
+  resetRecordingUI();
+}
+
+function nextScenario() {
+  // Save recording
+  const scenario = state.scenarios[state.currentIndex];
+  if (state.currentBlob) {
+    state.recordings.push({
+      scenarioId: scenario.id,
+      lang: scenario.lang,
+      intent: scenario.intent,
+      safety: scenario.safety,
+      type: scenario.type || 'free-form',
+      groundTruth: scenario.groundTruth || null,
+      blob: state.currentBlob,
+      duration: parseFloat(state.currentDuration),
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  state.currentBlob = null;
+  state.currentDuration = null;
+  state.currentIndex++;
+
+  if (state.currentIndex >= state.scenarios.length) {
+    goToReview();
+  } else {
+    loadScenario();
+  }
+}
+
+function skipScenario() {
+  const scenario = state.scenarios[state.currentIndex];
+  state.skipped.push(scenario.id);
+
+  // Stop any ongoing recording
+  if (state.isRecording) stopRecording();
+
+  state.currentBlob = null;
+  state.currentDuration = null;
+  state.currentIndex++;
+
+  if (state.currentIndex >= state.scenarios.length) {
+    goToReview();
+  } else {
+    loadScenario();
+  }
+}
+
+// ============================================================
+//  REVIEW & EXPORT
+// ============================================================
+function goToReview() {
+  goToSection('sectionReview', 5);
+  document.getElementById('progressFill').style.width = '100%';
+
+  const totalDuration = state.recordings.reduce((sum, r) => sum + r.duration, 0);
+  const deCount = state.recordings.filter(r => r.lang === 'de').length;
+  const enCount = state.recordings.filter(r => r.lang === 'en').length;
+  const freeFormCount = state.recordings.filter(r => r.type === 'free-form').length;
+  const readAloudCount = state.recordings.filter(r => r.type === 'read-aloud').length;
+
+  // Summary grid
+  const grid = document.getElementById('summaryGrid');
+  grid.innerHTML = `
+    <div class="summary-stat">
+      <div class="summary-stat-value">${state.recordings.length}</div>
+      <div class="summary-stat-label">Total Recordings</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-value">${freeFormCount}</div>
+      <div class="summary-stat-label">Free-Form</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-value">${readAloudCount}</div>
+      <div class="summary-stat-label">Read-Aloud</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-value">${state.skipped.length}</div>
+      <div class="summary-stat-label">Skipped</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-value">${totalDuration.toFixed(0)}s</div>
+      <div class="summary-stat-label">Total Audio</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-value">${deCount}/${enCount}</div>
+      <div class="summary-stat-label">DE / EN</div>
+    </div>
+  `;
+
+  // Recordings list
+  const list = document.getElementById('recordingsList');
+  list.innerHTML = '';
+  state.recordings.forEach(r => {
+    const item = document.createElement('div');
+    item.className = 'recording-item';
+    const typeLabel = r.type === 'read-aloud' ? '🔊' : '🎤';
+    item.innerHTML = `
+      <div class="ri-status"></div>
+      <div class="ri-name">${typeLabel} ${r.scenarioId} — ${r.intent} (${r.lang.toUpperCase()})</div>
+      <div class="ri-meta">${r.duration}s</div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+async function exportZip() {
+  if (typeof JSZip === 'undefined') {
+    alert('JSZip library not loaded. Please check your internet connection and reload.');
+    return;
+  }
+
+  const zip = new JSZip();
+  const folder = zip.folder(state.participantId);
+
+  // Consent record
+  folder.file('consent.json', JSON.stringify({
+    participantId: state.participantId,
+    consentTimestamp: state.consentTimestamp,
+    consentVersion: '1.0',
+    primaryLanguage: state.primaryLanguage,
+    recordingEnvironment: state.recordingEnv,
+    notes: state.notes,
+    userAgent: navigator.userAgent,
+    platform: navigator.platform
+  }, null, 2));
+
+  // Session metadata
+  folder.file('session_metadata.json', JSON.stringify({
+    participantId: state.participantId,
+    totalRecordings: state.recordings.length,
+    skippedScenarios: state.skipped,
+    primaryLanguage: state.primaryLanguage,
+    recordingEnvironment: state.recordingEnv,
+    exportTimestamp: new Date().toISOString(),
+    scenarioOrder: state.scenarios.map(s => s.id)
+  }, null, 2));
+
+  // Each recording
+  for (const rec of state.recordings) {
+    const filename = `${rec.scenarioId}_${rec.lang}`;
+
+    // Audio file
+    folder.file(`${filename}.webm`, rec.blob);
+
+    // Metadata
+    const scenario = SCENARIOS.find(s => s.id === rec.scenarioId);
+    const metadata = {
+      scenarioId: rec.scenarioId,
+      type: rec.type,
+      intent: rec.intent,
+      language: rec.lang,
+      safetyCritical: rec.safety,
+      duration_seconds: rec.duration,
+      timestamp: rec.timestamp,
+      situation: scenario ? scenario.situation : '',
+      instruction: scenario ? scenario.instruction : '',
+      participantId: state.participantId,
+      environment: state.recordingEnv,
+      format: 'audio/webm;codecs=opus',
+      targetSampleRate: 16000
+    };
+
+    // Include ground truth for read-aloud scenarios (for STT WER computation)
+    if (rec.groundTruth) {
+      metadata.groundTruth = rec.groundTruth;
+    }
+
+    folder.file(`${filename}_metadata.json`, JSON.stringify(metadata, null, 2));
+  }
+
+  // Generate and download
+  const content = await zip.generateAsync({ type: 'blob' });
+  saveAs(content, `nightfast_voice_${state.participantId}_${Date.now()}.zip`);
+
+  goToSection('sectionComplete', 5);
+}
+
+// ============================================================
+//  BOOT
+// ============================================================
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
