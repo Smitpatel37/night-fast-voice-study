@@ -27,14 +27,17 @@ Using the same phrases used to build/tune the system would be **data contaminati
 ## Participant Flow
 
 ```
-1. Open index.html in browser
-2. Sign digital consent form (GDPR)
-3. Auto-assigned anonymous Participant ID (read-only)
-4. Microphone calibration & silent baseline check
-5. Read scenario description → speak natural command
+1. Open web recorder in browser (GitHub Pages link)
+2. Sign digital consent form (GDPR Art. 6, 13, 14)
+3. Auto-assigned anonymous 6-character Participant ID
+4. Microphone calibration (3s silence baseline + voice test)
+5. Record Scenarios:
+   - Part A (Free-Form): Read emergency context → speak natural command (do NOT read text aloud)
+   - Part B (Read-Aloud): Read the displayed command sentence word-for-word
 6. Review & confirm recording, or re-record
-7. Repeat for all scenarios (randomized order)
-8. Download all recordings as ZIP
+7. Repeat for all scenarios (~5–10 minutes total)
+8. Download all recordings as ZIP (`nightfast_voice_<ID>.zip`)
+9. Upload ZIP archive to Nextcloud drop folder link
 ```
 
 ## Data Structure

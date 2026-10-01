@@ -412,13 +412,311 @@
       color: var(--text-primary);
     }
 
-    .btn-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
+    .btn-teal {
+      background: var(--accent-teal);
+      color: #0a0e1a;
     }
 
-    .btn-group .btn { flex: 1; }
+    .btn-teal:hover:not(:disabled) {
+      background: #5eead4;
+      box-shadow: 0 0 25px rgba(45, 212, 191, 0.35);
+    }
+
+    /* Quick Guide Banner */
+    .guide-banner {
+      background: linear-gradient(145deg, rgba(30, 58, 95, 0.35) 0%, rgba(13, 17, 23, 0.8) 100%);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+
+    .guide-banner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .guide-banner-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .guide-banner-time {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      background: rgba(45, 212, 191, 0.1);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+    }
+
+    .guide-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .guide-steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .guide-steps-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .guide-step-card {
+      background: rgba(13, 17, 23, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .guide-step-num {
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-teal);
+      background: rgba(45, 212, 191, 0.12);
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .guide-step-heading {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .guide-step-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Calibration Step Cards */
+    .calib-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 580px) {
+      .calib-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .calib-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+
+    .calib-card-step {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-blue);
+      margin-bottom: 4px;
+    }
+
+    .calib-card-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Task Callout (Inside Scenario Card) */
+    .task-callout {
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      border-left: 4px solid var(--accent-amber);
+      background: rgba(251, 191, 36, 0.08);
+      border-right: 1px solid rgba(251, 191, 36, 0.15);
+      border-top: 1px solid rgba(251, 191, 36, 0.15);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.15);
+      transition: all var(--transition-normal);
+    }
+
+    .task-callout.read-aloud-mode {
+      border-left-color: var(--accent-teal);
+      background: rgba(45, 212, 191, 0.08);
+      border-right-color: rgba(45, 212, 191, 0.15);
+      border-top-color: rgba(45, 212, 191, 0.15);
+      border-bottom-color: rgba(45, 212, 191, 0.15);
+    }
+
+    .task-callout-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 8px;
+    }
+
+    .badge-freeform {
+      background: rgba(251, 191, 36, 0.2);
+      color: var(--accent-amber);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .badge-readaloud {
+      background: rgba(45, 212, 191, 0.2);
+      color: var(--accent-teal);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+    }
+
+    .task-callout-main {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .task-callout-hint {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .task-callout-warning {
+      display: block;
+      margin-top: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent-red);
+      background: rgba(248, 113, 113, 0.08);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      border-left: 2px solid var(--accent-red);
+    }
+
+    /* Recording Action Flow Hint */
+    .recording-hint-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .recording-hint-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+    }
+
+    .recording-hint-step strong {
+      color: var(--text-secondary);
+    }
+
+    /* Nextcloud Box */
+    .nextcloud-box {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.07) 0%, rgba(30, 58, 95, 0.2) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      margin: 24px 0;
+      text-align: left;
+    }
+
+    .nextcloud-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nextcloud-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-teal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nextcloud-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .nc-step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .nc-step-pill {
+      background: var(--accent-teal);
+      color: #0a0e1a;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+      margin-top: 2px;
+      letter-spacing: 0.5px;
+    }
+
+    .nextcloud-action-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nextcloud-url-box {
+      flex: 1;
+      min-width: 220px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--accent-blue);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     /* ============================================
        SCENARIO DISPLAY
@@ -799,6 +1097,9 @@
   <!-- ============================
        HEADER
        ============================ -->
+  <!-- ============================
+       HEADER
+       ============================ -->
   <header class="header">
     <div class="header-badge">
       <span class="dot"></span>
@@ -806,17 +1107,51 @@
     </div>
     <h1>Voice Sample Recorder</h1>
     <p>
-      Read each scenario and speak your natural command.
-      Recordings are stored locally and exported as a ZIP — no data leaves your browser.
+      Help evaluate our AI-driven medical drone dispatch interface with real-world speech.
+      Audio stays in your browser until you download the final ZIP and upload it to Nextcloud.
     </p>
   </header>
+
+  <!-- ============================
+       QUICK HOW-TO GUIDE BANNER
+       ============================ -->
+  <div class="guide-banner">
+    <div class="guide-banner-header">
+      <div class="guide-banner-title">
+        <span>⚡</span> Quick Guide: How To Record (4 Steps)
+      </div>
+      <div class="guide-banner-time">⏱️ Total Time: ~5–10 Min</div>
+    </div>
+    <div class="guide-steps-grid">
+      <div class="guide-step-card">
+        <span class="guide-step-num">Step 1</span>
+        <div class="guide-step-heading">1. Mic Calibration</div>
+        <div class="guide-step-desc">Stay quiet for 3 seconds to measure room noise, then speak a few test words.</div>
+      </div>
+      <div class="guide-step-card">
+        <span class="guide-step-num">Step 2</span>
+        <div class="guide-step-heading">2. Part A: In Your Words</div>
+        <div class="guide-step-desc">Read the emergency situation. Speak a natural command. <strong>Do NOT read text aloud!</strong></div>
+      </div>
+      <div class="guide-step-card">
+        <span class="guide-step-num">Step 3</span>
+        <div class="guide-step-heading">3. Part B: Read Aloud</div>
+        <div class="guide-step-desc">Read the exact command sentence shown on screen clearly word-for-word.</div>
+      </div>
+      <div class="guide-step-card">
+        <span class="guide-step-num">Step 4</span>
+        <div class="guide-step-heading">4. Export & Nextcloud</div>
+        <div class="guide-step-desc">Download your recordings ZIP and drop it into our secure Nextcloud upload link.</div>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================
        PROGRESS BAR
        ============================ -->
   <div class="progress-bar-container" id="progressContainer" style="display:none;">
     <div class="progress-label">
-      <span class="step-info">Step <span id="currentStep">1</span> of <span id="totalSteps">4</span></span>
+      <span class="step-info">Step <span id="currentStep">1</span> of <span id="totalSteps">5</span></span>
       <span class="scenario-counter" id="scenarioCounter"></span>
     </div>
     <div class="progress-track">
@@ -887,7 +1222,7 @@
       <div class="form-group">
         <label class="form-label">Primary Language</label>
         <select class="form-input" id="primaryLanguage">
-          <option value="both">Both German & English</option>
+          <option value="both">Both German & English (Recommended)</option>
           <option value="de">German Only</option>
           <option value="en">English Only</option>
         </select>
@@ -896,7 +1231,7 @@
       <div class="form-group">
         <label class="form-label">Recording Environment</label>
         <select class="form-input" id="recordingEnv">
-          <option value="quiet_indoor">Quiet Indoor (office / lab)</option>
+          <option value="quiet_indoor">Quiet Indoor (office / lab / home room)</option>
           <option value="indoor_noise">Indoor with Background Noise</option>
           <option value="outdoor">Outdoor</option>
           <option value="vehicle">Inside Vehicle</option>
@@ -921,10 +1256,18 @@
   <div class="section" id="sectionCalibration">
     <div class="card">
       <div class="card-title"><span class="icon">🎙️</span> Microphone Calibration</div>
-      <div class="card-subtitle">We need to check your microphone is working and measure the ambient noise floor.</div>
+      <div class="card-subtitle">We check your microphone volume and measure ambient background noise in 2 simple steps.</div>
 
-      <p class="text-sm text-muted mt-12">1. Click "Start Calibration" and stay silent for 3 seconds (noise floor measurement).</p>
-      <p class="text-sm text-muted mt-12">2. Then speak a few words normally to verify your voice is picked up.</p>
+      <div class="calib-cards-grid">
+        <div class="calib-card">
+          <div class="calib-card-step">Step 1 · Noise Floor (3s Silence)</div>
+          <div class="calib-card-text">Click "Start Calibration" and stay completely silent for 3 seconds while your room noise is measured.</div>
+        </div>
+        <div class="calib-card">
+          <div class="calib-card-step">Step 2 · Voice Check</div>
+          <div class="calib-card-text">Speak a few words normally (e.g. "Drohne starten" or "Testing one two three") to confirm your voice is detected.</div>
+        </div>
+      </div>
 
       <div class="calibration-meter mt-24">
         <div class="calibration-fill" id="calibrationFill" style="width: 0%"></div>
@@ -950,8 +1293,9 @@
       </div>
 
       <div class="card-title" id="scenarioTitle">Scenario 1 / 28</div>
-      <div class="card-subtitle" id="scenarioSubtitle">Speak your command naturally after reading the scenario below.</div>
+      <div class="card-subtitle" id="scenarioSubtitle">Read the situation and formulate your command.</div>
 
+      <!-- Situation / Prompt Card -->
       <div class="scenario-situation">
         <div class="scenario-situation-label" id="scenarioLangLabel">🇩🇪 Scenario — German</div>
         <div class="scenario-situation-text" id="scenarioText">
@@ -959,12 +1303,27 @@
         </div>
       </div>
 
-      <div class="scenario-instruction" id="scenarioInstruction">
-        Speak your command naturally. Do NOT read the scenario text — formulate what you would say to the drone system.
+      <!-- Dynamic Task Callout Banner -->
+      <div class="task-callout" id="taskCallout">
+        <div class="task-callout-badge" id="taskBadge">💡 Part A · Free-Form Command</div>
+        <div class="task-callout-main" id="taskMain">Speak your command in your own natural words!</div>
+        <div class="task-callout-hint" id="taskHint">Read the situation above to understand the emergency, then speak what you would say into a radio or microphone to direct the drone.</div>
+        <div class="task-callout-warning" id="taskWarning">⚠️ Do NOT read the situation text above out loud! Formulate a direct command.</div>
+        <div class="task-instruction-text" id="scenarioInstruction" style="margin-top: 8px; font-weight: 500; color: var(--accent-blue);"></div>
       </div>
 
       <!-- Recording Controls -->
       <div class="recording-area">
+        <div class="recording-hint-strip">
+          <span class="recording-hint-step">1️⃣ <strong>Click 🔴 Record</strong></span>
+          <span>→</span>
+          <span class="recording-hint-step">2️⃣ <strong>Speak Command</strong></span>
+          <span>→</span>
+          <span class="recording-hint-step">3️⃣ <strong>Click ⏹️ Stop</strong></span>
+          <span>→</span>
+          <span class="recording-hint-step">4️⃣ <strong>Save & Next</strong></span>
+        </div>
+
         <div class="recording-controls" id="recordingControls">
           <div class="recording-timer" id="recordingTimer">00:00</div>
 
@@ -972,11 +1331,11 @@
             <!-- 40 waveform bars -->
           </div>
 
-          <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
+          <button class="record-btn" id="recordBtn" onclick="toggleRecording()" title="Click to start/stop recording">
             <div class="inner"></div>
           </button>
 
-          <div class="recording-status" id="recordingStatus">Tap to record</div>
+          <div class="recording-status" id="recordingStatus">Tap red button to record</div>
 
           <div class="playback-container" id="playbackContainer">
             <audio id="audioPlayback" controls></audio>
@@ -997,8 +1356,8 @@
        ============================ -->
   <div class="section" id="sectionReview">
     <div class="card">
-      <div class="card-title"><span class="icon">📊</span> Session Summary</div>
-      <div class="card-subtitle">Review your recordings before exporting.</div>
+      <div class="card-title"><span class="icon">📊</span> Session Summary & Export</div>
+      <div class="card-subtitle">Review your recordings below. Follow the two steps to export and submit your data.</div>
 
       <div class="summary-grid" id="summaryGrid">
         <!-- Stats injected by JS -->
@@ -1008,11 +1367,40 @@
         <!-- List injected by JS -->
       </div>
 
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="exportZip()">📦 Download ZIP</button>
+      <!-- Nextcloud Upload Box -->
+      <div class="nextcloud-box">
+        <div class="nextcloud-box-header">
+          <div class="nextcloud-title">☁️ Upload Recordings to Nextcloud</div>
+          <span style="font-size: 11px; color: var(--accent-teal); font-weight: 600; text-transform: uppercase;">No account required</span>
+        </div>
+
+        <div class="nextcloud-steps-list">
+          <div class="nc-step-row">
+            <span class="nc-step-pill">Step 1</span>
+            <div><strong>Download your recordings ZIP:</strong> Click the button below to package your anonymous voice recordings and manifest.</div>
+          </div>
+          <div class="nc-step-row">
+            <span class="nc-step-pill">Step 2</span>
+            <div><strong>Upload to Nextcloud:</strong> Open the Nextcloud upload link and drag & drop your downloaded ZIP file into the folder.</div>
+          </div>
+        </div>
+
+        <div class="nextcloud-action-row">
+          <button class="btn btn-primary" id="btnDownloadZip" onclick="exportZip()">📦 1. Download ZIP File</button>
+          <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
+            ☁️ 2. Open Nextcloud Upload Folder ↗
+          </a>
+        </div>
+
+        <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="font-size: 11.5px; color: var(--text-muted);">Nextcloud Folder Link:</span>
+          <div class="nextcloud-url-box" id="nextcloudUrlDisplay">https://cloud.umg.de/s/nightfast-voice-data</div>
+          <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="copyNextcloudLink()">📋 Copy Link</button>
+          <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="editNextcloudLink()">✏️ Change</button>
+        </div>
       </div>
 
-      <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser. No data has been transmitted to any server.</p>
+      <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser until downloaded. No audio leaves your machine without your consent.</p>
     </div>
   </div>
 
@@ -1022,8 +1410,19 @@
   <div class="section" id="sectionComplete">
     <div class="card completion-screen">
       <div class="completion-icon">🎉</div>
-      <h2>Thank You!</h2>
-      <p>Your voice samples have been exported successfully. Please send the ZIP file to the NIGHT-FAST research team for evaluation.</p>
+      <h2>Recordings Complete & Downloaded!</h2>
+      <p>Your voice samples have been exported as a ZIP file. Now please upload the ZIP to Nextcloud to complete your submission.</p>
+
+      <div style="max-width: 460px; margin: 0 auto 28px; background: rgba(45, 212, 191, 0.08); border: 1px solid rgba(45, 212, 191, 0.25); border-radius: var(--radius-md); padding: 20px; text-align: left;">
+        <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-teal); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <span>☁️</span> Final Step: Upload to Nextcloud
+        </div>
+        <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">Check your browser's <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Nextcloud:</p>
+        <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
+          ☁️ Open Nextcloud Upload Folder ↗
+        </a>
+      </div>
+
       <button class="btn btn-ghost" onclick="location.reload()">Start New Session</button>
     </div>
   </div>
@@ -1393,6 +1792,9 @@ function init() {
     bar.className = 'waveform-bar';
     waveContainer.appendChild(bar);
   }
+
+  // Update Nextcloud UI with saved or default URL
+  updateNextcloudUI();
 }
 
 // ============================================================
@@ -1609,32 +2011,59 @@ function loadScenario() {
     metaContainer.appendChild(safetyTag);
   }
 
-  // Language label
+  // Language & situation label
   if (isReadAloud) {
     document.getElementById('scenarioLangLabel').textContent =
-      scenario.lang === 'de' ? '🔊 Befehl vorlesen — Deutsch' : '🔊 Read Aloud — English';
+      scenario.lang === 'de' ? '🔊 Befehl zum Vorlesen — Deutsch' : '🔊 Command to Read Aloud — English';
   } else {
     document.getElementById('scenarioLangLabel').textContent =
-      scenario.lang === 'de' ? '🇩🇪 Szenario — Deutsch' : '🇬🇧 Scenario — English';
+      scenario.lang === 'de' ? '🚨 Notfallsituation — Deutsch' : '🚨 Emergency Situation — English';
   }
 
-  // Situation text — larger font for read-aloud commands
+  // Situation text — distinct styling for read-aloud commands
   const situationEl = document.getElementById('scenarioText');
-  situationEl.textContent = scenario.situation;
   if (isReadAloud) {
-    situationEl.style.fontSize = '20px';
+    situationEl.textContent = `"${scenario.situation}"`;
+    situationEl.style.fontSize = '21px';
     situationEl.style.fontWeight = '600';
     situationEl.style.fontFamily = 'var(--font-mono)';
     situationEl.style.letterSpacing = '0.3px';
+    situationEl.style.color = 'var(--accent-teal)';
   } else {
+    situationEl.textContent = scenario.situation;
     situationEl.style.fontSize = '';
     situationEl.style.fontWeight = '';
     situationEl.style.fontFamily = '';
     situationEl.style.letterSpacing = '';
+    situationEl.style.color = '';
   }
 
-  // Instruction
-  document.getElementById('scenarioInstruction').textContent = scenario.instruction;
+  // Update Dynamic Task Callout Banner
+  const calloutEl = document.getElementById('taskCallout');
+  const badgeEl = document.getElementById('taskBadge');
+  const mainEl = document.getElementById('taskMain');
+  const hintEl = document.getElementById('taskHint');
+  const warningEl = document.getElementById('taskWarning');
+  const instructionEl = document.getElementById('scenarioInstruction');
+
+  if (isReadAloud) {
+    calloutEl.classList.add('read-aloud-mode');
+    badgeEl.className = 'task-callout-badge badge-readaloud';
+    badgeEl.textContent = '🔊 Part B · Read-Aloud Command';
+    mainEl.textContent = 'Read the exact sentence in quotes above out loud.';
+    hintEl.textContent = 'Speak clearly and naturally at your normal conversational speaking speed.';
+    warningEl.style.display = 'none';
+  } else {
+    calloutEl.classList.remove('read-aloud-mode');
+    badgeEl.className = 'task-callout-badge badge-freeform';
+    badgeEl.textContent = '💡 Part A · Free-Form (In Your Own Words)';
+    mainEl.textContent = 'Speak what command you would give to dispatch or control the drone.';
+    hintEl.textContent = 'Read the emergency situation in your head, then formulate what command you would speak.';
+    warningEl.style.display = 'block';
+    warningEl.textContent = '⚠️ Do NOT read the situation description aloud! Formulate your own natural command.';
+  }
+
+  instructionEl.textContent = scenario.instruction ? `💬 Prompt: ${scenario.instruction}` : '';
 
   // Reset recording UI
   resetRecordingUI();
@@ -1649,7 +2078,7 @@ function loadScenario() {
 function resetRecordingUI() {
   document.getElementById('recordingTimer').textContent = '00:00';
   document.getElementById('recordingTimer').classList.remove('is-recording');
-  document.getElementById('recordingStatus').textContent = 'Tap to record';
+  document.getElementById('recordingStatus').textContent = 'Tap red button to record';
   document.getElementById('recordingStatus').className = 'recording-status';
   document.getElementById('recordingControls').className = 'recording-controls';
   document.getElementById('recordBtn').classList.remove('is-recording');
@@ -1995,6 +2424,48 @@ async function exportZip() {
   saveAs(content, `nightfast_voice_${state.participantId}_${Date.now()}.zip`);
 
   goToSection('sectionComplete', 5);
+}
+
+// ============================================================
+//  NEXTCLOUD UPLOAD INTEGRATION
+// ============================================================
+const DEFAULT_NEXTCLOUD_URL = 'https://cloud.umg.de/s/nightfast-voice-data';
+
+function getNextcloudUrl() {
+  return localStorage.getItem('nightfast_nextcloud_url') || DEFAULT_NEXTCLOUD_URL;
+}
+
+function updateNextcloudUI() {
+  const url = getNextcloudUrl();
+  const displayEl = document.getElementById('nextcloudUrlDisplay');
+  const btnUpload = document.getElementById('btnNextcloudUpload');
+  const btnComplete = document.getElementById('btnCompleteNextcloud');
+
+  if (displayEl) displayEl.textContent = url;
+  if (btnUpload) btnUpload.href = url;
+  if (btnComplete) btnComplete.href = url;
+}
+
+function copyNextcloudLink() {
+  const url = getNextcloudUrl();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Nextcloud upload link copied to clipboard:\n' + url);
+    }).catch(() => {
+      prompt('Copy Nextcloud link:', url);
+    });
+  } else {
+    prompt('Copy Nextcloud link:', url);
+  }
+}
+
+function editNextcloudLink() {
+  const current = getNextcloudUrl();
+  const newUrl = prompt('Enter your Nextcloud folder upload link:', current);
+  if (newUrl && newUrl.trim()) {
+    localStorage.setItem('nightfast_nextcloud_url', newUrl.trim());
+    updateNextcloudUI();
+  }
 }
 
 // ============================================================
