@@ -401,6 +401,13 @@
       box-shadow: var(--shadow-glow-green);
     }
 
+    .download-zip-notice {
+      min-height: 1.25em;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
     .btn-ghost {
       background: transparent;
       color: var(--text-secondary);
@@ -1345,9 +1352,11 @@
 
       <div class="btn-group">
         <button class="btn btn-ghost" id="btnSkipScenario" onclick="skipScenario()">Skip</button>
+        <button class="btn btn-success" id="btnDownloadZipCase" type="button" onclick="downloadZip()">Download Zip</button>
         <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Re-record</button>
         <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Save & Next →</button>
       </div>
+      <p class="download-zip-notice" data-download-notice role="status"></p>
     </div>
   </div>
 
@@ -1386,11 +1395,12 @@
         </div>
 
         <div class="nextcloud-action-row">
-          <button class="btn btn-primary" id="btnDownloadZip" onclick="exportZip()">📦 1. Download ZIP File</button>
+          <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()">Download Zip</button>
           <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
             ☁️ 2. Open Nextcloud Upload Folder ↗
           </a>
         </div>
+        <p class="download-zip-notice" data-download-notice role="status"></p>
 
         <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
           <span style="font-size: 11.5px; color: var(--text-muted);">Nextcloud Folder Link:</span>
@@ -1971,6 +1981,7 @@ function loadScenario() {
     goToReview();
     return;
   }
+  setDownloadNotice("");
 
   const isReadAloud = scenario.type === 'read-aloud';
 
@@ -2276,6 +2287,7 @@ function skipScenario() {
 //  REVIEW & EXPORT
 // ============================================================
 function goToReview() {
+  setDownloadNotice("");
   goToSection('sectionReview', 5);
   document.getElementById('progressFill').style.width = '100%';
 
@@ -2330,10 +2342,31 @@ function goToReview() {
   });
 }
 
-async function exportZip() {
+const EMPTY_RECORDING_MESSAGE = "Nothing recorded yet.";
+
+function setDownloadNotice(message) {
+  document.querySelectorAll("[data-download-notice]").forEach((el) => {
+    el.textContent = message || "";
+  });
+}
+
+/**
+ * Download a zip of cases finished so far (saved recordings and skips).
+ * Every case page and the last page call this function.
+ * Unfinished cases are omitted. Shows a notice when nothing is finished.
+ */
+async function downloadZip() {
+  const finishedRecordings = state.recordings.slice();
+  const finishedSkips = state.skipped.slice();
+  if (finishedRecordings.length === 0 && finishedSkips.length === 0) {
+    setDownloadNotice(EMPTY_RECORDING_MESSAGE);
+    return false;
+  }
+  setDownloadNotice("");
+
   if (typeof JSZip === 'undefined') {
     alert('JSZip library not loaded. Please check your internet connection and reload.');
-    return;
+    return false;
   }
 
   const zip = new JSZip();
@@ -2354,12 +2387,14 @@ async function exportZip() {
   // Session metadata
   folder.file('session_metadata.json', JSON.stringify({
     participantId: state.participantId,
-    totalRecordings: state.recordings.length,
-    skippedScenarios: state.skipped,
+    totalRecordings: finishedRecordings.length,
+    skippedScenarios: finishedSkips,
     primaryLanguage: state.primaryLanguage,
     recordingEnvironment: state.recordingEnv,
     exportTimestamp: new Date().toISOString(),
-    scenarioOrder: state.scenarios.map(s => s.id)
+    scenarioOrder: state.scenarios
+      .filter((scenario) => finishedSkips.includes(scenario.id) || finishedRecordings.some((rec) => rec.scenarioId === scenario.id))
+      .map((scenario) => scenario.id)
   }, null, 2));
 
   // Master manifest.csv for immediate Excel / Python pandas loading
@@ -2368,7 +2403,7 @@ async function exportZip() {
   ];
 
   // Each recording
-  for (const rec of state.recordings) {
+  for (const rec of finishedRecordings) {
     const filename = `${state.participantId}_${rec.scenarioId}_${rec.lang}`;
 
     // Audio file (includes participantId, scenarioId, and language in filename)
@@ -2416,14 +2451,31 @@ async function exportZip() {
     ]);
   }
 
+  for (const scenarioId of finishedSkips) {
+    const scenario = SCENARIOS.find(s => s.id === scenarioId);
+    csvRows.push([
+      state.participantId,
+      scenarioId,
+      '',
+      'skipped',
+      scenario ? scenario.intent : '',
+      scenario ? scenario.lang : '',
+      scenario && scenario.safety ? 'yes' : 'no',
+      '',
+      '',
+      '',
+      '',
+      `"${((scenario ? scenario.situation : '')).replace(/"/g, '""')}"`
+    ]);
+  }
+
   const csvContent = csvRows.map(r => r.join(',')).join('\n');
   folder.file('manifest.csv', csvContent);
 
   // Generate and download
   const content = await zip.generateAsync({ type: 'blob' });
   saveAs(content, `nightfast_voice_${state.participantId}_${Date.now()}.zip`);
-
-  goToSection('sectionComplete', 5);
+  return true;
 }
 
 // ============================================================
