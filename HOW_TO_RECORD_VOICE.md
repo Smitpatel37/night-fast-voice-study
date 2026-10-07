@@ -30,5 +30,5 @@
 
 | Resource | Link / Destination |
 | :--- | :--- |
-| **🌐 Web Recorder** | `[Paste GitHub Pages URL here]` |
-| **☁️ Nextcloud Upload Drop** | `[Paste Nextcloud Folder URL here]` |
+| **🌐 Web Recorder** | https://smitpatel37.github.io/night-fast-voice-study/ |
+| **☁️ Academic Cloud Upload Drop** | https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN |

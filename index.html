@@ -1418,10 +1418,10 @@
         <!-- List injected by JS -->
       </div>
 
-      <!-- Nextcloud Upload Box -->
+      <!-- Academic Cloud Upload Box -->
       <div class="nextcloud-box">
         <div class="nextcloud-box-header">
-          <div class="nextcloud-title">☁️ Upload Recordings to Nextcloud</div>
+          <div class="nextcloud-title">☁️ Upload Recordings to Academic Cloud</div>
           <span style="font-size: 11px; color: var(--accent-teal); font-weight: 600; text-transform: uppercase;">No account required</span>
         </div>
 
@@ -1432,24 +1432,17 @@
           </div>
           <div class="nc-step-row">
             <span class="nc-step-pill">Step 2</span>
-            <div><strong>Upload to Nextcloud:</strong> Open the Nextcloud upload link and drag & drop your downloaded ZIP file into the folder.</div>
+            <div><strong>Upload to Academic Cloud:</strong> Open the secure upload link and drag & drop your downloaded ZIP file into the folder.</div>
           </div>
         </div>
 
         <div class="nextcloud-action-row">
-          <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()">Download Zip</button>
-          <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
-            ☁️ 2. Open Nextcloud Upload Folder ↗
+          <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()">📦 1. Download ZIP File</button>
+          <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
+            ☁️ 2. Open Academic Cloud Upload Folder ↗
           </a>
         </div>
         <p class="download-zip-notice" data-download-notice role="status"></p>
-
-        <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <span style="font-size: 11.5px; color: var(--text-muted);">Nextcloud Folder Link:</span>
-          <div class="nextcloud-url-box" id="nextcloudUrlDisplay">https://cloud.umg.de/s/nightfast-voice-data</div>
-          <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="copyNextcloudLink()">📋 Copy Link</button>
-          <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="editNextcloudLink()">✏️ Change</button>
-        </div>
       </div>
 
       <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser until downloaded. No audio leaves your machine without your consent.</p>
@@ -1463,15 +1456,15 @@
     <div class="card completion-screen">
       <div class="completion-icon">🎉</div>
       <h2>Recordings Complete & Downloaded!</h2>
-      <p>Your voice samples have been exported as a ZIP file. Now please upload the ZIP to Nextcloud to complete your submission.</p>
+      <p>Your voice samples have been exported as a ZIP file. Now please upload the ZIP to Academic Cloud to complete your submission.</p>
 
       <div style="max-width: 460px; margin: 0 auto 28px; background: rgba(45, 212, 191, 0.08); border: 1px solid rgba(45, 212, 191, 0.25); border-radius: var(--radius-md); padding: 20px; text-align: left;">
         <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-teal); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-          <span>☁️</span> Final Step: Upload to Nextcloud
+          <span>☁️</span> Final Step: Upload to Academic Cloud
         </div>
-        <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">Check your browser's <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Nextcloud:</p>
-        <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
-          ☁️ Open Nextcloud Upload Folder ↗
+        <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">Check your browser's <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Academic Cloud:</p>
+        <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
+          ☁️ Open Academic Cloud Upload Folder ↗
         </a>
       </div>
 
@@ -2521,45 +2514,25 @@ async function downloadZip() {
 }
 
 // ============================================================
-//  NEXTCLOUD UPLOAD INTEGRATION
+//  ACADEMIC CLOUD / NEXTCLOUD UPLOAD INTEGRATION
 // ============================================================
-const DEFAULT_NEXTCLOUD_URL = 'https://cloud.umg.de/s/nightfast-voice-data';
+const DEFAULT_NEXTCLOUD_URL = 'https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN';
 
 function getNextcloudUrl() {
-  return localStorage.getItem('nightfast_nextcloud_url') || DEFAULT_NEXTCLOUD_URL;
+  const saved = localStorage.getItem('nightfast_nextcloud_url');
+  if (saved && !saved.includes('cloud.umg.de')) {
+    return saved;
+  }
+  return DEFAULT_NEXTCLOUD_URL;
 }
 
 function updateNextcloudUI() {
   const url = getNextcloudUrl();
-  const displayEl = document.getElementById('nextcloudUrlDisplay');
   const btnUpload = document.getElementById('btnNextcloudUpload');
   const btnComplete = document.getElementById('btnCompleteNextcloud');
 
-  if (displayEl) displayEl.textContent = url;
   if (btnUpload) btnUpload.href = url;
   if (btnComplete) btnComplete.href = url;
-}
-
-function copyNextcloudLink() {
-  const url = getNextcloudUrl();
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(url).then(() => {
-      alert('Nextcloud upload link copied to clipboard:\n' + url);
-    }).catch(() => {
-      prompt('Copy Nextcloud link:', url);
-    });
-  } else {
-    prompt('Copy Nextcloud link:', url);
-  }
-}
-
-function editNextcloudLink() {
-  const current = getNextcloudUrl();
-  const newUrl = prompt('Enter your Nextcloud folder upload link:', current);
-  if (newUrl && newUrl.trim()) {
-    localStorage.setItem('nightfast_nextcloud_url', newUrl.trim());
-    updateNextcloudUI();
-  }
 }
 
 // ============================================================
