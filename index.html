@@ -883,6 +883,41 @@
       50% { box-shadow: 0 0 0 16px rgba(248,113,113,0); }
     }
 
+    .record-actions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      width: 100%;
+      align-self: stretch;
+      margin-top: 4px;
+    }
+
+    .record-actions .btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .record-download {
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .record-download:hover:not(:disabled) {
+      background: #22c55e;
+      color: #fff;
+      box-shadow: var(--shadow-glow-green);
+    }
+
+    .recording-controls .download-zip-notice {
+      align-self: stretch;
+      width: 100%;
+      margin-top: 0;
+      text-align: left;
+    }
+
     .recording-status {
       font-size: 14px;
       font-weight: 600;
@@ -1083,6 +1118,8 @@
       .card { padding: 20px; }
       .header h1 { font-size: 1.6rem; }
       .btn-group { flex-direction: column; }
+      .record-actions { flex-direction: row; flex-wrap: nowrap; }
+      .record-actions .btn { padding: 10px 14px; }
       .summary-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
@@ -1344,6 +1381,12 @@
 
           <div class="recording-status" id="recordingStatus">Tap red button to record</div>
 
+          <div class="record-actions">
+            <button class="btn btn-ghost" id="btnSkipScenario" type="button" onclick="skipScenario()">Skip</button>
+            <button class="btn record-download" id="btnDownloadZipCase" type="button" onclick="downloadZip()">Download Zip</button>
+          </div>
+          <p class="download-zip-notice" data-download-notice role="status"></p>
+
           <div class="playback-container" id="playbackContainer">
             <audio id="audioPlayback" controls></audio>
           </div>
@@ -1351,12 +1394,9 @@
       </div>
 
       <div class="btn-group">
-        <button class="btn btn-ghost" id="btnSkipScenario" onclick="skipScenario()">Skip</button>
-        <button class="btn btn-success" id="btnDownloadZipCase" type="button" onclick="downloadZip()">Download Zip</button>
         <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Re-record</button>
         <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Save & Next →</button>
       </div>
-      <p class="download-zip-notice" data-download-notice role="status"></p>
     </div>
   </div>
 
