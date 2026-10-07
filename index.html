@@ -886,18 +886,19 @@
     .record-actions {
       display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: flex-start;
       gap: 12px;
       width: 100%;
+      max-width: 100%;
       align-self: stretch;
       margin-top: 4px;
     }
 
     .record-actions .btn {
-      flex: 0 0 auto;
-      white-space: nowrap;
+      flex: 0 1 auto;
+      max-width: 100%;
     }
 
     .record-download {
@@ -1118,7 +1119,8 @@
       .card { padding: 20px; }
       .header h1 { font-size: 1.6rem; }
       .btn-group { flex-direction: column; }
-      .record-actions { flex-direction: row; flex-wrap: nowrap; }
+      .recording-controls { padding: 20px 16px; }
+      .record-actions { flex-wrap: wrap; }
       .record-actions .btn { padding: 10px 14px; }
       .summary-grid { grid-template-columns: repeat(2, 1fr); }
     }
