@@ -90,5 +90,8 @@ export function zipStore(files: ZipEntry[]) {
   u32(endView, 12, centralSize);
   u32(endView, 16, offset);
 
-  return new Blob([...locals, ...centrals, end], { type: "application/zip" });
+  const parts = [...locals, ...centrals, end].map(
+    (part) => new Uint8Array(part),
+  );
+  return new Blob(parts, { type: "application/zip" });
 }

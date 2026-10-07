@@ -9,7 +9,11 @@ npm install
 npm run dev -- --port 43123
 ```
 
-Open [http://127.0.0.1:43123](http://127.0.0.1:43123).
+Open [http://127.0.0.1:43123](http://127.0.0.1:43123). Local dev uses no base path.
+
+## GitLab Pages
+
+Pushes to `main` on [gitlab.gwdg.de/pdey/night-fast](https://gitlab.gwdg.de/pdey/night-fast) publish a static export. The project site is built with base path `/night-fast`.
 
 ## Cases
 

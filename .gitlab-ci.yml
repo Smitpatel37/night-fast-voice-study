@@ -1,0 +1,48 @@
+# Publish the Next.js static export to GitLab Pages.
+# Project site path: /night-fast
+
+stages:
+  - build
+  - deploy
+
+variables:
+  NEXT_PUBLIC_BASE_PATH: "/night-fast"
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+default:
+  image: node:22-bookworm
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+    - test -f out/index.html
+    - rm -rf public
+    - mv out public
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+pages:
+  stage: deploy
+  needs:
+    - job: build
+      artifacts: true
+  script:
+    - test -f public/index.html
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
