@@ -640,84 +640,6 @@
       color: var(--text-secondary);
     }
 
-    /* Nextcloud Box */
-    .nextcloud-box {
-      background: linear-gradient(135deg, rgba(45, 212, 191, 0.07) 0%, rgba(30, 58, 95, 0.2) 100%);
-      border: 1px solid rgba(45, 212, 191, 0.25);
-      border-radius: var(--radius-md);
-      padding: 22px;
-      margin: 24px 0;
-      text-align: left;
-    }
-
-    .nextcloud-box-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .nextcloud-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent-teal);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nextcloud-steps-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .nc-step-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--text-secondary);
-    }
-
-    .nc-step-pill {
-      background: var(--accent-teal);
-      color: #0a0e1a;
-      font-weight: 700;
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: var(--radius-full);
-      flex-shrink: 0;
-      margin-top: 2px;
-      letter-spacing: 0.5px;
-    }
-
-    .nextcloud-action-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .nextcloud-url-box {
-      flex: 1;
-      min-width: 220px;
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      color: var(--accent-blue);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
     /* ============================================
        SCENARIO DISPLAY
        ============================================ */
@@ -1108,7 +1030,7 @@
     <h1>Voice Sample Recorder</h1>
     <p>
       Help evaluate our AI-driven medical drone dispatch interface with real-world speech.
-      Audio stays in your browser until you download the final ZIP and upload it to Nextcloud.
+      Audio stays in your browser until you download the final ZIP.
     </p>
   </header>
 
@@ -1140,8 +1062,8 @@
       </div>
       <div class="guide-step-card">
         <span class="guide-step-num">Step 4</span>
-        <div class="guide-step-heading">4. Export & Nextcloud</div>
-        <div class="guide-step-desc">Download your recordings ZIP and drop it into our secure Nextcloud upload link.</div>
+        <div class="guide-step-heading">4. Download ZIP</div>
+        <div class="guide-step-desc">Download your recordings ZIP and send it to the NIGHT-FAST team.</div>
       </div>
     </div>
   </div>
@@ -1183,7 +1105,7 @@
         </ul>
 
         <h3>4. Data Protection (GDPR Art. 6, 13, 14)</h3>
-        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted to any server during the recording process. You may delete your recordings at any time. Your participant ID is automatically assigned and contains no personally identifiable information.</p>
+        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted during the recording process; only when you click export is the final ZIP uploaded to the NIGHT-FAST team's secure university Nextcloud (a local copy is also downloaded). You may delete your recordings at any time. Your participant ID is automatically assigned and contains no personally identifiable information.</p>
 
         <h3>5. Voluntary Participation</h3>
         <p>Your participation is entirely voluntary. You may stop at any time without consequence. You may skip any scenario you are uncomfortable with. You may re-record any response as many times as you wish.</p>
@@ -1357,7 +1279,7 @@
   <div class="section" id="sectionReview">
     <div class="card">
       <div class="card-title"><span class="icon">📊</span> Session Summary & Export</div>
-      <div class="card-subtitle">Review your recordings below. Follow the two steps to export and submit your data.</div>
+      <div class="card-subtitle">Review your recordings below, then download the ZIP.</div>
 
       <div class="summary-grid" id="summaryGrid">
         <!-- Stats injected by JS -->
@@ -1367,40 +1289,11 @@
         <!-- List injected by JS -->
       </div>
 
-      <!-- Nextcloud Upload Box -->
-      <div class="nextcloud-box">
-        <div class="nextcloud-box-header">
-          <div class="nextcloud-title">☁️ Upload Recordings to Nextcloud</div>
-          <span style="font-size: 11px; color: var(--accent-teal); font-weight: 600; text-transform: uppercase;">No account required</span>
-        </div>
-
-        <div class="nextcloud-steps-list">
-          <div class="nc-step-row">
-            <span class="nc-step-pill">Step 1</span>
-            <div><strong>Download your recordings ZIP:</strong> Click the button below to package your anonymous voice recordings and manifest.</div>
-          </div>
-          <div class="nc-step-row">
-            <span class="nc-step-pill">Step 2</span>
-            <div><strong>Upload to Nextcloud:</strong> Open the Nextcloud upload link and drag & drop your downloaded ZIP file into the folder.</div>
-          </div>
-        </div>
-
-        <div class="nextcloud-action-row">
-          <button class="btn btn-primary" id="btnDownloadZip" onclick="exportZip()">📦 1. Download ZIP File</button>
-          <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
-            ☁️ 2. Open Nextcloud Upload Folder ↗
-          </a>
-        </div>
-
-        <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <span style="font-size: 11.5px; color: var(--text-muted);">Nextcloud Folder Link:</span>
-          <div class="nextcloud-url-box" id="nextcloudUrlDisplay">https://cloud.umg.de/s/nightfast-voice-data</div>
-          <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="copyNextcloudLink()">📋 Copy Link</button>
-          <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="editNextcloudLink()">✏️ Change</button>
-        </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btnDownloadZip" onclick="exportZip()">📦 Download ZIP File</button>
       </div>
 
-      <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser until downloaded. No audio leaves your machine without your consent.</p>
+      <p class="text-sm text-muted text-center mt-24">All recordings stay in your browser until you download the ZIP. Send that file to the NIGHT-FAST team.</p>
     </div>
   </div>
 
@@ -1411,17 +1304,8 @@
     <div class="card completion-screen">
       <div class="completion-icon">🎉</div>
       <h2>Recordings Complete & Downloaded!</h2>
-      <p>Your voice samples have been exported as a ZIP file. Now please upload the ZIP to Nextcloud to complete your submission.</p>
-
-      <div style="max-width: 460px; margin: 0 auto 28px; background: rgba(45, 212, 191, 0.08); border: 1px solid rgba(45, 212, 191, 0.25); border-radius: var(--radius-md); padding: 20px; text-align: left;">
-        <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-teal); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-          <span>☁️</span> Final Step: Upload to Nextcloud
-        </div>
-        <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">Check your browser's <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Nextcloud:</p>
-        <a href="https://cloud.umg.de/s/nightfast-voice-data" id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
-          ☁️ Open Nextcloud Upload Folder ↗
-        </a>
-      </div>
+      <p>Your voice samples have been exported as a ZIP file.</p>
+      <p id="uploadStatus" class="text-sm"></p>
 
       <button class="btn btn-ghost" onclick="location.reload()">Start New Session</button>
     </div>
@@ -1793,8 +1677,6 @@ function init() {
     waveContainer.appendChild(bar);
   }
 
-  // Update Nextcloud UI with saved or default URL
-  updateNextcloudUI();
 }
 
 // ============================================================
@@ -2330,6 +2212,22 @@ function goToReview() {
   });
 }
 
+// Upload proxy (see upload-server.js). Leave empty to disable automatic upload.
+const UPLOAD_ENDPOINT = 'https://YOUR-PROXY-HOST/upload';
+
+async function uploadToNextcloud(blob, name) {
+  if (!UPLOAD_ENDPOINT || UPLOAD_ENDPOINT.includes('YOUR-PROXY-HOST')) return false;
+  try {
+    const r = await fetch(`${UPLOAD_ENDPOINT}?name=${encodeURIComponent(name)}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/zip' }, body: blob
+    });
+    return r.ok;
+  } catch (e) {
+    console.error('Upload failed', e);
+    return false;
+  }
+}
+
 async function exportZip() {
   if (typeof JSZip === 'undefined') {
     alert('JSZip library not loaded. Please check your internet connection and reload.');
@@ -2421,51 +2319,22 @@ async function exportZip() {
 
   // Generate and download
   const content = await zip.generateAsync({ type: 'blob' });
-  saveAs(content, `nightfast_voice_${state.participantId}_${Date.now()}.zip`);
+  const zipName = `nightfast_voice_${state.participantId}_${Date.now()}.zip`;
+
+  // Always keep a local copy as a backup, then try the automatic Nextcloud upload
+  saveAs(content, zipName);
+  const btn = document.getElementById('btnDownloadZip');
+  btn.disabled = true; btn.textContent = '⏳ Uploading to NIGHT-FAST team…';
+  const uploaded = await uploadToNextcloud(content, zipName);
+  btn.disabled = false; btn.textContent = '📦 Download ZIP File';
+
+  const msg = document.getElementById('uploadStatus');
+  msg.textContent = uploaded
+    ? '✅ Your recordings were uploaded to the NIGHT-FAST team automatically. Nothing more to send.'
+    : '⚠️ Automatic upload failed. Please send the downloaded ZIP to the NIGHT-FAST team manually.';
+  msg.style.color = uploaded ? 'var(--accent-green)' : 'var(--accent-amber, #fbbf24)';
 
   goToSection('sectionComplete', 5);
-}
-
-// ============================================================
-//  NEXTCLOUD UPLOAD INTEGRATION
-// ============================================================
-const DEFAULT_NEXTCLOUD_URL = 'https://cloud.umg.de/s/nightfast-voice-data';
-
-function getNextcloudUrl() {
-  return localStorage.getItem('nightfast_nextcloud_url') || DEFAULT_NEXTCLOUD_URL;
-}
-
-function updateNextcloudUI() {
-  const url = getNextcloudUrl();
-  const displayEl = document.getElementById('nextcloudUrlDisplay');
-  const btnUpload = document.getElementById('btnNextcloudUpload');
-  const btnComplete = document.getElementById('btnCompleteNextcloud');
-
-  if (displayEl) displayEl.textContent = url;
-  if (btnUpload) btnUpload.href = url;
-  if (btnComplete) btnComplete.href = url;
-}
-
-function copyNextcloudLink() {
-  const url = getNextcloudUrl();
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(url).then(() => {
-      alert('Nextcloud upload link copied to clipboard:\n' + url);
-    }).catch(() => {
-      prompt('Copy Nextcloud link:', url);
-    });
-  } else {
-    prompt('Copy Nextcloud link:', url);
-  }
-}
-
-function editNextcloudLink() {
-  const current = getNextcloudUrl();
-  const newUrl = prompt('Enter your Nextcloud folder upload link:', current);
-  if (newUrl && newUrl.trim()) {
-    localStorage.setItem('nightfast_nextcloud_url', newUrl.trim());
-    updateNextcloudUI();
-  }
 }
 
 // ============================================================

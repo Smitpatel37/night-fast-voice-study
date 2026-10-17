@@ -22,13 +22,12 @@
 - **Recording Controls**:
   - Click 🔴 **Record** → Speak your command → Click ⏹️ **Stop** → Listen back to verify → Click **"Save & Next"** (or *"Re-record"* if you stumbled).
 
-### 4. Export & Upload to Nextcloud
-- **Step 1 · Download ZIP**: On the final summary screen, click **📦 Download ZIP** to save your recording archive (`nightfast_voice_<ID>.zip`) to your Downloads folder.
-- **Step 2 · Upload to Nextcloud**: Click the **☁️ Nextcloud Upload Link**, open the folder, and drag & drop your downloaded ZIP file into it. No account or password required!
+### 4. Export
+- On the final summary screen, click **📦 Download ZIP** to save your recording archive (`nightfast_voice_<ID>.zip`) to your Downloads folder.
+- Send that ZIP to the NIGHT-FAST team.
 
 ---
 
 | Resource | Link / Destination |
 | :--- | :--- |
-| **🌐 Web Recorder** | `[Paste GitHub Pages URL here]` |
-| **☁️ Nextcloud Upload Drop** | `[Paste Nextcloud Folder URL here]` |
+| **🌐 Web Recorder** | `https://smitpatel37.github.io/night-fast-voice-study/` |
