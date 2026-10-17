@@ -37,7 +37,7 @@ Using the same phrases used to build/tune the system would be **data contaminati
 6. Review & confirm recording, or re-record
 7. Repeat for all scenarios (~5–10 minutes total)
 8. Download all recordings as ZIP (`nightfast_voice_<ID>.zip`)
-9. Send the ZIP to the NIGHT-FAST team
+9. Upload the ZIP to the Academic Cloud drop folder (or it is uploaded automatically if the upload proxy is configured, see `upload-server.js`)
 ```
 
 ## Data Structure
