@@ -1,7 +1,8 @@
 # NIGHT-FAST Voice Collection — Scenario Bank
 
-> 28 scenarios across 14 intents, bilingual (DE/EN).
-> Participants read the **Situation** and speak their **own natural command** — they do NOT read a script.
+> 46 prompts, bilingual (DE/EN): 30 free-form scenarios (Part A, S01–S30, all 14 intents) and 16 read-aloud commands (Part B, R01–R16, 12 intents).
+> In Part A participants read the **Situation** and speak their **own natural command** — they do NOT read a script. In Part B they read a fixed command word-for-word.
+> The source of truth is the `SCENARIOS` array in `index.html`; this file is a readable copy.
 
 ---
 
@@ -227,6 +228,22 @@
 
 ---
 
+## 14. `stop` — ⚠️ Safety-Critical
+
+### S29 · 🇩🇪 German
+**Situation:** Die Drohne setzt gerade zur Landung an, als plötzlich eine Person auf den Landeplatz läuft. Die Drohne muss sofort anhalten — die Mission soll nicht abgebrochen werden, die Drohne soll nur augenblicklich stoppen.
+
+**Instruction:** Geben Sie den sofortigen Stopp-Befehl.
+
+---
+
+### S30 · 🇬🇧 English
+**Situation:** The drone is starting its descent when a person suddenly walks onto the landing pad. The drone must stop right now — you are not cancelling the mission, you just need it to halt immediately.
+
+**Instruction:** Give the immediate stop command.
+
+---
+
 ## 🔊 PART B — Read-Aloud Commands (Scripted)
 
 > **Purpose**: These are verbatim commands that participants read aloud exactly as written.
@@ -307,9 +324,19 @@
 
 ---
 
+### R15 · 🇩🇪 `stop`
+**Read aloud:** „Drohne sofort stoppen."
+
+---
+
+### R16 · 🇬🇧 `stop`
+**Read aloud:** "Stop the drone now."
+
+---
+
 ## Summary Table
 
-### Part A — Free-Form Scenarios (S01–S28)
+### Part A — Free-Form Scenarios (S01–S30)
 
 | ID | Intent | Lang | Safety | Scenario Theme |
 |----|--------|------|--------|---------------|
@@ -341,8 +368,10 @@
 | S26 | `query_payload_health` | EN | — | Blood cold-chain temperature |
 | S27 | `launch_mission` | DE | — | All checks passed — launch |
 | S28 | `launch_mission` | EN | — | All checks passed — launch |
+| S29 | `stop` | DE | ⚠️ | Person on landing pad — halt immediately |
+| S30 | `stop` | EN | ⚠️ | Person on landing pad — halt immediately |
 
-### Part B — Read-Aloud Commands (R01–R14)
+### Part B — Read-Aloud Commands (R01–R16)
 
 | ID | Intent | Lang | Ground Truth Command |
 |----|--------|------|---------------------|
@@ -360,13 +389,17 @@
 | R12 | `mission_eta` | EN | What is the estimated time of arrival? |
 | R13 | `drone_status` | DE | Wie ist der Batteriestand der Drohne? |
 | R14 | `query_payload_health` | EN | Check the payload temperature. |
+| R15 | `stop` | DE | Drohne sofort stoppen. |
+| R16 | `stop` | EN | Stop the drone now. |
 
 ### Totals
 
 | Metric | Count |
 |--------|-------|
-| Free-form scenarios (Part A) | 28 |
-| Read-aloud commands (Part B) | 14 |
-| **Total per participant** | **42** |
-| Estimated session time | ~18–22 min |
+| Free-form scenarios (Part A) | 30 (15 DE + 15 EN, 14 intents) |
+| Read-aloud commands (Part B) | 16 (8 DE + 8 EN, 12 intents) |
+| Safety-critical prompts | 17 (10 free-form + 7 read-aloud) |
+| **Total per participant (both languages)** | **46** |
+| Total per participant (German-only or English-only) | 23 |
+| Estimated session time | ~10–20 min (depending on language choice) |
 

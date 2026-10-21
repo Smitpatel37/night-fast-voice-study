@@ -1154,7 +1154,7 @@
     <h1>Voice Sample Recorder</h1>
     <p>
       Help evaluate our AI-driven medical drone dispatch interface with real-world speech.
-      Audio stays in your browser until you download the final ZIP and upload it to Nextcloud.
+      Audio stays in your browser until you download the final ZIP and upload it to the NIGHT-FAST folder on GWDG Academic Cloud.
     </p>
   </header>
 
@@ -1166,7 +1166,7 @@
       <div class="guide-banner-title">
         <span>⚡</span> Quick Guide: How To Record (4 Steps)
       </div>
-      <div class="guide-banner-time">⏱️ Total Time: ~5–10 Min</div>
+      <div class="guide-banner-time">⏱️ Total Time: ~10–20 Min</div>
     </div>
     <div class="guide-steps-grid">
       <div class="guide-step-card">
@@ -1187,7 +1187,7 @@
       <div class="guide-step-card">
         <span class="guide-step-num">Step 4</span>
         <div class="guide-step-heading">4. Export & Nextcloud</div>
-        <div class="guide-step-desc">Download your recordings ZIP and drop it into our secure Nextcloud upload link.</div>
+        <div class="guide-step-desc">Download your recordings ZIP and drop it into the NIGHT-FAST Academic Cloud (Nextcloud) upload folder.</div>
       </div>
     </div>
   </div>
@@ -1223,13 +1223,14 @@
         <h3>3. Data Collected</h3>
         <p>We will record:</p>
         <ul style="margin-left: 20px; margin-top: 4px;">
-          <li>Your voice recordings (WAV format, 16 kHz mono)</li>
-          <li>An automatically assigned anonymous participant identifier (no real name required)</li>
-          <li>The scenario prompts and metadata (timestamp, language, browser)</li>
+          <li>Your voice recordings (saved by your browser as WebM/Opus audio at its native sample rate, usually 48 kHz; the research team converts them to 16 kHz mono WAV for analysis)</li>
+          <li>A randomly generated participant ID and session ID, newly created for every session (no real name required)</li>
+          <li>The scenario prompts and metadata (timestamp, language, recording environment, your optional notes, browser and platform information, microphone sample rate)</li>
         </ul>
 
         <h3>4. Data Protection (GDPR Art. 6, 13, 14)</h3>
-        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted to any server during the recording process. You may delete your recordings at any time. Your participant ID is automatically assigned and contains no personally identifiable information.</p>
+        <p>While you record, your recordings stay in this browser tab on your device. They are not sent anywhere until you download them as a ZIP file at the end and upload that ZIP yourself to the NIGHT-FAST project folder on GWDG Academic Cloud (the link is shown at the end).<span id="consentAutoUpload" data-auto-upload-note hidden> When you click "Download ZIP File" on the final page, a copy of the ZIP is also uploaded automatically to the NIGHT-FAST project storage.</span></p>
+        <p>Your data is pseudonymised, not anonymised: it is stored under a random participant ID instead of your name, but a voice recording can identify a person and is therefore personal data. If you close or reload this page before downloading, your recordings are discarded. To have your recordings deleted after you uploaded them, contact the research team and give your participant ID (shown on the next page).</p>
 
         <h3>5. Voluntary Participation</h3>
         <p>Your participation is entirely voluntary. You may stop at any time without consequence. You may skip any scenario you are uncomfortable with. You may re-record any response as many times as you wish.</p>
@@ -1257,12 +1258,12 @@
   <div class="section" id="sectionSetup">
     <div class="card">
       <div class="card-title"><span class="icon">👤</span> Participant Setup</div>
-      <div class="card-subtitle">Configure your session. Your 6-character Participant ID is automatically assigned to ensure strict anonymity.</div>
+      <div class="card-subtitle">Configure your session. A new random 6-character Participant ID is assigned for this session, so your name is never stored.</div>
 
       <div class="form-group">
         <label class="form-label">Participant ID <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 6-CHARACTER ALPHANUMERIC (AUTO-ASSIGNED)</span></label>
         <input type="text" class="form-input" id="participantId" readonly style="background: rgba(255,255,255,0.03); cursor: not-allowed; opacity: 0.95; font-family: var(--font-mono); font-size: 18px; letter-spacing: 2px; font-weight: 700; color: var(--accent-teal); border-color: rgba(45, 212, 191, 0.35);">
-        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">This 6-character anonymous identifier has been assigned randomly and cannot be modified.</span>
+        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">This pseudonymous identifier was generated randomly for this session and cannot be modified. Please note it if you may want your recordings deleted later.</span>
       </div>
 
       <div class="form-group">
@@ -1338,7 +1339,7 @@
         <!-- Tags injected by JS -->
       </div>
 
-      <div class="card-title" id="scenarioTitle">Scenario 1 / 28</div>
+      <div class="card-title" id="scenarioTitle">Scenario</div>
       <div class="card-subtitle" id="scenarioSubtitle">Read the situation and formulate your command.</div>
 
       <!-- Situation / Prompt Card -->
@@ -1428,7 +1429,7 @@
         <div class="nextcloud-steps-list">
           <div class="nc-step-row">
             <span class="nc-step-pill">Step 1</span>
-            <div><strong>Download your recordings ZIP:</strong> Click the button below to package your anonymous voice recordings and manifest.</div>
+            <div><strong>Download your recordings ZIP:</strong> Click the button below to package your pseudonymised voice recordings and manifest.</div>
           </div>
           <div class="nc-step-row">
             <span class="nc-step-pill">Step 2</span>
@@ -1438,7 +1439,7 @@
 
         <div class="nextcloud-action-row">
           <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip(true)">📦 1. Download ZIP File</button>
-          <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
+          <a href="#" data-upload-folder-link id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
             ☁️ 2. Open Academic Cloud Upload Folder ↗
           </a>
         </div>
@@ -1446,12 +1447,12 @@
 
         <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
           <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Nextcloud Folder Link:</span>
-          <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" target="_blank" rel="noopener noreferrer" class="nextcloud-url-box" id="nextcloudUrlDisplay" style="text-decoration: underline; color: var(--accent-blue);">https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN</a>
+          <a href="#" data-upload-folder-link target="_blank" rel="noopener noreferrer" class="nextcloud-url-box" id="nextcloudUrlDisplay" style="text-decoration: underline; color: var(--accent-blue);"></a>
           <button class="btn btn-ghost" type="button" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="copyNextcloudLink()">📋 Copy Link</button>
         </div>
       </div>
 
-      <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser until downloaded. No audio leaves your machine without your consent.</p>
+      <p class="text-sm text-muted text-center mt-24">All recordings stay in your browser until you download the ZIP. Nothing is sent to the research team until you upload it.<span data-auto-upload-note hidden> Because automatic upload is enabled, clicking "Download ZIP File" above also sends a copy to the NIGHT-FAST project storage.</span></p>
     </div>
   </div>
 
@@ -1469,12 +1470,12 @@
           <span>☁️</span> Final Step: Upload to Academic Cloud
         </div>
         <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">Check your browser's <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Academic Cloud:</p>
-        <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
+        <a href="#" data-upload-folder-link id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
           ☁️ Open Academic Cloud Upload Folder ↗
         </a>
       </div>
 
-      <button class="btn btn-ghost" onclick="location.reload()">Start New Session</button>
+      <button class="btn btn-ghost" onclick="startNewSession()">Start New Session</button>
     </div>
   </div>
 
@@ -1485,6 +1486,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <script>
+// ============================================================
+//  CONFIGURATION
+// ============================================================
+// GWDG Academic Cloud (Nextcloud) folder where participants upload their ZIP.
+// Every upload link on the page is filled from this constant at init.
+const UPLOAD_FOLDER_URL = 'https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN';
+
+// Optional upload proxy (see upload-server.js). Leave the placeholder to disable automatic
+// upload; participants then upload the ZIP themselves via UPLOAD_FOLDER_URL.
+const UPLOAD_ENDPOINT = 'https://YOUR-PROXY-HOST/upload';
+
+// Version of the consent text shown in #sectionConsent. Bump whenever that text changes.
+const CONSENT_VERSION = '1.1';
+
+// Sample rate requested from the browser. Browsers usually ignore it and capture at their
+// native rate (typically 48 kHz); the real rate is stored as actualSampleRate in the metadata.
+// Recordings are saved as WebM/Opus; the research team converts them to 16 kHz mono WAV.
+const TARGET_SAMPLE_RATE = 16000;
+
+function isAutoUploadEnabled() {
+  return Boolean(UPLOAD_ENDPOINT) && !UPLOAD_ENDPOINT.includes('YOUR-PROXY-HOST');
+}
+
 // ============================================================
 //  SCENARIO BANK — Bilingual, covering all 14 NIGHT-FAST intents
 //  Participants see the SITUATION and speak their OWN command
@@ -1682,6 +1706,20 @@ const SCENARIOS = [
     instruction: "Give the launch/takeoff command."
   },
 
+  // ── stop (safety-critical) ──
+  {
+    id: "S29", intent: "stop", safety: true,
+    lang: "de",
+    situation: "Die Drohne setzt gerade zur Landung an, als plötzlich eine Person auf den Landeplatz läuft. Die Drohne muss sofort anhalten — die Mission soll nicht abgebrochen werden, die Drohne soll nur augenblicklich stoppen.",
+    instruction: "Geben Sie den sofortigen Stopp-Befehl."
+  },
+  {
+    id: "S30", intent: "stop", safety: true,
+    lang: "en",
+    situation: "The drone is starting its descent when a person suddenly walks onto the landing pad. The drone must stop right now — you are not cancelling the mission, you just need it to halt immediately.",
+    instruction: "Give the immediate stop command."
+  },
+
   // ============================================================
   //  PART B — READ-ALOUD COMMANDS (Scripted, ground-truth)
   //  Participants read these EXACTLY as written.
@@ -1784,6 +1822,20 @@ const SCENARIOS = [
     groundTruth: "Check the payload temperature.",
     situation: "Check the payload temperature.",
     instruction: "Read the command above exactly as written, as if speaking to the drone system."
+  },
+  {
+    id: "R15", intent: "stop", safety: true, type: "read-aloud",
+    lang: "de",
+    groundTruth: "Drohne sofort stoppen.",
+    situation: "Drohne sofort stoppen.",
+    instruction: "Lesen Sie den obigen Befehl genau so vor, als würden Sie ihn dem Drohnensystem sagen."
+  },
+  {
+    id: "R16", intent: "stop", safety: true, type: "read-aloud",
+    lang: "en",
+    groundTruth: "Stop the drone now.",
+    situation: "Stop the drone now.",
+    instruction: "Read the command above exactly as written, as if speaking to the drone system."
   }
 ];
 
@@ -1792,6 +1844,9 @@ const SCENARIOS = [
 // ============================================================
 let state = {
   participantId: '',
+  sessionId: '',
+  actualSampleRate: null,     // capture rate reported by the browser (Hz)
+  sampleRateSource: null,     // where actualSampleRate came from
   primaryLanguage: 'both',
   recordingEnv: 'quiet_indoor',
   notes: '',
@@ -1822,14 +1877,56 @@ function generateParticipantId() {
   return id;
 }
 
-function init() {
-  // Generate or retrieve persistent 6-character alphanumeric participant ID
-  let pid = localStorage.getItem('nightfast_assigned_pid');
-  if (!pid || pid.length !== 6 || /^P\d{3}$/.test(pid)) {
-    pid = generateParticipantId();
-    localStorage.setItem('nightfast_assigned_pid', pid);
-  }
+function generateSessionId() {
+  // e.g. 20261021T153012Z-k3f9q2 (UTC timestamp + random suffix)
+  const ts = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+  const rand = Math.random().toString(36).slice(2, 8).padEnd(6, '0');
+  return `${ts}-${rand}`;
+}
+
+// Participant and session IDs live in sessionStorage only: a reload of the same tab keeps
+// them, a new tab/window or "Start New Session" gets fresh ones.
+const SESSION_PID_KEY = 'nightfast_session_pid';
+const SESSION_SID_KEY = 'nightfast_session_id';
+
+function sessionGet(key) {
+  try { return sessionStorage.getItem(key); } catch (e) { return null; }
+}
+function sessionSet(key, value) {
+  try { sessionStorage.setItem(key, value); } catch (e) {}
+}
+
+function ensureSessionIds() {
+  let pid = state.participantId || sessionGet(SESSION_PID_KEY);
+  let sid = state.sessionId || sessionGet(SESSION_SID_KEY);
+  if (!pid || !/^[2-9A-HJ-NP-Z]{6}$/.test(pid)) pid = generateParticipantId();
+  if (!sid) sid = generateSessionId();
+  sessionSet(SESSION_PID_KEY, pid);
+  sessionSet(SESSION_SID_KEY, sid);
+  state.participantId = pid;
+  state.sessionId = sid;
   document.getElementById('participantId').value = pid;
+}
+
+function startNewSession() {
+  try {
+    sessionStorage.removeItem(SESSION_PID_KEY);
+    sessionStorage.removeItem(SESSION_SID_KEY);
+  } catch (e) {}
+  location.reload();
+}
+
+function init() {
+  // Older versions kept one participant ID per device in localStorage, which merged
+  // different sessions under one ID. Remove it; IDs are now created per session at consent.
+  try { localStorage.removeItem('nightfast_assigned_pid'); } catch (e) {}
+  const existingPid = sessionGet(SESSION_PID_KEY);
+  if (existingPid) document.getElementById('participantId').value = existingPid;
+
+  // Show the automatic-upload sentences only when the upload proxy is configured
+  document.querySelectorAll('[data-auto-upload-note]').forEach(el => {
+    el.hidden = !isAutoUploadEnabled();
+  });
 
   // Consent checkbox
   document.getElementById('consentCheck').addEventListener('change', function() {
@@ -1875,6 +1972,7 @@ function updateScenarioProgress() {
 // ============================================================
 function acceptConsent() {
   state.consentTimestamp = new Date().toISOString();
+  ensureSessionIds();
   goToSection('sectionSetup', 2);
 }
 
@@ -1883,7 +1981,7 @@ function acceptConsent() {
 // ============================================================
 async function goToCalibration() {
   // Save setup
-  state.participantId = document.getElementById('participantId').value || 'P000';
+  ensureSessionIds();
   state.primaryLanguage = document.getElementById('primaryLanguage').value;
   state.recordingEnv = document.getElementById('recordingEnv').value;
   state.notes = document.getElementById('participantNotes').value;
@@ -1917,6 +2015,33 @@ async function goToCalibration() {
   goToSection('sectionCalibration', 3);
 }
 
+// Determine the sample rate the browser really captures at (it usually ignores the
+// requested 16 kHz). Prefer the track settings; fall back to a native-rate AudioContext.
+async function detectActualSampleRate(stream) {
+  let rate = null;
+  let source = null;
+  try {
+    const track = stream && stream.getAudioTracks()[0];
+    const settings = track && track.getSettings ? track.getSettings() : {};
+    if (settings && settings.sampleRate) {
+      rate = settings.sampleRate;
+      source = 'MediaStreamTrack.getSettings';
+    }
+  } catch (e) {}
+  if (!rate) {
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      const probe = new Ctx();
+      rate = probe.sampleRate;
+      source = 'AudioContext.sampleRate (native)';
+      if (probe.close) await probe.close();
+    } catch (e) {}
+  }
+  state.actualSampleRate = rate;
+  state.sampleRateSource = source;
+  return rate;
+}
+
 async function startCalibration() {
   const statusEl = document.getElementById('calibrationStatus');
   const fillEl = document.getElementById('calibrationFill');
@@ -1930,14 +2055,16 @@ async function startCalibration() {
   try {
     state.audioStream = await navigator.mediaDevices.getUserMedia({
       audio: {
-        sampleRate: 16000,
+        sampleRate: TARGET_SAMPLE_RATE,
         channelCount: 1,
         echoCancellation: true,
         noiseSuppression: true
       }
     });
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+    await detectActualSampleRate(state.audioStream);
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: TARGET_SAMPLE_RATE });
     const source = audioCtx.createMediaStreamSource(state.audioStream);
     state.analyserNode = audioCtx.createAnalyser();
     state.analyserNode.fftSize = 256;
@@ -2160,8 +2287,9 @@ async function startRecording() {
     // Use existing stream if available, otherwise request new
     if (!state.audioStream || state.audioStream.getTracks().some(t => t.readyState === 'ended')) {
       state.audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true }
+        audio: { sampleRate: TARGET_SAMPLE_RATE, channelCount: 1, echoCancellation: true, noiseSuppression: true }
       });
+      await detectActualSampleRate(state.audioStream);
     }
 
     state.audioChunks = [];
@@ -2178,6 +2306,7 @@ async function startRecording() {
     state.mediaRecorder.onstop = () => {
       onRecordingComplete();
     };
+    state.currentMimeType = state.mediaRecorder.mimeType || 'audio/webm';
 
     state.mediaRecorder.start(100); // 100ms timeslices
     state.isRecording = true;
@@ -2222,7 +2351,7 @@ function stopRecording() {
 }
 
 function onRecordingComplete() {
-  const blob = new Blob(state.audioChunks, { type: 'audio/webm' });
+  const blob = new Blob(state.audioChunks, { type: state.currentMimeType || 'audio/webm' });
   const url = URL.createObjectURL(blob);
   const duration = ((Date.now() - state.recordingStartTime) / 1000).toFixed(1);
 
@@ -2290,6 +2419,8 @@ function nextScenario() {
       groundTruth: scenario.groundTruth || null,
       presentationOrder: state.currentIndex + 1,
       blob: state.currentBlob,
+      mimeType: state.currentMimeType || 'audio/webm',
+      actualSampleRate: state.actualSampleRate,
       duration: parseFloat(state.currentDuration),
       timestamp: new Date().toISOString()
     });
@@ -2391,12 +2522,9 @@ function setDownloadNotice(message) {
   });
 }
 
-// Upload proxy (see upload-server.js). Leave the placeholder to disable automatic upload;
-// participants then use the Academic Cloud link instead.
-const UPLOAD_ENDPOINT = 'https://YOUR-PROXY-HOST/upload';
-
+// Automatic upload via the optional proxy; UPLOAD_ENDPOINT is set in the CONFIGURATION block.
 async function uploadToNextcloud(blob, name) {
-  if (!UPLOAD_ENDPOINT || UPLOAD_ENDPOINT.includes('YOUR-PROXY-HOST')) return null;
+  if (!isAutoUploadEnabled()) return null;
   try {
     const r = await fetch(`${UPLOAD_ENDPOINT}?name=${encodeURIComponent(name)}`, {
       method: 'POST', headers: { 'Content-Type': 'application/zip' }, body: blob
@@ -2428,14 +2556,17 @@ async function downloadZip(upload = false) {
     return false;
   }
 
+  ensureSessionIds();
   const zip = new JSZip();
   const folder = zip.folder(state.participantId);
 
   // Consent record
   folder.file('consent.json', JSON.stringify({
     participantId: state.participantId,
+    sessionId: state.sessionId,
     consentTimestamp: state.consentTimestamp,
-    consentVersion: '1.0',
+    consentVersion: CONSENT_VERSION,
+    autoUploadEnabled: isAutoUploadEnabled(),
     primaryLanguage: state.primaryLanguage,
     recordingEnvironment: state.recordingEnv,
     notes: state.notes,
@@ -2446,11 +2577,18 @@ async function downloadZip(upload = false) {
   // Session metadata
   folder.file('session_metadata.json', JSON.stringify({
     participantId: state.participantId,
+    sessionId: state.sessionId,
+    consentVersion: CONSENT_VERSION,
     totalRecordings: finishedRecordings.length,
     skippedScenarios: finishedSkips,
     primaryLanguage: state.primaryLanguage,
     recordingEnvironment: state.recordingEnv,
     exportTimestamp: new Date().toISOString(),
+    audioFormat: finishedRecordings.length ? finishedRecordings[0].mimeType : null,
+    targetSampleRate: TARGET_SAMPLE_RATE,
+    actualSampleRate: state.actualSampleRate,
+    sampleRateSource: state.sampleRateSource,
+    sampleRateNote: 'Audio is stored as WebM/Opus at the browser capture rate (actualSampleRate). Convert to 16 kHz mono WAV for analysis, e.g. ffmpeg -i in.webm -ac 1 -ar 16000 out.wav',
     scenarioOrder: state.scenarios
       .filter((scenario) => finishedSkips.includes(scenario.id) || finishedRecordings.some((rec) => rec.scenarioId === scenario.id))
       .map((scenario) => scenario.id)
@@ -2458,7 +2596,7 @@ async function downloadZip(upload = false) {
 
   // Master manifest.csv for immediate Excel / Python pandas loading
   let csvRows = [
-    ['participant_id', 'scenario_id', 'presentation_order', 'type', 'intent', 'language', 'safety_critical', 'audio_file', 'duration_seconds', 'timestamp', 'ground_truth', 'situation']
+    ['participant_id', 'session_id', 'scenario_id', 'presentation_order', 'type', 'intent', 'language', 'safety_critical', 'audio_file', 'duration_seconds', 'actual_sample_rate', 'timestamp', 'ground_truth', 'situation']
   ];
 
   // Each recording
@@ -2472,6 +2610,7 @@ async function downloadZip(upload = false) {
     const scenario = SCENARIOS.find(s => s.id === rec.scenarioId);
     const metadata = {
       participantId: state.participantId,
+      sessionId: state.sessionId,
       scenarioId: rec.scenarioId,
       presentationOrder: rec.presentationOrder,
       type: rec.type,
@@ -2483,8 +2622,9 @@ async function downloadZip(upload = false) {
       situation: scenario ? scenario.situation : '',
       instruction: scenario ? scenario.instruction : '',
       environment: state.recordingEnv,
-      format: 'audio/webm;codecs=opus',
-      targetSampleRate: 16000
+      format: rec.mimeType,
+      targetSampleRate: TARGET_SAMPLE_RATE,
+      actualSampleRate: rec.actualSampleRate
     };
 
     // Include ground truth for read-aloud scenarios (for STT WER computation)
@@ -2496,6 +2636,7 @@ async function downloadZip(upload = false) {
 
     csvRows.push([
       state.participantId,
+      state.sessionId,
       rec.scenarioId,
       rec.presentationOrder,
       rec.type,
@@ -2504,6 +2645,7 @@ async function downloadZip(upload = false) {
       rec.safety ? 'yes' : 'no',
       `${filename}.webm`,
       rec.duration,
+      rec.actualSampleRate == null ? '' : rec.actualSampleRate,
       rec.timestamp,
       `"${(rec.groundTruth || '').replace(/"/g, '""')}"`,
       `"${((scenario ? scenario.situation : '')).replace(/"/g, '""')}"`
@@ -2514,12 +2656,14 @@ async function downloadZip(upload = false) {
     const scenario = SCENARIOS.find(s => s.id === scenarioId);
     csvRows.push([
       state.participantId,
+      state.sessionId,
       scenarioId,
       '',
       'skipped',
       scenario ? scenario.intent : '',
       scenario ? scenario.lang : '',
       scenario && scenario.safety ? 'yes' : 'no',
+      '',
       '',
       '',
       '',
@@ -2533,7 +2677,10 @@ async function downloadZip(upload = false) {
 
   // Generate and download
   const content = await zip.generateAsync({ type: 'blob' });
-  const zipName = `nightfast_voice_${state.participantId}_${Date.now()}.zip`;
+  // Every export of a session carries the same PID + sessionId; the export time keeps
+  // partial downloads apart (the newest ZIP of a session contains everything before it).
+  const exportStamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+  const zipName = `nightfast_voice_${state.participantId}_${state.sessionId}_${exportStamp}.zip`;
   saveAs(content, zipName);
 
   if (upload) {
@@ -2549,7 +2696,6 @@ async function downloadZip(upload = false) {
 // ============================================================
 //  ACADEMIC CLOUD / NEXTCLOUD UPLOAD INTEGRATION
 // ============================================================
-const DEFAULT_NEXTCLOUD_URL = 'https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN';
 
 // Purge any stale cached placeholder URL
 try {
@@ -2560,7 +2706,7 @@ try {
 } catch (e) {}
 
 function getNextcloudUrl() {
-  return DEFAULT_NEXTCLOUD_URL;
+  return UPLOAD_FOLDER_URL;
 }
 
 function updateNextcloudUI() {
@@ -2575,6 +2721,7 @@ function updateNextcloudUI() {
   }
   if (btnUpload) btnUpload.href = url;
   if (btnComplete) btnComplete.href = url;
+  document.querySelectorAll('[data-upload-folder-link]').forEach(el => { el.href = url; });
 }
 
 function copyNextcloudLink() {
