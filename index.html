@@ -1491,12 +1491,15 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" id="setupLangLabel">Studiensprache</label>
-        <select class="form-input" id="primaryLanguage">
-          <option value="both" id="optLangBoth">Beide Sprachen: Deutsch & Englisch (Empfohlen)</option>
-          <option value="de" id="optLangDe">Nur Deutsch</option>
-          <option value="en" id="optLangEn">Nur Englisch</option>
-        </select>
+        <label class="form-label" id="setupLangLabel">
+          Ausgewählte Studiensprache
+          <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;" id="setupLangBadge">✓ AUF SEITE 1 GEWÄHLT</span>
+        </label>
+        <div id="setupLangDisplay" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; font-weight: 600;">
+          <span id="setupLangDisplayText">🌐 Beide Sprachen: Deutsch & Englisch</span>
+          <button type="button" class="btn btn-ghost" onclick="backToConsent()" style="padding: 4px 10px; font-size: 11.5px; height: auto;" id="btnChangeLang">Ändern ↩</button>
+        </div>
+        <input type="hidden" id="primaryLanguage" value="both">
       </div>
 
       <div class="form-group">
@@ -2175,10 +2178,37 @@ function selectInitialLanguage(choice) {
   document.getElementById('langCardEn').classList.toggle('active', choice === 'en');
   document.getElementById('langCardBoth').classList.toggle('active', choice === 'both');
 
-  const setupSelect = document.getElementById('primaryLanguage');
-  if (setupSelect) setupSelect.value = choice;
+  const setupInput = document.getElementById('primaryLanguage');
+  if (setupInput) setupInput.value = choice;
 
+  updateSetupLangDisplay();
   renderConsentForm(choice);
+}
+
+function updateSetupLangDisplay() {
+  const isDe = state.currentUiLang === 'de';
+  const labelEl = document.getElementById('setupLangLabel');
+  if (labelEl) {
+    labelEl.innerHTML = `${isDe ? 'Ausgewählte Studiensprache' : 'Selected Study Language'} <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;" id="setupLangBadge">${isDe ? '✓ AUF SEITE 1 GEWÄHLT' : '✓ SELECTED ON STEP 1'}</span>`;
+  }
+  const textEl = document.getElementById('setupLangDisplayText');
+  if (textEl) {
+    if (state.primaryLanguage === 'de') {
+      textEl.textContent = isDe ? '🇩🇪 Deutsch (Nur Deutsch)' : '🇩🇪 German (German Only)';
+    } else if (state.primaryLanguage === 'en') {
+      textEl.textContent = isDe ? '🇬🇧 Englisch (Nur Englisch)' : '🇬🇧 English (English Only)';
+    } else {
+      textEl.textContent = isDe ? '🌐 Beide Sprachen: Deutsch & Englisch (Empfohlen)' : '🌐 Both Languages: German & English (Recommended)';
+    }
+  }
+  const changeBtn = document.getElementById('btnChangeLang');
+  if (changeBtn) {
+    changeBtn.textContent = isDe ? 'Ändern ↩' : 'Change ↩';
+  }
+  const hiddenInput = document.getElementById('primaryLanguage');
+  if (hiddenInput) {
+    hiddenInput.value = state.primaryLanguage;
+  }
 }
 
 function renderConsentForm(choice) {
@@ -2283,9 +2313,8 @@ function acceptConsentAndOpenApp() {
   document.getElementById('consentGate').style.display = 'none';
   document.getElementById('mainApp').style.display = 'block';
 
-  // Sync setup select dropdown
-  const setupSelect = document.getElementById('primaryLanguage');
-  if (setupSelect) setupSelect.value = state.primaryLanguage;
+  // Sync setup language display
+  updateSetupLangDisplay();
 
   // Determine initial app UI language
   if (state.primaryLanguage === 'en') {
@@ -2381,14 +2410,7 @@ function applyUiLanguage(lang) {
   const pidHint = document.getElementById('setupPidHint');
   if (pidHint) pidHint.textContent = isDe ? 'Diese 6-stellige anonyme Kennung wurde zufällig vergeben und kann nicht geändert werden.' : 'This 6-character anonymous identifier has been assigned randomly and cannot be modified.';
 
-  const langLabel = document.getElementById('setupLangLabel');
-  if (langLabel) langLabel.textContent = isDe ? 'Studiensprache' : 'Study Language';
-  const optBoth = document.getElementById('optLangBoth');
-  if (optBoth) optBoth.textContent = isDe ? 'Beide Sprachen: Deutsch & Englisch (Empfohlen)' : 'Both German & English (Recommended)';
-  const optDe = document.getElementById('optLangDe');
-  if (optDe) optDe.textContent = isDe ? 'Nur Deutsch' : 'German Only';
-  const optEn = document.getElementById('optLangEn');
-  if (optEn) optEn.textContent = isDe ? 'Nur Englisch' : 'English Only';
+  updateSetupLangDisplay();
 
   const envLabel = document.getElementById('setupEnvLabel');
   if (envLabel) envLabel.textContent = isDe ? 'Aufnahmeumgebung' : 'Recording Environment';
@@ -2604,18 +2626,8 @@ function init() {
     document.getElementById('btnAcceptConsent').disabled = !this.checked;
   });
 
-  // Setup dropdown change listener
-  const langDropdown = document.getElementById('primaryLanguage');
-  if (langDropdown) {
-    langDropdown.addEventListener('change', function() {
-      selectInitialLanguage(this.value);
-      if (this.value === 'en') {
-        applyUiLanguage('en');
-      } else {
-        applyUiLanguage('de');
-      }
-    });
-  }
+  // Synchronize setup language display
+  updateSetupLangDisplay();
 
   // Create waveform bars
   const waveContainer = document.getElementById('waveformContainer');
