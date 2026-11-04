@@ -287,6 +287,84 @@
     }
 
     /* ============================================
+       CONSENT GATE & LANGUAGE SELECTION FIRST
+       ============================================ */
+    .consent-gate {
+      animation: fadeSlideUp 0.5s ease forwards;
+    }
+
+    .lang-gate-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .lang-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 680px) {
+      .lang-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .lang-choice-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-primary);
+      width: 100%;
+      font-family: var(--font-sans);
+    }
+
+    .lang-choice-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+
+    .lang-choice-card.active {
+      border-color: var(--accent-blue);
+      background: rgba(96, 165, 250, 0.12);
+      box-shadow: var(--shadow-glow-blue);
+    }
+
+    .lang-choice-card .lang-card-flag {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .lang-choice-card .lang-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .lang-choice-card.active .lang-card-title {
+      color: var(--accent-blue);
+    }
+
+    .lang-choice-card .lang-card-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* ============================================
        CONSENT
        ============================================ */
     .consent-text {
@@ -1271,157 +1349,174 @@
 <div class="app-container">
 
   <!-- ============================
-       HEADER
+       GATE: CONSENT & LANGUAGE SELECTION (FIRST SCREEN)
        ============================ -->
-  <!-- ============================
-       HEADER
-       ============================ -->
-  <header class="header">
-    <div class="header-badge">
-      <span class="dot"></span>
-      NIGHT-FAST · Voice Collection
-    </div>
-    <h1>Voice Sample Recorder</h1>
-    <p>
-      Help evaluate our AI-driven medical drone dispatch interface with real-world speech.
-      Audio stays in your browser until you download the final ZIP and upload it to Nextcloud.
-    </p>
-  </header>
-
-  <!-- ============================
-       QUICK HOW-TO GUIDE BANNER
-       ============================ -->
-  <div class="guide-banner">
-    <div class="guide-banner-header">
-      <div class="guide-banner-title">
-        <span>⚡</span> Quick Guide: How To Record (4 Steps)
-      </div>
-      <div class="guide-banner-time">⏱️ Total Time: ~5–10 Min</div>
-    </div>
-    <div class="guide-steps-grid">
-      <div class="guide-step-card">
-        <span class="guide-step-num">Step 1</span>
-        <div class="guide-step-heading">1. Mic Calibration</div>
-        <div class="guide-step-desc">Stay quiet for 3 seconds to measure room noise, then speak a few test words.</div>
-      </div>
-      <div class="guide-step-card">
-        <span class="guide-step-num">Step 2</span>
-        <div class="guide-step-heading">2. Part A: In Your Words</div>
-        <div class="guide-step-desc">Read the emergency situation. Speak a natural command. <strong>Do NOT read text aloud!</strong></div>
-      </div>
-      <div class="guide-step-card">
-        <span class="guide-step-num">Step 3</span>
-        <div class="guide-step-heading">3. Part B: Read Aloud</div>
-        <div class="guide-step-desc">Read the exact command sentence shown on screen clearly word-for-word.</div>
-      </div>
-      <div class="guide-step-card">
-        <span class="guide-step-num">Step 4</span>
-        <div class="guide-step-heading">4. Export & Nextcloud</div>
-        <div class="guide-step-desc">Download your recordings ZIP and drop it into our secure Nextcloud upload link.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================
-       PROGRESS BAR
-       ============================ -->
-  <div class="progress-bar-container" id="progressContainer" style="display:none;">
-    <div class="progress-label">
-      <span class="step-info">Step <span id="currentStep">1</span> of <span id="totalSteps">6</span></span>
-      <span class="scenario-counter" id="scenarioCounter"></span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-    </div>
-  </div>
-
-  <!-- ============================
-       SECTION 1 — CONSENT
-       ============================ -->
-  <div class="section active" id="sectionConsent">
+  <div class="consent-gate" id="consentGate">
     <div class="card">
-      <div class="card-title"><span class="icon">📋</span> Participant Consent Form</div>
-      <div class="card-subtitle">Please read the following consent form carefully and confirm your agreement before proceeding.</div>
-
-      <div class="consent-text">
-        <h3>1. Purpose of Study</h3>
-        <p>This voice collection session is part of the NIGHT-FAST research project at the University Medical Center Göttingen (UMG). The purpose is to evaluate the accuracy of a voice-controlled interface for medical drone dispatch. Your voice recordings will be used exclusively for academic research and thesis evaluation.</p>
-
-        <h3>2. What You Will Do</h3>
-        <p>You will be presented with scenario descriptions related to medical drone operations. For each scenario, you will speak a natural voice command in either German or English. Your voice will be recorded via your device's microphone. Each scenario takes approximately 10–30 seconds.</p>
-
-        <h3>3. Data Collected</h3>
-        <p>We will record:</p>
-        <ul style="margin-left: 20px; margin-top: 4px;">
-          <li>Your voice recordings (WAV format, 16 kHz mono)</li>
-          <li>An automatically assigned anonymous participant identifier (no real name required)</li>
-          <li>The scenario prompts and metadata (timestamp, language, browser)</li>
-        </ul>
-
-        <h3>4. Data Protection (GDPR Art. 6, 13, 14)</h3>
-        <p>All data is stored locally on your device and exported as a ZIP file. No data is transmitted to any server during the recording process. You may delete your recordings at any time. Your participant ID is automatically assigned and contains no personally identifiable information.</p>
-
-        <h3>5. Voluntary Participation</h3>
-        <p>Your participation is entirely voluntary. You may stop at any time without consequence. You may skip any scenario you are uncomfortable with. You may re-record any response as many times as you wish.</p>
-
-        <h3>6. Contact</h3>
-        <p>For questions about this study, contact the NIGHT-FAST research team at UMG.</p>
+      <div class="header-badge" style="margin-bottom: 16px;">
+        <span class="dot"></span>
+        <span id="consentBadgeText">NIGHT-FAST · MEDIZINISCHE DROHNEN-STUDIE</span>
       </div>
 
-      <div class="checkbox-group">
-        <input type="checkbox" id="consentCheck">
-        <label for="consentCheck">I have read and understood the consent form. I voluntarily agree to participate and allow my voice recordings to be used for academic evaluation of the NIGHT-FAST system.</label>
+      <!-- Step 1: Language Selection First -->
+      <div class="lang-gate-box">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <h2 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 0;" id="consentStep1Title">
+            🌐 1. Studiensprache auswählen / Select Study Language
+          </h2>
+          <span style="font-size: 11px; color: var(--accent-teal); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" id="consentStep1Badge">
+            Zuerst wählen / Select First
+          </span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-top: 6px; margin-bottom: 14px;" id="consentStep1Desc">
+          Bitte wählen Sie zuerst die gewünschte Sprache. Die gesamte Website und die Einwilligungserklärung passen sich sofort an.
+        </p>
+        <div class="lang-cards-grid">
+          <button type="button" class="lang-choice-card" id="langCardDe" onclick="selectInitialLanguage('de')">
+            <div class="lang-card-flag">🇩🇪</div>
+            <div class="lang-card-title">Deutsch</div>
+            <div class="lang-card-sub" id="langCardDeSub">Nur Deutsch (14 Szenarien)</div>
+          </button>
+          <button type="button" class="lang-choice-card" id="langCardEn" onclick="selectInitialLanguage('en')">
+            <div class="lang-card-flag">🇬🇧</div>
+            <div class="lang-card-title">English</div>
+            <div class="lang-card-sub" id="langCardEnSub">English Only (14 Scenarios)</div>
+          </button>
+          <button type="button" class="lang-choice-card active" id="langCardBoth" onclick="selectInitialLanguage('both')">
+            <div class="lang-card-flag">🌐</div>
+            <div class="lang-card-title">Beide / Both</div>
+            <div class="lang-card-sub" id="langCardBothSub">Deutsch & English (Empfohlen)</div>
+          </button>
+        </div>
       </div>
 
-      <div class="btn-group">
-        <button class="btn btn-primary" id="btnAcceptConsent" disabled onclick="acceptConsent()">
-          Accept & Continue →
-        </button>
+      <!-- Step 2: Consent Form -->
+      <div style="margin-top: 26px;">
+        <div class="card-title" id="consentCardTitle"><span class="icon">📋</span> 2. Einwilligungserklärung zur Studienteilnahme</div>
+        <div class="card-subtitle" id="consentCardSubtitle">Bitte lesen Sie die folgende Erklärung sorgfältig durch und bestätigen Sie Ihr Einverständnis, bevor Sie die App starten.</div>
+
+        <div class="consent-text" id="consentTextContainer">
+          <!-- Dynamically populated based on selected language -->
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="consentCheck">
+          <label for="consentCheck" id="consentCheckLabel">
+            Ich habe die Einwilligungserklärung gelesen und verstanden. Ich willige freiwillig ein, an der Studie teilzunehmen und erlaube die Nutzung meiner Sprachaufnahmen zur wissenschaftlichen Auswertung des NIGHT-FAST-Systems.
+          </label>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btnAcceptConsent" disabled onclick="acceptConsentAndOpenApp()" style="font-size: 15px; padding: 14px 34px;">
+            <span id="btnAcceptConsentText">Zustimmen & App starten →</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ============================
+       MAIN APPLICATION (OPENS AFTER CONSENT)
+       ============================ -->
+  <div id="mainApp" style="display: none;">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-badge">
+        <span class="dot"></span>
+        <span id="headerBadgeText">NIGHT-FAST · Sprachdatenerfassung</span>
+      </div>
+      <h1 id="headerTitle">Sprachaufnahme-Tool</h1>
+      <p id="headerDesc">
+        Helfen Sie mit, unsere KI-gestützte Schnittstelle für medizinische Notfalldrohnen mit realer Sprache zu testen.
+        Audio bleibt in Ihrem Browser, bis Sie die ZIP-Datei herunterladen und in Nextcloud hochladen.
+      </p>
+    </header>
+
+    <!-- QUICK HOW-TO GUIDE BANNER -->
+    <div class="guide-banner">
+      <div class="guide-banner-header">
+        <div class="guide-banner-title" id="guideBannerTitle">
+          <span>⚡</span> Kurzanleitung: So nehmen Sie auf (4 Schritte)
+        </div>
+        <div class="guide-banner-time" id="guideBannerTime">⏱️ Gesamtdauer: ca. 5–10 Min.</div>
+      </div>
+      <div class="guide-steps-grid">
+        <div class="guide-step-card">
+          <span class="guide-step-num" id="guideStep1Num">Schritt 1</span>
+          <div class="guide-step-heading" id="guideStep1Head">1. Mikrofon-Kalibrierung</div>
+          <div class="guide-step-desc" id="guideStep1Desc">3 Sekunden still sein zur Raummessung, dann ein paar Testwörter sprechen.</div>
+        </div>
+        <div class="guide-step-card">
+          <span class="guide-step-num" id="guideStep2Num">Schritt 2</span>
+          <div class="guide-step-heading" id="guideStep2Head">2. Teil A: Freie Formulierung</div>
+          <div class="guide-step-desc" id="guideStep2Desc">Situation lesen. Einen natürlichen Befehl sprechen. <strong>Text NICHT laut vorlesen!</strong></div>
+        </div>
+        <div class="guide-step-card">
+          <span class="guide-step-num" id="guideStep3Num">Schritt 3</span>
+          <div class="guide-step-heading" id="guideStep3Head">3. Teil B: Laut Vorlesen</div>
+          <div class="guide-step-desc" id="guideStep3Desc">Den angezeigten Befehlssatz genau so laut und wortgetreu vorlesen.</div>
+        </div>
+        <div class="guide-step-card">
+          <span class="guide-step-num" id="guideStep4Num">Schritt 4</span>
+          <div class="guide-step-heading" id="guideStep4Head">4. Export & Nextcloud</div>
+          <div class="guide-step-desc" id="guideStep4Desc">Aufnahmen als ZIP herunterladen und in unseren sicheren Nextcloud-Upload-Link ablegen.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar-container" id="progressContainer" style="display:none;">
+      <div class="progress-label">
+        <span class="step-info" id="progressStepInfo">Schritt <span id="currentStep">2</span> von <span id="totalSteps">6</span></span>
+        <span class="scenario-counter" id="scenarioCounter"></span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
 
   <!-- ============================
        SECTION 2 — PARTICIPANT SETUP
        ============================ -->
   <div class="section" id="sectionSetup">
     <div class="card">
-      <div class="card-title"><span class="icon">👤</span> Participant Setup</div>
-      <div class="card-subtitle">Configure your session. Your 6-character Participant ID is automatically assigned to ensure strict anonymity.</div>
+      <div class="card-title" id="setupCardTitle"><span class="icon">👤</span> Teilnehmer-Einrichtung</div>
+      <div class="card-subtitle" id="setupCardSubtitle">Konfigurieren Sie Ihre Sitzung. Ihre 6-stellige Teilnehmer-ID wird automatisch vergeben, um Anonymität zu gewährleisten.</div>
 
       <div class="form-group">
-        <label class="form-label">Participant ID <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 6-CHARACTER ALPHANUMERIC (AUTO-ASSIGNED)</span></label>
+        <label class="form-label" id="setupPidLabel">Teilnehmer-ID <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 6-STELLIG ALPHANUMERISCH (AUTOMATISCH ZUGEWIESEN)</span></label>
         <input type="text" class="form-input" id="participantId" readonly style="background: rgba(255,255,255,0.03); cursor: not-allowed; opacity: 0.95; font-family: var(--font-mono); font-size: 18px; letter-spacing: 2px; font-weight: 700; color: var(--accent-teal); border-color: rgba(45, 212, 191, 0.35);">
-        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">This 6-character anonymous identifier has been assigned randomly and cannot be modified.</span>
+        <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;" id="setupPidHint">Diese 6-stellige anonyme Kennung wurde zufällig vergeben und kann nicht geändert werden.</span>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Primary Language</label>
+        <label class="form-label" id="setupLangLabel">Studiensprache</label>
         <select class="form-input" id="primaryLanguage">
-          <option value="both">Both German & English (Recommended)</option>
-          <option value="de">German Only</option>
-          <option value="en">English Only</option>
+          <option value="both" id="optLangBoth">Beide Sprachen: Deutsch & Englisch (Empfohlen)</option>
+          <option value="de" id="optLangDe">Nur Deutsch</option>
+          <option value="en" id="optLangEn">Nur Englisch</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Recording Environment</label>
+        <label class="form-label" id="setupEnvLabel">Aufnahmeumgebung</label>
         <select class="form-input" id="recordingEnv">
-          <option value="quiet_indoor">Quiet Indoor (office / lab / home room)</option>
-          <option value="indoor_noise">Indoor with Background Noise</option>
-          <option value="outdoor">Outdoor</option>
-          <option value="vehicle">Inside Vehicle</option>
+          <option value="quiet_indoor" id="optEnvQuiet">Ruhiger Innenraum (Büro / Labor / Zuhause)</option>
+          <option value="indoor_noise" id="optEnvNoise">Innenraum mit Hintergrundgeräuschen</option>
+          <option value="outdoor" id="optEnvOutdoor">Im Freien / Outdoor</option>
+          <option value="vehicle" id="optEnvVehicle">Im Fahrzeug</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Notes (optional)</label>
-        <input type="text" class="form-input" id="participantNotes" placeholder="e.g., native German speaker, slight cold, headset mic...">
+        <label class="form-label" id="setupNotesLabel">Notizen (optional)</label>
+        <input type="text" class="form-input" id="participantNotes" placeholder="z.B. deutscher Muttersprachler, leicht erkältet, Headset-Mikrofon...">
       </div>
 
       <div class="btn-group">
-        <button class="btn btn-ghost" onclick="goToSection('sectionConsent', 1)">← Back</button>
-        <button class="btn btn-primary" onclick="goToCalibration()">Calibrate Microphone →</button>
+        <button class="btn btn-ghost" id="btnBackToConsent" onclick="backToConsent()">← Zurück zur Erklärung</button>
+        <button class="btn btn-primary" id="btnGoToCalibrate" onclick="goToCalibration()">Mikrofon kalibrieren →</button>
       </div>
     </div>
   </div>
@@ -1431,17 +1526,17 @@
        ============================ -->
   <div class="section" id="sectionCalibration">
     <div class="card">
-      <div class="card-title"><span class="icon">🎙️</span> Microphone Calibration</div>
-      <div class="card-subtitle">We check your microphone volume and measure ambient background noise in 2 simple steps.</div>
+      <div class="card-title" id="calCardTitle"><span class="icon">🎙️</span> Mikrofon-Kalibrierung</div>
+      <div class="card-subtitle" id="calCardSubtitle">Wir prüfen Ihre Mikrofonlautstärke und messen das Raum-Hintergrundrauschen in 2 einfachen Schritten.</div>
 
       <div class="calib-cards-grid">
         <div class="calib-card">
-          <div class="calib-card-step">Step 1 · Noise Floor (3s Silence)</div>
-          <div class="calib-card-text">Click "Start Calibration" and stay completely silent for 3 seconds while your room noise is measured.</div>
+          <div class="calib-card-step" id="calStep1Head">Schritt 1 · Grundrauschen (3s Stille)</div>
+          <div class="calib-card-text" id="calStep1Text">Klicken Sie auf „Kalibrierung starten“ und bleiben Sie 3 Sekunden lang absolut still, während das Raumrauschen gemessen wird.</div>
         </div>
         <div class="calib-card">
-          <div class="calib-card-step">Step 2 · Voice Check</div>
-          <div class="calib-card-text">Speak a few words normally (e.g. "Drohne starten" or "Testing one two three") to confirm your voice is detected.</div>
+          <div class="calib-card-step" id="calStep2Head">Schritt 2 · Sprachüberprüfung</div>
+          <div class="calib-card-text" id="calStep2Text">Sprechen Sie ein paar normale Testworte (z.B. „Drohne starten“ oder „Eins zwei drei Test“), um die Spracherkennung zu prüfen.</div>
         </div>
       </div>
 
@@ -1449,13 +1544,13 @@
         <div class="calibration-fill" id="calibrationFill" style="width: 0%"></div>
       </div>
 
-      <div class="calibration-status" id="calibrationStatus">Click Start to begin calibration</div>
+      <div class="calibration-status" id="calibrationStatus">Klicken Sie auf Start, um die Kalibrierung zu beginnen</div>
 
       <div class="btn-group">
-        <button class="btn btn-ghost" onclick="goToSection('sectionSetup', 2)">← Back</button>
-        <button class="btn btn-primary" id="btnCalibrate" onclick="startCalibration()">🎙️ Start Calibration</button>
-        <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToPartAIntro()">Calibration Passed ✓ →</button>
-        <button class="btn btn-ghost" onclick="goToPartAIntro()" style="font-size: 12px; color: var(--text-muted);">Skip Calibration (Demo / Preview) →</button>
+        <button class="btn btn-ghost" id="btnBackToSetup" onclick="goToSection('sectionSetup', 2)">← Zurück</button>
+        <button class="btn btn-primary" id="btnCalibrate" onclick="startCalibration()">🎙️ Kalibrierung starten</button>
+        <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToPartAIntro()">Kalibrierung bestanden ✓ →</button>
+        <button class="btn btn-ghost" id="btnSkipCalibrate" onclick="goToPartAIntro()" style="font-size: 12px; color: var(--text-muted);">Kalibrierung überspringen (Demo / Vorschau) →</button>
       </div>
     </div>
   </div>
@@ -1465,31 +1560,31 @@
        ============================ -->
   <div class="section" id="sectionPartAIntro">
     <div class="card">
-      <div class="header-badge" style="margin-bottom: 14px;">
-        <span class="dot"></span> PHASE 1 OF 2 · FREE-FORM COMMANDS
+      <div class="header-badge" id="partABadge" style="margin-bottom: 14px;">
+        <span class="dot"></span> PHASE 1 VON 2 · FREIE FORMULIERUNG
       </div>
-      <div class="card-title" style="font-size: 24px;">
-        <span class="icon">💡</span> Part A: Scenario-Based Voice Commands
+      <div class="card-title" id="partATitle" style="font-size: 24px;">
+        <span class="icon">💡</span> Teil A: Szenariobasierte Sprachbefehle
       </div>
-      <div class="card-subtitle" style="font-size: 14.5px;">
-        Formulate commands in your own words based on realistic emergency medical transport situations.
+      <div class="card-subtitle" id="partASubtitle" style="font-size: 14.5px;">
+        Formulieren Sie Befehle in Ihren eigenen Worten anhand realistischer medizinischer Notfallsituationen.
       </div>
 
       <div class="intro-callout-grid">
         <div class="intro-callout-card">
           <div class="intro-callout-icon">🧠</div>
-          <div class="intro-callout-title">1. Read the Context Silently</div>
-          <div class="intro-callout-desc">Read the situation description in your head to understand the medical emergency, destination, and drone task.</div>
+          <div class="intro-callout-title" id="partACard1Head">1. Kontext still durchlesen</div>
+          <div class="intro-callout-desc" id="partACard1Text">Lesen Sie die Situationsbeschreibung gedanklich durch, um den medizinischen Notfall, das Ziel und die Aufgabe der Drohne zu verstehen.</div>
         </div>
         <div class="intro-callout-card">
           <div class="intro-callout-icon">🎙️</div>
-          <div class="intro-callout-title">2. Speak in Your Own Words</div>
-          <div class="intro-callout-desc">Formulate the command you would speak to dispatch, redirect, or control the drone. Use your natural phrasing.</div>
+          <div class="intro-callout-title" id="partACard2Head">2. In eigenen Worten sprechen</div>
+          <div class="intro-callout-desc" id="partACard2Text">Formulieren Sie den Befehl, den Sie zur Alarmierung, Umleitung oder Steuerung der Drohne sagen würden. Sprechen Sie ganz natürlich.</div>
         </div>
         <div class="intro-callout-card highlight-danger">
           <div class="intro-callout-icon">⚠️</div>
-          <div class="intro-callout-title">3. Do NOT Read Text Aloud</div>
-          <div class="intro-callout-desc">Please do NOT read the scenario text out loud. We need your spontaneous, unscripted spoken command.</div>
+          <div class="intro-callout-title" id="partACard3Head">3. Text NICHT laut vorlesen</div>
+          <div class="intro-callout-desc" id="partACard3Text">Bitte lesen Sie den Szenariotext NICHT laut vor. Wir benötigen Ihren spontanen, frei formulierten Sprachbefehl.</div>
         </div>
       </div>
 
@@ -1499,9 +1594,9 @@
       </div>
 
       <div class="btn-group" style="margin-top: 24px;">
-        <button class="btn btn-ghost" onclick="goToSection('sectionCalibration', 3)">← Back to Calibration</button>
+        <button class="btn btn-ghost" id="btnBackToCalibration" onclick="goToSection('sectionCalibration', 3)">← Zurück zur Kalibrierung</button>
         <button class="btn btn-primary" id="btnStartPartA" onclick="startPartAScenarios()" style="font-size: 15px; padding: 14px 28px;">
-          🚀 Start Part A Scenarios →
+          🚀 Teil A starten →
         </button>
       </div>
     </div>
@@ -1583,31 +1678,31 @@
        ============================ -->
   <div class="section" id="sectionPartBIntro">
     <div class="card">
-      <div class="header-badge" style="margin-bottom: 14px; background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.25); color: var(--accent-teal);">
-        <span class="dot" style="background: var(--accent-teal);"></span> PHASE 2 OF 2 · READ-ALOUD COMMANDS
+      <div class="header-badge" id="partBBadge" style="margin-bottom: 14px; background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.25); color: var(--accent-teal);">
+        <span class="dot" style="background: var(--accent-teal);"></span> PHASE 2 VON 2 · LAUT VORLESEN
       </div>
-      <div class="card-title" style="font-size: 24px;">
-        <span class="icon">🔊</span> Part B: Read-Aloud Commands (Scripted)
+      <div class="card-title" id="partBTitle" style="font-size: 24px;">
+        <span class="icon">🔊</span> Teil B: Laut Vorlesen (Vorgegebene Befehle)
       </div>
-      <div class="card-subtitle" style="font-size: 14.5px;">
-        Read the displayed command sentences word-for-word to establish ground-truth speech recognition benchmarks.
+      <div class="card-subtitle" id="partBSubtitle" style="font-size: 14.5px;">
+        Lesen Sie die angezeigten Befehlssätze wortgetreu vor, um Referenzdaten für die Spracherkennung zu erfassen.
       </div>
 
       <div class="intro-callout-grid">
         <div class="intro-callout-card highlight-teal">
           <div class="intro-callout-icon">📖</div>
-          <div class="intro-callout-title">1. Quoted Command Shown</div>
-          <div class="intro-callout-desc">A specific command will be highlighted in quotes (e.g. <em>"Mission sofort abbrechen."</em>).</div>
+          <div class="intro-callout-title" id="partBCard1Head">1. Befehl in Anführungszeichen</div>
+          <div class="intro-callout-desc" id="partBCard1Text">Ein konkreter Befehl wird in Anführungszeichen hervorgehoben (z.B. <em>„Mission sofort abbrechen.“</em>).</div>
         </div>
         <div class="intro-callout-card">
           <div class="intro-callout-icon">🗣️</div>
-          <div class="intro-callout-title">2. Read Word-for-Word</div>
-          <div class="intro-callout-desc">Read the command sentence aloud into your microphone exactly as written.</div>
+          <div class="intro-callout-title" id="partBCard2Head">2. Wortgetreu vorlesen</div>
+          <div class="intro-callout-desc" id="partBCard2Text">Lesen Sie den Befehlssatz genau so laut in Ihr Mikrofon, wie er geschrieben steht.</div>
         </div>
         <div class="intro-callout-card">
           <div class="intro-callout-icon">🎯</div>
-          <div class="intro-callout-title">3. Natural Volume & Speed</div>
-          <div class="intro-callout-desc">Speak clearly and naturally at your normal conversational speaking pace.</div>
+          <div class="intro-callout-title" id="partBCard3Head">3. Natürliche Lautstärke & Tempo</div>
+          <div class="intro-callout-desc" id="partBCard3Text">Sprechen Sie klar, deutlich und in Ihrer normalen Gesprächsgeschwindigkeit.</div>
         </div>
       </div>
 
@@ -1618,7 +1713,7 @@
 
       <div class="btn-group" style="margin-top: 24px;">
         <button class="btn btn-primary" id="btnStartPartB" onclick="startPartBScenarios()" style="font-size: 15px; padding: 14px 28px;">
-          🚀 Start Part B Commands →
+          🚀 Teil B starten →
         </button>
       </div>
     </div>
@@ -1656,8 +1751,8 @@
        ============================ -->
   <div class="section" id="sectionReview">
     <div class="card">
-      <div class="card-title"><span class="icon">📊</span> Session Summary & Export</div>
-      <div class="card-subtitle">Review your recordings below. Follow the two steps to export and submit your data.</div>
+      <div class="card-title" id="reviewCardTitle"><span class="icon">📊</span> Sitzungsübersicht & Export</div>
+      <div class="card-subtitle" id="reviewCardSubtitle">Überprüfen Sie Ihre Aufnahmen unten. Folgen Sie den beiden Schritten, um Ihre Daten zu exportieren und abzugeben.</div>
 
       <div class="summary-grid" id="summaryGrid">
         <!-- Stats injected by JS -->
@@ -1670,37 +1765,37 @@
       <!-- Academic Cloud Upload Box -->
       <div class="nextcloud-box">
         <div class="nextcloud-box-header">
-          <div class="nextcloud-title">☁️ Upload Recordings to Academic Cloud</div>
-          <span style="font-size: 11px; color: var(--accent-teal); font-weight: 600; text-transform: uppercase;">No account required</span>
+          <div class="nextcloud-title" id="ncBoxTitle">☁️ Aufnahmen in Academic Cloud hochladen</div>
+          <span style="font-size: 11px; color: var(--accent-teal); font-weight: 600; text-transform: uppercase;" id="ncBoxBadge">Kein Konto erforderlich</span>
         </div>
 
         <div class="nextcloud-steps-list">
           <div class="nc-step-row">
-            <span class="nc-step-pill">Step 1</span>
-            <div><strong>Download your recordings ZIP:</strong> Click the button below to package your anonymous voice recordings and manifest.</div>
+            <span class="nc-step-pill" id="ncStep1Pill">Schritt 1</span>
+            <div id="ncStep1Text"><strong>Aufnahmen als ZIP herunterladen:</strong> Klicken Sie auf die Schaltfläche unten, um Ihre anonymen Sprachaufnahmen und das Manifest zu packen.</div>
           </div>
           <div class="nc-step-row">
-            <span class="nc-step-pill">Step 2</span>
-            <div><strong>Upload to Academic Cloud:</strong> Open the secure upload link and drag & drop your downloaded ZIP file into the folder.</div>
+            <span class="nc-step-pill" id="ncStep2Pill">Schritt 2</span>
+            <div id="ncStep2Text"><strong>In Academic Cloud hochladen:</strong> Öffnen Sie den sicheren Upload-Link und ziehen Sie Ihre heruntergeladene ZIP-Datei per Drag & Drop in den Ordner.</div>
           </div>
         </div>
 
         <div class="nextcloud-action-row">
-          <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()">📦 1. Download ZIP File</button>
+          <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()">📦 1. ZIP-Datei herunterladen</button>
           <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnNextcloudUpload" target="_blank" rel="noopener noreferrer" class="btn btn-teal">
-            ☁️ 2. Open Academic Cloud Upload Folder ↗
+            ☁️ 2. Academic Cloud Upload-Ordner öffnen ↗
           </a>
         </div>
         <p class="download-zip-notice" data-download-notice role="status"></p>
 
         <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;">Nextcloud Folder Link:</span>
+          <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;" id="ncUrlLabel">Nextcloud-Ordnerlink:</span>
           <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" target="_blank" rel="noopener noreferrer" class="nextcloud-url-box" id="nextcloudUrlDisplay" style="text-decoration: underline; color: var(--accent-blue);">https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN</a>
-          <button class="btn btn-ghost" type="button" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="copyNextcloudLink()">📋 Copy Link</button>
+          <button class="btn btn-ghost" id="btnCopyNcLink" type="button" style="padding: 6px 12px; font-size: 11px; flex: initial;" onclick="copyNextcloudLink()">📋 Link kopieren</button>
         </div>
       </div>
 
-      <p class="text-sm text-muted text-center mt-24">All recordings are stored locally in your browser until downloaded. No audio leaves your machine without your consent.</p>
+      <p class="text-sm text-muted text-center mt-24" id="reviewDisclaimer">Alle Aufnahmen werden lokal in Ihrem Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre Zustimmung.</p>
     </div>
   </div>
 
@@ -1710,24 +1805,26 @@
   <div class="section" id="sectionComplete">
     <div class="card completion-screen">
       <div class="completion-icon">🎉</div>
-      <h2>Recordings Complete & Downloaded!</h2>
-      <p>Your voice samples have been exported as a ZIP file. Now please upload the ZIP to Academic Cloud to complete your submission.</p>
+      <h2 id="completeTitle">Aufnahmen abgeschlossen & heruntergeladen!</h2>
+      <p id="completeDesc">Ihre Sprachaufnahmen wurden als ZIP-Datei exportiert. Bitte laden Sie die ZIP-Datei nun in die Academic Cloud hoch, um Ihre Abgabe abzuschließen.</p>
 
       <div style="max-width: 460px; margin: 0 auto 28px; background: rgba(45, 212, 191, 0.08); border: 1px solid rgba(45, 212, 191, 0.25); border-radius: var(--radius-md); padding: 20px; text-align: left;">
-        <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-teal); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-          <span>☁️</span> Final Step: Upload to Academic Cloud
+        <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-teal); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;" id="completeBoxTitle">
+          <span>☁️</span> Letzter Schritt: In Academic Cloud hochladen
         </div>
-        <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">Check your browser's <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Academic Cloud:</p>
+        <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;" id="completeBoxDesc">Prüfen Sie den Downloads-Ordner Ihres Browsers auf Ihre ZIP-Datei und klicken Sie unten, um sie in die Academic Cloud zu laden:</p>
         <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnCompleteNextcloud" target="_blank" rel="noopener noreferrer" class="btn btn-teal" style="display: flex; text-align: center; width: 100%; justify-content: center;">
-          ☁️ Open Academic Cloud Upload Folder ↗
+          ☁️ Academic Cloud Upload-Ordner öffnen ↗
         </a>
       </div>
 
-      <button class="btn btn-ghost" onclick="location.reload()">Start New Session</button>
+      <button class="btn btn-ghost" id="btnRestartSession" onclick="location.reload()">Neue Sitzung starten</button>
     </div>
   </div>
 
-</div>
+  </div> <!-- End #mainApp -->
+
+</div> <!-- End .app-container -->
 
 <!-- JSZip for ZIP export (loaded from CDN, offline-safe with fallback) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -2042,6 +2139,7 @@ const SCENARIOS = [
 let state = {
   participantId: '',
   primaryLanguage: 'both',
+  currentUiLang: 'de',
   recordingEnv: 'quiet_indoor',
   notes: '',
   consentTimestamp: null,
@@ -2068,6 +2166,416 @@ let state = {
 };
 
 // ============================================================
+//  LANGUAGE SELECTION & CENTRALIZED UI LOCALIZATION
+// ============================================================
+function selectInitialLanguage(choice) {
+  state.primaryLanguage = choice;
+
+  document.getElementById('langCardDe').classList.toggle('active', choice === 'de');
+  document.getElementById('langCardEn').classList.toggle('active', choice === 'en');
+  document.getElementById('langCardBoth').classList.toggle('active', choice === 'both');
+
+  const setupSelect = document.getElementById('primaryLanguage');
+  if (setupSelect) setupSelect.value = choice;
+
+  renderConsentForm(choice);
+}
+
+function renderConsentForm(choice) {
+  const isDe = choice === 'de' || choice === 'both';
+
+  const badgeText = document.getElementById('consentBadgeText');
+  if (badgeText) badgeText.textContent = isDe ? 'NIGHT-FAST · MEDIZINISCHE DROHNEN-STUDIE' : 'NIGHT-FAST · MEDICAL DRONE STUDY';
+
+  const s1Title = document.getElementById('consentStep1Title');
+  if (s1Title) s1Title.innerHTML = isDe ? '🌐 1. Studiensprache auswählen' : '🌐 1. Select Study Language';
+  const s1Badge = document.getElementById('consentStep1Badge');
+  if (s1Badge) s1Badge.textContent = isDe ? 'Zuerst wählen' : 'Select First';
+  const s1Desc = document.getElementById('consentStep1Desc');
+  if (s1Desc) s1Desc.textContent = isDe
+    ? 'Bitte wählen Sie zuerst Ihre Studiensprache. Die gesamte Website und die Erklärung passen sich sofort an.'
+    : 'Please select your study language first. The entire application and consent form adapt immediately.';
+
+  const deSub = document.getElementById('langCardDeSub');
+  if (deSub) deSub.textContent = isDe ? 'Nur Deutsch (14 Szenarien)' : 'German Only (14 Scenarios)';
+  const enSub = document.getElementById('langCardEnSub');
+  if (enSub) enSub.textContent = isDe ? 'Nur Englisch (14 Szenarien)' : 'English Only (14 Scenarios)';
+  const bothSub = document.getElementById('langCardBothSub');
+  if (bothSub) bothSub.textContent = isDe ? 'Beide Sprachen (Empfohlen)' : 'Both Languages (Recommended)';
+
+  const cardTitle = document.getElementById('consentCardTitle');
+  if (cardTitle) cardTitle.innerHTML = `<span class="icon">📋</span> ${isDe ? '2. Einwilligungserklärung zur Studienteilnahme' : '2. Participant Consent Form'}`;
+  const cardSubtitle = document.getElementById('consentCardSubtitle');
+  if (cardSubtitle) cardSubtitle.textContent = isDe
+    ? 'Bitte lesen Sie die folgende Erklärung sorgfältig durch und bestätigen Sie Ihr Einverständnis, bevor Sie die App starten.'
+    : 'Please read the following consent form carefully and confirm your agreement before proceeding.';
+
+  const container = document.getElementById('consentTextContainer');
+  if (container) {
+    if (choice === 'en') {
+      container.innerHTML = `
+        <h3>1. Purpose of Study</h3>
+        <p>This voice collection session is part of the NIGHT-FAST research project at the University Medical Center Göttingen (UMG). The purpose is to evaluate the accuracy of a voice-controlled interface for medical drone dispatch. Your voice recordings will be used exclusively for academic research and thesis evaluation.</p>
+
+        <h3>2. What You Will Do</h3>
+        <p>You will be presented with scenario descriptions related to medical drone operations. For each scenario, you will speak a natural voice command in English. Your voice will be recorded via your device's microphone. Each scenario takes approximately 10–30 seconds.</p>
+
+        <h3>3. Data Collected</h3>
+        <p>We will record:</p>
+        <ul style="margin-left: 20px; margin-top: 4px;">
+          <li>Your voice recordings (WAV/audio format)</li>
+          <li>An automatically assigned anonymous participant identifier (no real name required)</li>
+          <li>The scenario prompts and metadata (timestamp, language, browser)</li>
+        </ul>
+
+        <h3>4. Data Protection (GDPR Art. 6, 13, 14)</h3>
+        <p>All data is processed locally on your device and exported as a ZIP file. No audio data is transmitted to external servers during recording. You may delete or re-record any sample at any time. Your participant ID is randomly generated and contains no personally identifiable information.</p>
+
+        <h3>5. Voluntary Participation</h3>
+        <p>Your participation is entirely voluntary. You may stop at any time without consequence. You may skip any scenario you are uncomfortable with. You may re-record any response as many times as you wish.</p>
+
+        <h3>6. Contact</h3>
+        <p>For questions about this study, contact the NIGHT-FAST research team at UMG.</p>
+      `;
+    } else {
+      container.innerHTML = `
+        <h3>1. Zweck der Studie</h3>
+        <p>Diese Sprachaufnahme-Sitzung ist Teil des Forschungsprojekts NIGHT-FAST an der Universitätsmedizin Göttingen (UMG). Ziel ist die wissenschaftliche Evaluierung eines sprachgesteuerten Leitstellensystems für medizinische Notfall- und Transportdrohnen. Ihre Sprachaufnahmen dienen ausschließlich akademischen Forschungszwecken und der Begutachtung im Rahmen einer wissenschaftlichen Arbeit.</p>
+
+        <h3>2. Ablauf der Studie</h3>
+        <p>Ihnen werden realistische Notfallszenarien aus dem medizinischen Drohneneinsatz präsentiert. Zu jedem Szenario sprechen Sie einen kurzen Funk- bzw. Steuerbefehl. Die Aufnahme erfolgt direkt über das Mikrofon Ihres Endgeräts. Ein einzelnes Szenario dauert ca. 10–30 Sekunden.</p>
+
+        <h3>3. Erfasste Daten</h3>
+        <p>Folgende Daten werden erfasst:</p>
+        <ul style="margin-left: 20px; margin-top: 4px;">
+          <li>Ihre gesprochenen Audioaufnahmen (WAV/Audioformat)</li>
+          <li>Eine automatisch generierte, anonyme 6-stellige Teilnehmer-Kennung (keine Angabe von Namen oder personenbezogenen Daten)</li>
+          <li>Szenario-Prompts und technische Sitzungsmetadaten (Zeitstempel, Sprache, Browsertyp)</li>
+        </ul>
+
+        <h3>4. Datenschutz & DSGVO (Art. 6, 13, 14)</h3>
+        <p>Alle Sprachaufnahmen verbleiben während der gesamten Sitzung ausschließlich lokal in Ihrem Browser und werden erst am Ende als ZIP-Datei auf Ihren Computer heruntergeladen. Es erfolgt keine heimliche Übertragung an Server. Ihre Teilnehmer-ID ist rein pseudonymisiert/anonymisiert. Sie können Aufnahmen jederzeit verwerfen oder wiederholen.</p>
+
+        <h3>5. Freiwilligkeit</h3>
+        <p>Die Teilnahme an dieser Studie ist vollkommen freiwillig. Sie können die Sitzung jederzeit ohne Angabe von Gründen abbrechen. Sie können einzelne Szenarien überspringen und jede Aufnahme beliebig oft wiederholen.</p>
+
+        <h3>6. Kontakt</h3>
+        <p>Bei Fragen zur Studie wenden Sie sich bitte an das NIGHT-FAST-Forschungsteam der Universitätsmedizin Göttingen (UMG).</p>
+      `;
+    }
+  }
+
+  const checkLabel = document.getElementById('consentCheckLabel');
+  if (checkLabel) {
+    checkLabel.textContent = isDe
+      ? 'Ich habe die Einwilligungserklärung gelesen und verstanden. Ich willige freiwillig ein, an der Studie teilzunehmen und erlaube die Nutzung meiner Sprachaufnahmen zur wissenschaftlichen Auswertung des NIGHT-FAST-Systems.'
+      : 'I have read and understood the consent form. I voluntarily agree to participate and allow my voice recordings to be used for academic evaluation of the NIGHT-FAST system.';
+  }
+
+  const btnAccept = document.getElementById('btnAcceptConsentText');
+  if (btnAccept) {
+    btnAccept.textContent = isDe ? 'Zustimmen & App starten →' : 'Accept & Open App →';
+  }
+}
+
+function acceptConsentAndOpenApp() {
+  state.consentTimestamp = new Date().toISOString();
+  document.getElementById('consentGate').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+
+  // Sync setup select dropdown
+  const setupSelect = document.getElementById('primaryLanguage');
+  if (setupSelect) setupSelect.value = state.primaryLanguage;
+
+  // Determine initial app UI language
+  if (state.primaryLanguage === 'en') {
+    applyUiLanguage('en');
+  } else {
+    // 'de' or 'both' (starts with German block)
+    applyUiLanguage('de');
+  }
+
+  goToSection('sectionSetup', 2);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToConsent() {
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('consentGate').style.display = 'block';
+  document.getElementById('progressContainer').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyUiLanguage(lang) {
+  state.currentUiLang = lang;
+  document.documentElement.lang = lang;
+  const isDe = lang === 'de';
+
+  // 1. Header
+  const headerBadge = document.getElementById('headerBadgeText');
+  if (headerBadge) headerBadge.textContent = isDe ? 'NIGHT-FAST · Sprachdatenerfassung' : 'NIGHT-FAST · Voice Collection';
+  const headerTitle = document.getElementById('headerTitle');
+  if (headerTitle) headerTitle.textContent = isDe ? 'Sprachaufnahme-Tool' : 'Voice Sample Recorder';
+  const headerDesc = document.getElementById('headerDesc');
+  if (headerDesc) {
+    headerDesc.textContent = isDe
+      ? 'Helfen Sie mit, unsere KI-gestützte Schnittstelle für medizinische Notfalldrohnen mit realer Sprache zu testen. Audio bleibt in Ihrem Browser, bis Sie die ZIP-Datei herunterladen und in Nextcloud hochladen.'
+      : 'Help evaluate our AI-driven medical drone dispatch interface with real-world speech. Audio stays in your browser until you download the final ZIP and upload it to Nextcloud.';
+  }
+
+  // 2. Quick Guide Banner
+  const guideTitle = document.getElementById('guideBannerTitle');
+  if (guideTitle) guideTitle.innerHTML = isDe ? '<span>⚡</span> Kurzanleitung: So nehmen Sie auf (4 Schritte)' : '<span>⚡</span> Quick Guide: How To Record (4 Steps)';
+  const guideTime = document.getElementById('guideBannerTime');
+  if (guideTime) guideTime.textContent = isDe ? '⏱️ Gesamtdauer: ca. 5–10 Min.' : '⏱️ Total Time: ~5–10 Min';
+
+  const step1Num = document.getElementById('guideStep1Num');
+  if (step1Num) step1Num.textContent = isDe ? 'Schritt 1' : 'Step 1';
+  const step1Head = document.getElementById('guideStep1Head');
+  if (step1Head) step1Head.textContent = isDe ? '1. Mikrofon-Kalibrierung' : '1. Mic Calibration';
+  const step1Desc = document.getElementById('guideStep1Desc');
+  if (step1Desc) step1Desc.textContent = isDe ? '3 Sekunden still sein zur Raummessung, dann ein paar Testwörter sprechen.' : 'Stay quiet for 3 seconds to measure room noise, then speak a few test words.';
+
+  const step2Num = document.getElementById('guideStep2Num');
+  if (step2Num) step2Num.textContent = isDe ? 'Schritt 2' : 'Step 2';
+  const step2Head = document.getElementById('guideStep2Head');
+  if (step2Head) step2Head.textContent = isDe ? '2. Teil A: Freie Formulierung' : '2. Part A: In Your Words';
+  const step2Desc = document.getElementById('guideStep2Desc');
+  if (step2Desc) step2Desc.innerHTML = isDe ? 'Situation lesen. Einen natürlichen Befehl sprechen. <strong>Text NICHT laut vorlesen!</strong>' : 'Read the emergency situation. Speak a natural command. <strong>Do NOT read text aloud!</strong>';
+
+  const step3Num = document.getElementById('guideStep3Num');
+  if (step3Num) step3Num.textContent = isDe ? 'Schritt 3' : 'Step 3';
+  const step3Head = document.getElementById('guideStep3Head');
+  if (step3Head) step3Head.textContent = isDe ? '3. Teil B: Laut Vorlesen' : '3. Part B: Read Aloud';
+  const step3Desc = document.getElementById('guideStep3Desc');
+  if (step3Desc) step3Desc.textContent = isDe ? 'Den angezeigten Befehlssatz genau so laut und wortgetreu vorlesen.' : 'Read the exact command sentence shown on screen clearly word-for-word.';
+
+  const step4Num = document.getElementById('guideStep4Num');
+  if (step4Num) step4Num.textContent = isDe ? 'Schritt 4' : 'Step 4';
+  const step4Head = document.getElementById('guideStep4Head');
+  if (step4Head) step4Head.textContent = isDe ? '4. Export & Nextcloud' : '4. Export & Nextcloud';
+  const step4Desc = document.getElementById('guideStep4Desc');
+  if (step4Desc) step4Desc.textContent = isDe ? 'Aufnahmen als ZIP herunterladen und in unseren sicheren Nextcloud-Upload-Link ablegen.' : 'Download your recordings ZIP and drop it into our secure Nextcloud upload link.';
+
+  // 3. Progress Info
+  const stepInfoText = document.getElementById('progressStepInfo');
+  if (stepInfoText) {
+    const curEl = document.getElementById('currentStep');
+    const totEl = document.getElementById('totalSteps');
+    const cur = curEl ? curEl.textContent : '2';
+    const tot = totEl ? totEl.textContent : '6';
+    stepInfoText.innerHTML = isDe ? `Schritt <span id="currentStep">${cur}</span> von <span id="totalSteps">${tot}</span>` : `Step <span id="currentStep">${cur}</span> of <span id="totalSteps">${tot}</span>`;
+  }
+  updateScenarioProgress();
+
+  // 4. Setup Section
+  const setupTitle = document.getElementById('setupCardTitle');
+  if (setupTitle) setupTitle.innerHTML = `<span class="icon">👤</span> ${isDe ? 'Teilnehmer-Einrichtung' : 'Participant Setup'}`;
+  const setupSubtitle = document.getElementById('setupCardSubtitle');
+  if (setupSubtitle) setupSubtitle.textContent = isDe ? 'Konfigurieren Sie Ihre Sitzung. Ihre 6-stellige Teilnehmer-ID wird automatisch vergeben, um Anonymität zu gewährleisten.' : 'Configure your session. Your 6-character Participant ID is automatically assigned to ensure strict anonymity.';
+
+  const pidLabel = document.getElementById('setupPidLabel');
+  if (pidLabel) {
+    pidLabel.innerHTML = `${isDe ? 'Teilnehmer-ID' : 'Participant ID'} <span style="font-weight: 500; color: var(--accent-teal); font-size: 11px; margin-left: 6px; letter-spacing: 0.5px;">🔒 ${isDe ? '6-STELLIG ALPHANUMERISCH (AUTOMATISCH ZUGEWIESEN)' : '6-CHARACTER ALPHANUMERIC (AUTO-ASSIGNED)'}</span>`;
+  }
+  const pidHint = document.getElementById('setupPidHint');
+  if (pidHint) pidHint.textContent = isDe ? 'Diese 6-stellige anonyme Kennung wurde zufällig vergeben und kann nicht geändert werden.' : 'This 6-character anonymous identifier has been assigned randomly and cannot be modified.';
+
+  const langLabel = document.getElementById('setupLangLabel');
+  if (langLabel) langLabel.textContent = isDe ? 'Studiensprache' : 'Study Language';
+  const optBoth = document.getElementById('optLangBoth');
+  if (optBoth) optBoth.textContent = isDe ? 'Beide Sprachen: Deutsch & Englisch (Empfohlen)' : 'Both German & English (Recommended)';
+  const optDe = document.getElementById('optLangDe');
+  if (optDe) optDe.textContent = isDe ? 'Nur Deutsch' : 'German Only';
+  const optEn = document.getElementById('optLangEn');
+  if (optEn) optEn.textContent = isDe ? 'Nur Englisch' : 'English Only';
+
+  const envLabel = document.getElementById('setupEnvLabel');
+  if (envLabel) envLabel.textContent = isDe ? 'Aufnahmeumgebung' : 'Recording Environment';
+  const envQuiet = document.getElementById('optEnvQuiet');
+  if (envQuiet) envQuiet.textContent = isDe ? 'Ruhiger Innenraum (Büro / Labor / Zuhause)' : 'Quiet Indoor (office / lab / home room)';
+  const envNoise = document.getElementById('optEnvNoise');
+  if (envNoise) envNoise.textContent = isDe ? 'Innenraum mit Hintergrundgeräuschen' : 'Indoor with Background Noise';
+  const envOutdoor = document.getElementById('optEnvOutdoor');
+  if (envOutdoor) envOutdoor.textContent = isDe ? 'Im Freien / Outdoor' : 'Outdoor';
+  const envVehicle = document.getElementById('optEnvVehicle');
+  if (envVehicle) envVehicle.textContent = isDe ? 'Im Fahrzeug' : 'Inside Vehicle';
+
+  const notesLabel = document.getElementById('setupNotesLabel');
+  if (notesLabel) notesLabel.textContent = isDe ? 'Notizen (optional)' : 'Notes (optional)';
+  const notesInput = document.getElementById('participantNotes');
+  if (notesInput) notesInput.placeholder = isDe ? 'z.B. deutscher Muttersprachler, leicht erkältet, Headset-Mikrofon...' : 'e.g., native German speaker, slight cold, headset mic...';
+
+  const btnBackSetup = document.getElementById('btnBackToConsent');
+  if (btnBackSetup) btnBackSetup.textContent = isDe ? '← Zurück zur Erklärung' : '← Back to Consent';
+  const btnCalibrateSetup = document.getElementById('btnGoToCalibrate');
+  if (btnCalibrateSetup) btnCalibrateSetup.textContent = isDe ? 'Mikrofon kalibrieren →' : 'Calibrate Microphone →';
+
+  // 5. Calibration Section
+  const calTitle = document.getElementById('calCardTitle');
+  if (calTitle) calTitle.innerHTML = `<span class="icon">🎙️</span> ${isDe ? 'Mikrofon-Kalibrierung' : 'Microphone Calibration'}`;
+  const calSubtitle = document.getElementById('calCardSubtitle');
+  if (calSubtitle) calSubtitle.textContent = isDe ? 'Wir prüfen Ihre Mikrofonlautstärke und messen das Raum-Hintergrundrauschen in 2 einfachen Schritten.' : 'We check your microphone volume and measure ambient background noise in 2 simple steps.';
+
+  const calStep1Head = document.getElementById('calStep1Head');
+  if (calStep1Head) calStep1Head.textContent = isDe ? 'Schritt 1 · Grundrauschen (3s Stille)' : 'Step 1 · Noise Floor (3s Silence)';
+  const calStep1Text = document.getElementById('calStep1Text');
+  if (calStep1Text) calStep1Text.textContent = isDe ? 'Klicken Sie auf „Kalibrierung starten“ und bleiben Sie 3 Sekunden lang absolut still, während das Raumrauschen gemessen wird.' : 'Click "Start Calibration" and stay completely silent for 3 seconds while your room noise is measured.';
+
+  const calStep2Head = document.getElementById('calStep2Head');
+  if (calStep2Head) calStep2Head.textContent = isDe ? 'Schritt 2 · Sprachüberprüfung' : 'Step 2 · Voice Check';
+  const calStep2Text = document.getElementById('calStep2Text');
+  if (calStep2Text) calStep2Text.textContent = isDe ? 'Sprechen Sie ein paar normale Testworte (z.B. „Drohne starten“ oder „Eins zwei drei Test“), um die Spracherkennung zu prüfen.' : 'Speak a few words normally (e.g. "Drohne starten" or "Testing one two three") to confirm your voice is detected.';
+
+  const calStatus = document.getElementById('calibrationStatus');
+  if (calStatus && !state.calibrated) {
+    calStatus.textContent = isDe ? 'Klicken Sie auf Start, um die Kalibrierung zu beginnen' : 'Click Start to begin calibration';
+  }
+
+  const btnBackCal = document.getElementById('btnBackToSetup');
+  if (btnBackCal) btnBackCal.textContent = isDe ? '← Zurück' : '← Back';
+  const btnStartCal = document.getElementById('btnCalibrate');
+  if (btnStartCal && !btnStartCal.disabled) btnStartCal.textContent = isDe ? '🎙️ Kalibrierung starten' : '🎙️ Start Calibration';
+  const btnDoneCal = document.getElementById('btnCalibrationDone');
+  if (btnDoneCal) btnDoneCal.textContent = isDe ? 'Kalibrierung bestanden ✓ →' : 'Calibration Passed ✓ →';
+  const btnSkipCal = document.getElementById('btnSkipCalibrate');
+  if (btnSkipCal) btnSkipCal.textContent = isDe ? 'Kalibrierung überspringen (Demo / Vorschau) →' : 'Skip Calibration (Demo / Preview) →';
+
+  // 6. Part A Intro Section
+  const partABadge = document.getElementById('partABadge');
+  if (partABadge) partABadge.innerHTML = `<span class="dot"></span> ${isDe ? 'PHASE 1 VON 2 · FREIE FORMULIERUNG' : 'PHASE 1 OF 2 · FREE-FORM COMMANDS'}`;
+  const partATitle = document.getElementById('partATitle');
+  if (partATitle) partATitle.innerHTML = `<span class="icon">💡</span> ${isDe ? 'Teil A: Szenariobasierte Sprachbefehle' : 'Part A: Scenario-Based Voice Commands'}`;
+  const partASubtitle = document.getElementById('partASubtitle');
+  if (partASubtitle) partASubtitle.textContent = isDe ? 'Formulieren Sie Befehle in Ihren eigenen Worten anhand realistischer medizinischer Notfallsituationen.' : 'Formulate commands in your own words based on realistic emergency medical transport situations.';
+
+  const partACard1Head = document.getElementById('partACard1Head');
+  if (partACard1Head) partACard1Head.textContent = isDe ? '1. Kontext still durchlesen' : '1. Read the Context Silently';
+  const partACard1Text = document.getElementById('partACard1Text');
+  if (partACard1Text) partACard1Text.textContent = isDe ? 'Lesen Sie die Situationsbeschreibung gedanklich durch, um den medizinischen Notfall, das Ziel und die Aufgabe der Drohne zu verstehen.' : 'Read the situation description in your head to understand the medical emergency, destination, and drone task.';
+
+  const partACard2Head = document.getElementById('partACard2Head');
+  if (partACard2Head) partACard2Head.textContent = isDe ? '2. In eigenen Worten sprechen' : '2. Speak in Your Own Words';
+  const partACard2Text = document.getElementById('partACard2Text');
+  if (partACard2Text) partACard2Text.textContent = isDe ? 'Formulieren Sie den Befehl, den Sie zur Alarmierung, Umleitung oder Steuerung der Drohne sagen würden. Sprechen Sie ganz natürlich.' : 'Formulate the command you would speak to dispatch, redirect, or control the drone. Use your natural phrasing.';
+
+  const partACard3Head = document.getElementById('partACard3Head');
+  if (partACard3Head) partACard3Head.textContent = isDe ? '3. Text NICHT laut vorlesen' : '3. Do NOT Read Text Aloud';
+  const partACard3Text = document.getElementById('partACard3Text');
+  if (partACard3Text) partACard3Text.textContent = isDe ? 'Bitte lesen Sie den Szenariotext NICHT laut vor. Wir benötigen Ihren spontanen, frei formulierten Sprachbefehl.' : 'Please do NOT read the scenario text out loud. We need your spontaneous, unscripted spoken command.';
+
+  const btnBackPartA = document.getElementById('btnBackToCalibration');
+  if (btnBackPartA) btnBackPartA.textContent = isDe ? '← Zurück zur Kalibrierung' : '← Back to Calibration';
+
+  // 7. Part B Intro Section
+  const partBBadge = document.getElementById('partBBadge');
+  if (partBBadge) partBBadge.innerHTML = `<span class="dot" style="background: var(--accent-teal);"></span> ${isDe ? 'PHASE 2 VON 2 · LAUT VORLESEN' : 'PHASE 2 OF 2 · READ-ALOUD COMMANDS'}`;
+  const partBTitle = document.getElementById('partBTitle');
+  if (partBTitle) partBTitle.innerHTML = `<span class="icon">🔊</span> ${isDe ? 'Teil B: Laut Vorlesen (Vorgegebene Befehle)' : 'Part B: Read-Aloud Commands (Scripted)'}`;
+  const partBSubtitle = document.getElementById('partBSubtitle');
+  if (partBSubtitle) partBSubtitle.textContent = isDe ? 'Lesen Sie die angezeigten Befehlssätze wortgetreu vor, um Referenzdaten für die Spracherkennung zu erfassen.' : 'Read the displayed command sentences word-for-word to establish ground-truth speech recognition benchmarks.';
+
+  const partBCard1Head = document.getElementById('partBCard1Head');
+  if (partBCard1Head) partBCard1Head.textContent = isDe ? '1. Befehl in Anführungszeichen' : '1. Quoted Command Shown';
+  const partBCard1Text = document.getElementById('partBCard1Text');
+  if (partBCard1Text) partBCard1Text.textContent = isDe ? 'Ein konkreter Befehl wird in Anführungszeichen hervorgehoben (z.B. „Mission sofort abbrechen.“).' : 'A specific command will be highlighted in quotes (e.g. "Mission sofort abbrechen.").';
+
+  const partBCard2Head = document.getElementById('partBCard2Head');
+  if (partBCard2Head) partBCard2Head.textContent = isDe ? '2. Wortgetreu vorlesen' : '2. Read Word-for-Word';
+  const partBCard2Text = document.getElementById('partBCard2Text');
+  if (partBCard2Text) partBCard2Text.textContent = isDe ? 'Lesen Sie den Befehlssatz genau so laut in Ihr Mikrofon, wie er geschrieben steht.' : 'Read the command sentence aloud into your microphone exactly as written.';
+
+  const partBCard3Head = document.getElementById('partBCard3Head');
+  if (partBCard3Head) partBCard3Head.textContent = isDe ? '3. Natürliche Lautstärke & Tempo' : '3. Natural Volume & Speed';
+  const partBCard3Text = document.getElementById('partBCard3Text');
+  if (partBCard3Text) partBCard3Text.textContent = isDe ? 'Sprechen Sie klar, deutlich und in Ihrer normalen Gesprächsgeschwindigkeit.' : 'Speak clearly and naturally at your normal conversational speaking pace.';
+
+  // 8. Recording Controls & Hint Strip
+  const hintStripEl = document.getElementById('recordingHintStrip');
+  if (hintStripEl) {
+    if (isDe) {
+      hintStripEl.innerHTML = `
+        <span class="recording-hint-step">1️⃣ <strong>Auf 🔴 Aufnahme klicken</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">2️⃣ <strong>Befehl auf Deutsch sprechen</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">3️⃣ <strong>Auf ⏹️ Stopp klicken</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">4️⃣ <strong>Speichern & Weiter</strong></span>
+      `;
+    } else {
+      hintStripEl.innerHTML = `
+        <span class="recording-hint-step">1️⃣ <strong>Click 🔴 Record</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">2️⃣ <strong>Speak Command in English</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">3️⃣ <strong>Click ⏹️ Stop</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">4️⃣ <strong>Save & Next</strong></span>
+      `;
+    }
+  }
+
+  const recordBtn = document.getElementById('recordBtn');
+  if (recordBtn) recordBtn.title = isDe ? 'Klicken zum Starten/Stoppen der Aufnahme' : 'Click to start/stop recording';
+
+  const btnSkip = document.getElementById('btnSkipScenario');
+  if (btnSkip) btnSkip.textContent = isDe ? 'Überspringen' : 'Skip';
+  const btnReRecord = document.getElementById('btnReRecord');
+  if (btnReRecord) btnReRecord.textContent = isDe ? '🔄 Wiederholen' : '🔄 Re-record';
+  const btnNext = document.getElementById('btnNextScenario');
+  if (btnNext) btnNext.textContent = isDe ? 'Speichern & Weiter →' : 'Save & Next →';
+
+  // 9. Review & Export
+  const revTitle = document.getElementById('reviewCardTitle');
+  if (revTitle) revTitle.innerHTML = `<span class="icon">📊</span> ${isDe ? 'Sitzungsübersicht & Export' : 'Session Summary & Export'}`;
+  const revSubtitle = document.getElementById('reviewCardSubtitle');
+  if (revSubtitle) revSubtitle.textContent = isDe ? 'Überprüfen Sie Ihre Aufnahmen unten. Folgen Sie den beiden Schritten, um Ihre Daten zu exportieren und abzugeben.' : 'Review your recordings below. Follow the two steps to export and submit your data.';
+
+  const ncBoxTitle = document.getElementById('ncBoxTitle');
+  if (ncBoxTitle) ncBoxTitle.textContent = isDe ? '☁️ Aufnahmen in Academic Cloud hochladen' : '☁️ Upload Recordings to Academic Cloud';
+  const ncBoxBadge = document.getElementById('ncBoxBadge');
+  if (ncBoxBadge) ncBoxBadge.textContent = isDe ? 'Kein Konto erforderlich' : 'No account required';
+
+  const ncStep1Pill = document.getElementById('ncStep1Pill');
+  if (ncStep1Pill) ncStep1Pill.textContent = isDe ? 'Schritt 1' : 'Step 1';
+  const ncStep1Text = document.getElementById('ncStep1Text');
+  if (ncStep1Text) ncStep1Text.innerHTML = isDe ? '<strong>Aufnahmen als ZIP herunterladen:</strong> Klicken Sie auf die Schaltfläche unten, um Ihre anonymen Sprachaufnahmen und das Manifest zu packen.' : '<strong>Download your recordings ZIP:</strong> Click the button below to package your anonymous voice recordings and manifest.';
+
+  const ncStep2Pill = document.getElementById('ncStep2Pill');
+  if (ncStep2Pill) ncStep2Pill.textContent = isDe ? 'Schritt 2' : 'Step 2';
+  const ncStep2Text = document.getElementById('ncStep2Text');
+  if (ncStep2Text) ncStep2Text.innerHTML = isDe ? '<strong>In Academic Cloud hochladen:</strong> Öffnen Sie den sicheren Upload-Link und ziehen Sie Ihre heruntergeladene ZIP-Datei per Drag & Drop in den Ordner.' : '<strong>Upload to Academic Cloud:</strong> Open the secure upload link and drag & drop your downloaded ZIP file into the folder.';
+
+  const btnDownloadZip = document.getElementById('btnDownloadZip');
+  if (btnDownloadZip) btnDownloadZip.textContent = isDe ? '📦 1. ZIP-Datei herunterladen' : '📦 1. Download ZIP File';
+  const btnNextcloudUpload = document.getElementById('btnNextcloudUpload');
+  if (btnNextcloudUpload) btnNextcloudUpload.textContent = isDe ? '☁️ 2. Academic Cloud Upload-Ordner öffnen ↗' : '☁️ 2. Open Academic Cloud Upload Folder ↗';
+  const ncUrlLabel = document.getElementById('ncUrlLabel');
+  if (ncUrlLabel) ncUrlLabel.textContent = isDe ? 'Nextcloud-Ordnerlink:' : 'Nextcloud Folder Link:';
+  const btnCopyNc = document.getElementById('btnCopyNcLink');
+  if (btnCopyNc) btnCopyNc.textContent = isDe ? '📋 Link kopieren' : '📋 Copy Link';
+
+  const revDisclaimer = document.getElementById('reviewDisclaimer');
+  if (revDisclaimer) revDisclaimer.textContent = isDe ? 'Alle Aufnahmen werden lokal in Ihrem Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre Zustimmung.' : 'All recordings are stored locally in your browser until downloaded. No audio leaves your machine without your consent.';
+
+  // 10. Completion Section
+  const compTitle = document.getElementById('completeTitle');
+  if (compTitle) compTitle.textContent = isDe ? 'Aufnahmen abgeschlossen & heruntergeladen!' : 'Recordings Complete & Downloaded!';
+  const compDesc = document.getElementById('completeDesc');
+  if (compDesc) compDesc.textContent = isDe ? 'Ihre Sprachaufnahmen wurden als ZIP-Datei exportiert. Bitte laden Sie die ZIP-Datei nun in die Academic Cloud hoch, um Ihre Abgabe abzuschließen.' : 'Your voice samples have been exported as a ZIP file. Now please upload the ZIP to Academic Cloud to complete your submission.';
+
+  const compBoxTitle = document.getElementById('completeBoxTitle');
+  if (compBoxTitle) compBoxTitle.innerHTML = `<span>☁️</span> ${isDe ? 'Letzter Schritt: In Academic Cloud hochladen' : 'Final Step: Upload to Academic Cloud'}`;
+  const compBoxDesc = document.getElementById('completeBoxDesc');
+  if (compBoxDesc) compBoxDesc.innerHTML = isDe ? 'Prüfen Sie den Downloads-Ordner Ihres Browsers auf Ihre ZIP-Datei und klicken Sie unten, um sie in die Academic Cloud zu laden:' : 'Check your browser\'s <strong>Downloads folder</strong> for your ZIP file, then click below to drop it into Academic Cloud:';
+  const btnCompleteNextcloud = document.getElementById('btnCompleteNextcloud');
+  if (btnCompleteNextcloud) btnCompleteNextcloud.textContent = isDe ? '☁️ Academic Cloud Upload-Ordner öffnen ↗' : '☁️ Open Academic Cloud Upload Folder ↗';
+  const btnRestart = document.getElementById('btnRestartSession');
+  if (btnRestart) btnRestart.textContent = isDe ? 'Neue Sitzung starten' : 'Start New Session';
+}
+
+// ============================================================
 //  INIT
 // ============================================================
 function generateParticipantId() {
@@ -2088,10 +2596,26 @@ function init() {
   }
   document.getElementById('participantId').value = pid;
 
-  // Consent checkbox
+  // Initialize consent screen with language selection
+  selectInitialLanguage(state.primaryLanguage || 'both');
+
+  // Consent checkbox listener
   document.getElementById('consentCheck').addEventListener('change', function() {
     document.getElementById('btnAcceptConsent').disabled = !this.checked;
   });
+
+  // Setup dropdown change listener
+  const langDropdown = document.getElementById('primaryLanguage');
+  if (langDropdown) {
+    langDropdown.addEventListener('change', function() {
+      selectInitialLanguage(this.value);
+      if (this.value === 'en') {
+        applyUiLanguage('en');
+      } else {
+        applyUiLanguage('de');
+      }
+    });
+  }
 
   // Create waveform bars
   const waveContainer = document.getElementById('waveformContainer');
@@ -2127,20 +2651,12 @@ function updateScenarioProgress() {
   const counter = document.getElementById('scenarioCounter');
   if (!counter) return;
   const scenario = state.scenarios[state.currentIndex];
-  const isDe = scenario && scenario.lang === 'de';
+  const isDe = state.currentUiLang === 'de';
   if (isDe) {
     counter.textContent = `Szenario ${state.currentIndex + 1} von ${state.scenarios.length}`;
   } else {
     counter.textContent = `${state.currentIndex + 1} / ${state.scenarios.length} scenarios`;
   }
-}
-
-// ============================================================
-//  CONSENT
-// ============================================================
-function acceptConsent() {
-  state.consentTimestamp = new Date().toISOString();
-  goToSection('sectionSetup', 2);
 }
 
 // ============================================================
@@ -2231,7 +2747,10 @@ async function startCalibration() {
 
     const dataArray = new Uint8Array(state.analyserNode.frequencyBinCount);
 
-    statusEl.textContent = '🔇 Stay silent for 3 seconds (measuring noise floor)...';
+    const isDe = state.currentUiLang === 'de';
+    statusEl.textContent = isDe
+      ? '🔇 Bitte 3 Sekunden still sein (Grundrauschen wird gemessen)...'
+      : '🔇 Stay silent for 3 seconds (measuring noise floor)...';
     statusEl.style.color = 'var(--accent-amber)';
 
     let silentReadings = [];
@@ -2249,16 +2768,20 @@ async function startCalibration() {
 
     const noiseFloor = silentReadings.reduce((a, b) => a + b, 0) / silentReadings.length;
 
-    statusEl.textContent = '🗣️ Now speak a few words to verify your microphone...';
+    statusEl.textContent = isDe
+      ? '🗣️ Jetzt sprechen Sie ein paar Testworte (z.B. „Drohne starten“)...'
+      : '🗣️ Now speak a few words to verify your microphone...';
     statusEl.style.color = 'var(--accent-blue)';
 
     let voiceDetected = false;
     const voiceTimeout = setTimeout(() => {
       if (!voiceDetected) {
-        statusEl.textContent = '⚠️ No voice detected. Try speaking louder or check your mic.';
+        statusEl.textContent = isDe
+          ? '⚠️ Keine Stimme erkannt. Bitte lauter sprechen oder Mikrofon prüfen.'
+          : '⚠️ No voice detected. Try speaking louder or check your mic.';
         statusEl.style.color = 'var(--accent-red)';
         btnCalibrate.disabled = false;
-        btnCalibrate.textContent = '🎙️ Retry Calibration';
+        btnCalibrate.textContent = isDe ? '🎙️ Kalibrierung wiederholen' : '🎙️ Retry Calibration';
       }
     }, 8000);
 
@@ -2275,7 +2798,7 @@ async function startCalibration() {
 
         fillEl.style.width = '100%';
         fillEl.style.background = 'var(--accent-green)';
-        statusEl.textContent = '✅ Microphone calibrated successfully!';
+        statusEl.textContent = isDe ? '✅ Mikrofon erfolgreich kalibriert!' : '✅ Microphone calibrated successfully!';
         statusEl.style.color = 'var(--accent-green)';
         state.calibrated = true;
 
@@ -2285,7 +2808,10 @@ async function startCalibration() {
     }, 100);
 
   } catch (err) {
-    statusEl.textContent = '❌ Microphone access denied. Please allow microphone access and try again.';
+    const isDe = state.currentUiLang === 'de';
+    statusEl.textContent = isDe
+      ? '❌ Mikrofonzugriff verweigert. Bitte erlauben Sie den Mikrofonzugriff im Browser.'
+      : '❌ Microphone access denied. Please allow microphone access and try again.';
     statusEl.style.color = 'var(--accent-red)';
     btnCalibrate.disabled = false;
     console.error('Calibration error:', err);
@@ -2300,6 +2826,12 @@ async function startCalibration() {
 // ============================================================
 function goToPartAIntro() {
   goToSection('sectionPartAIntro', 4);
+  // In both mode, German prompts come first in Part A
+  if (state.primaryLanguage === 'both') {
+    applyUiLanguage('de');
+  } else {
+    applyUiLanguage(state.primaryLanguage);
+  }
   const roadmapEl = document.getElementById('partALangRoadmap');
   const btnStartEl = document.getElementById('btnStartPartA');
 
@@ -2365,6 +2897,12 @@ function startPartAScenarios() {
 
 function goToPartBIntro() {
   goToSection('sectionPartBIntro', 5);
+  // In both mode, German commands come first in Part B
+  if (state.primaryLanguage === 'both') {
+    applyUiLanguage('de');
+  } else {
+    applyUiLanguage(state.primaryLanguage);
+  }
   const roadmapEl = document.getElementById('partBLangRoadmap');
   const btnStartEl = document.getElementById('btnStartPartB');
 
@@ -2435,6 +2973,8 @@ function showLanguageTransition(fromLang, toLang, partName) {
   const descEl = document.getElementById('langTransitionDesc');
   const pillEl = document.getElementById('langTransitionPill');
   const btnEl = document.getElementById('btnContinueLangTransition');
+
+  applyUiLanguage(toLang);
 
   if (isTargetDe) {
     if (iconEl) iconEl.textContent = '🇬🇧 ➔ 🇩🇪';
@@ -2531,6 +3071,15 @@ function loadScenario() {
     return;
   }
   setDownloadNotice("");
+
+  // DYNAMIC BILINGUAL WEBSITE ADAPTATION:
+  // If user selected 'both': if prompts are in English, entire website is in English;
+  // if prompts are in German, entire website is in German (vice a versa)!
+  if (state.primaryLanguage === 'both') {
+    applyUiLanguage(scenario.lang);
+  } else {
+    applyUiLanguage(state.primaryLanguage);
+  }
 
   const isReadAloud = scenario.type === 'read-aloud';
   const isDe = scenario.lang === 'de';
@@ -2919,6 +3468,8 @@ function goToReview() {
   goToSection('sectionReview', 6);
   document.getElementById('progressFill').style.width = '100%';
 
+  const isDe = state.currentUiLang === 'de';
+
   const totalDuration = state.recordings.reduce((sum, r) => sum + r.duration, 0);
   const deCount = state.recordings.filter(r => r.lang === 'de').length;
   const enCount = state.recordings.filter(r => r.lang === 'en').length;
@@ -2930,23 +3481,23 @@ function goToReview() {
   grid.innerHTML = `
     <div class="summary-stat">
       <div class="summary-stat-value">${state.recordings.length}</div>
-      <div class="summary-stat-label">Total Recordings</div>
+      <div class="summary-stat-label">${isDe ? 'Gesamtaufnahmen' : 'Total Recordings'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${freeFormCount}</div>
-      <div class="summary-stat-label">Free-Form</div>
+      <div class="summary-stat-label">${isDe ? 'Freie Formulierung' : 'Free-Form'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${readAloudCount}</div>
-      <div class="summary-stat-label">Read-Aloud</div>
+      <div class="summary-stat-label">${isDe ? 'Laut Vorlesen' : 'Read-Aloud'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${state.skipped.length}</div>
-      <div class="summary-stat-label">Skipped</div>
+      <div class="summary-stat-label">${isDe ? 'Übersprungen' : 'Skipped'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${totalDuration.toFixed(0)}s</div>
-      <div class="summary-stat-label">Total Audio</div>
+      <div class="summary-stat-label">${isDe ? 'Gesamtdauer' : 'Total Audio'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${deCount}/${enCount}</div>
@@ -2961,16 +3512,19 @@ function goToReview() {
     const item = document.createElement('div');
     item.className = 'recording-item';
     const typeLabel = r.type === 'read-aloud' ? '🔊' : '🎤';
+    const intentLabel = (isDe && INTENT_LABELS_DE[r.intent]) ? INTENT_LABELS_DE[r.intent] : r.intent;
     item.innerHTML = `
       <div class="ri-status"></div>
-      <div class="ri-name">${typeLabel} ${r.scenarioId} — ${r.intent} (${r.lang.toUpperCase()})</div>
+      <div class="ri-name">${typeLabel} ${r.scenarioId} — ${intentLabel} (${r.lang.toUpperCase()})</div>
       <div class="ri-meta">${r.duration}s</div>
     `;
     list.appendChild(item);
   });
 }
 
-const EMPTY_RECORDING_MESSAGE = "Nothing recorded yet.";
+function getEmptyRecordingMessage() {
+  return state.currentUiLang === 'de' ? "Bisher noch nichts aufgenommen." : "Nothing recorded yet.";
+}
 
 function setDownloadNotice(message) {
   document.querySelectorAll("[data-download-notice]").forEach((el) => {
@@ -2987,7 +3541,7 @@ async function downloadZip() {
   const finishedRecordings = state.recordings.slice();
   const finishedSkips = state.skipped.slice();
   if (finishedRecordings.length === 0 && finishedSkips.length === 0) {
-    setDownloadNotice(EMPTY_RECORDING_MESSAGE);
+    setDownloadNotice(getEmptyRecordingMessage());
     return false;
   }
   setDownloadNotice("");
@@ -3138,15 +3692,16 @@ function updateNextcloudUI() {
 }
 
 function copyNextcloudLink() {
+  const isDe = state.currentUiLang === 'de';
   const url = getNextcloudUrl();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(url).then(() => {
-      alert('Nextcloud Folder Link copied to clipboard:\n' + url);
+      alert((isDe ? 'Nextcloud-Ordnerlink in Zwischenablage kopiert:\n' : 'Nextcloud Folder Link copied to clipboard:\n') + url);
     }).catch(() => {
-      prompt('Nextcloud Folder Link:', url);
+      prompt(isDe ? 'Nextcloud-Ordnerlink:' : 'Nextcloud Folder Link:', url);
     });
   } else {
-    prompt('Nextcloud Folder Link:', url);
+    prompt(isDe ? 'Nextcloud-Ordnerlink:' : 'Nextcloud Folder Link:', url);
   }
 }
 
