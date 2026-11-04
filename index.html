@@ -1134,6 +1134,136 @@
     .text-center { text-align: center; }
     .text-muted { color: var(--text-muted); }
     .text-sm { font-size: 13px; }
+
+    /* ============================================
+       INTRO CARDS & LANGUAGE ROADMAP
+       ============================================ */
+    .intro-callout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0 24px;
+    }
+
+    @media (max-width: 768px) {
+      .intro-callout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .intro-callout-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .intro-callout-card.highlight-danger {
+      border-color: rgba(248, 113, 113, 0.35);
+      background: rgba(248, 113, 113, 0.06);
+    }
+
+    .intro-callout-card.highlight-teal {
+      border-color: rgba(45, 212, 191, 0.35);
+      background: rgba(45, 212, 191, 0.06);
+    }
+
+    .intro-callout-icon {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .intro-callout-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .intro-callout-card.highlight-danger .intro-callout-title {
+      color: var(--accent-red);
+    }
+
+    .intro-callout-card.highlight-teal .intro-callout-title {
+      color: var(--accent-teal);
+    }
+
+    .intro-callout-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .lang-roadmap-card {
+      background: linear-gradient(145deg, rgba(30,58,95,0.25) 0%, rgba(26,16,48,0.25) 100%);
+      border: 1px solid rgba(96, 165, 250, 0.22);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      margin: 22px 0;
+    }
+
+    .lang-roadmap-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-teal);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-block-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      background: rgba(13, 17, 23, 0.65);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+    }
+
+    .lang-block-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .lang-block-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .pill-de {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--accent-amber);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .pill-en {
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--accent-purple);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+    }
+
+    .lang-block-content h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .lang-block-content p {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -1197,7 +1327,7 @@
        ============================ -->
   <div class="progress-bar-container" id="progressContainer" style="display:none;">
     <div class="progress-label">
-      <span class="step-info">Step <span id="currentStep">1</span> of <span id="totalSteps">5</span></span>
+      <span class="step-info">Step <span id="currentStep">1</span> of <span id="totalSteps">6</span></span>
       <span class="scenario-counter" id="scenarioCounter"></span>
     </div>
     <div class="progress-track">
@@ -1324,7 +1454,55 @@
       <div class="btn-group">
         <button class="btn btn-ghost" onclick="goToSection('sectionSetup', 2)">← Back</button>
         <button class="btn btn-primary" id="btnCalibrate" onclick="startCalibration()">🎙️ Start Calibration</button>
-        <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToRecording()">Calibration Passed ✓ →</button>
+        <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToPartAIntro()">Calibration Passed ✓ →</button>
+        <button class="btn btn-ghost" onclick="goToPartAIntro()" style="font-size: 12px; color: var(--text-muted);">Skip Calibration (Demo / Preview) →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 3B — PART A INTRO & LANGUAGE ROADMAP
+       ============================ -->
+  <div class="section" id="sectionPartAIntro">
+    <div class="card">
+      <div class="header-badge" style="margin-bottom: 14px;">
+        <span class="dot"></span> PHASE 1 OF 2 · FREE-FORM COMMANDS
+      </div>
+      <div class="card-title" style="font-size: 24px;">
+        <span class="icon">💡</span> Part A: Scenario-Based Voice Commands
+      </div>
+      <div class="card-subtitle" style="font-size: 14.5px;">
+        Formulate commands in your own words based on realistic emergency medical transport situations.
+      </div>
+
+      <div class="intro-callout-grid">
+        <div class="intro-callout-card">
+          <div class="intro-callout-icon">🧠</div>
+          <div class="intro-callout-title">1. Read the Context Silently</div>
+          <div class="intro-callout-desc">Read the situation description in your head to understand the medical emergency, destination, and drone task.</div>
+        </div>
+        <div class="intro-callout-card">
+          <div class="intro-callout-icon">🎙️</div>
+          <div class="intro-callout-title">2. Speak in Your Own Words</div>
+          <div class="intro-callout-desc">Formulate the command you would speak to dispatch, redirect, or control the drone. Use your natural phrasing.</div>
+        </div>
+        <div class="intro-callout-card highlight-danger">
+          <div class="intro-callout-icon">⚠️</div>
+          <div class="intro-callout-title">3. Do NOT Read Text Aloud</div>
+          <div class="intro-callout-desc">Please do NOT read the scenario text out loud. We need your spontaneous, unscripted spoken command.</div>
+        </div>
+      </div>
+
+      <!-- Dynamic Language Roadmap -->
+      <div class="lang-roadmap-card" id="partALangRoadmap">
+        <!-- Injected dynamically by JS -->
+      </div>
+
+      <div class="btn-group" style="margin-top: 24px;">
+        <button class="btn btn-ghost" onclick="goToSection('sectionCalibration', 3)">← Back to Calibration</button>
+        <button class="btn btn-primary" id="btnStartPartA" onclick="startPartAScenarios()" style="font-size: 15px; padding: 14px 28px;">
+          🚀 Start Part A Scenarios →
+        </button>
       </div>
     </div>
   </div>
@@ -1360,7 +1538,7 @@
 
       <!-- Recording Controls -->
       <div class="recording-area">
-        <div class="recording-hint-strip">
+        <div class="recording-hint-strip" id="recordingHintStrip">
           <span class="recording-hint-step">1️⃣ <strong>Click 🔴 Record</strong></span>
           <span>→</span>
           <span class="recording-hint-step">2️⃣ <strong>Speak Command</strong></span>
@@ -1383,11 +1561,9 @@
 
           <div class="recording-status" id="recordingStatus">Tap red button to record</div>
 
-          <div class="record-actions">
+          <div class="record-actions" style="justify-content: center;">
             <button class="btn btn-ghost" id="btnSkipScenario" type="button" onclick="skipScenario()">Skip</button>
-            <button class="btn record-download" id="btnDownloadZipCase" type="button" onclick="downloadZip()">Download Zip</button>
           </div>
-          <p class="download-zip-notice" data-download-notice role="status"></p>
 
           <div class="playback-container" id="playbackContainer">
             <audio id="audioPlayback" controls></audio>
@@ -1398,6 +1574,79 @@
       <div class="btn-group">
         <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Re-record</button>
         <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Save & Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 4B — PART B INTRO & LANGUAGE ROADMAP
+       ============================ -->
+  <div class="section" id="sectionPartBIntro">
+    <div class="card">
+      <div class="header-badge" style="margin-bottom: 14px; background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.25); color: var(--accent-teal);">
+        <span class="dot" style="background: var(--accent-teal);"></span> PHASE 2 OF 2 · READ-ALOUD COMMANDS
+      </div>
+      <div class="card-title" style="font-size: 24px;">
+        <span class="icon">🔊</span> Part B: Read-Aloud Commands (Scripted)
+      </div>
+      <div class="card-subtitle" style="font-size: 14.5px;">
+        Read the displayed command sentences word-for-word to establish ground-truth speech recognition benchmarks.
+      </div>
+
+      <div class="intro-callout-grid">
+        <div class="intro-callout-card highlight-teal">
+          <div class="intro-callout-icon">📖</div>
+          <div class="intro-callout-title">1. Quoted Command Shown</div>
+          <div class="intro-callout-desc">A specific command will be highlighted in quotes (e.g. <em>"Mission sofort abbrechen."</em>).</div>
+        </div>
+        <div class="intro-callout-card">
+          <div class="intro-callout-icon">🗣️</div>
+          <div class="intro-callout-title">2. Read Word-for-Word</div>
+          <div class="intro-callout-desc">Read the command sentence aloud into your microphone exactly as written.</div>
+        </div>
+        <div class="intro-callout-card">
+          <div class="intro-callout-icon">🎯</div>
+          <div class="intro-callout-title">3. Natural Volume & Speed</div>
+          <div class="intro-callout-desc">Speak clearly and naturally at your normal conversational speaking pace.</div>
+        </div>
+      </div>
+
+      <!-- Dynamic Language Roadmap -->
+      <div class="lang-roadmap-card" id="partBLangRoadmap">
+        <!-- Injected dynamically by JS -->
+      </div>
+
+      <div class="btn-group" style="margin-top: 24px;">
+        <button class="btn btn-primary" id="btnStartPartB" onclick="startPartBScenarios()" style="font-size: 15px; padding: 14px 28px;">
+          🚀 Start Part B Commands →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SECTION 4C — LANGUAGE TRANSITION INTERSTITIAL
+       ============================ -->
+  <div class="section" id="sectionLangTransition">
+    <div class="card text-center" style="padding: 44px 28px;">
+      <div id="langTransitionIcon" style="font-size: 54px; margin-bottom: 16px;">🇩🇪 ➔ 🇬🇧</div>
+      <div class="header-badge" id="langTransitionBadge" style="margin-bottom: 14px;">
+        LANGUAGE TRANSITION
+      </div>
+      <h2 id="langTransitionTitle" style="font-size: 24px; font-weight: 800; margin-bottom: 12px;">Switching to English Scenarios</h2>
+      <p id="langTransitionDesc" style="color: var(--text-secondary); max-width: 540px; margin: 0 auto 24px; line-height: 1.6; font-size: 14.5px;">
+        You have finished all German prompts in this block. The upcoming scenarios will be presented in <strong>English</strong>. Please speak all upcoming commands in <strong>English</strong>.
+      </p>
+
+      <div style="display: inline-flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 30px; background: var(--bg-input); padding: 10px 22px; border-radius: var(--radius-full); border: 1px solid var(--border-subtle);">
+        <span style="font-size: 12.5px; color: var(--text-muted);">Upcoming Language:</span>
+        <span id="langTransitionPill" style="font-size: 12.5px; font-weight: 700; color: var(--accent-purple);">🇬🇧 English</span>
+      </div>
+
+      <div>
+        <button class="btn btn-primary" id="btnContinueLangTransition" onclick="continueAfterLangTransition()" style="font-size: 15px; padding: 12px 32px;">
+          Continue to English Scenarios →
+        </button>
       </div>
     </div>
   </div>
@@ -1807,7 +2056,15 @@ let state = {
   timerInterval: null,
   audioStream: null,
   analyserNode: null,
-  calibrated: false
+  calibrated: false,
+  counts: {
+    freeFormDE: 0,
+    freeFormEN: 0,
+    readAloudDE: 0,
+    readAloudEN: 0,
+    partATotal: 0,
+    partBTotal: 0
+  }
 };
 
 // ============================================================
@@ -1853,13 +2110,14 @@ function init() {
 // ============================================================
 function goToSection(sectionId, stepNum) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(sectionId).classList.add('active');
+  const target = document.getElementById(sectionId);
+  if (target) target.classList.add('active');
 
   const progressContainer = document.getElementById('progressContainer');
   if (stepNum && stepNum >= 1) {
     progressContainer.style.display = 'block';
     document.getElementById('currentStep').textContent = stepNum;
-    const totalSteps = 5;
+    const totalSteps = 6;
     document.getElementById('totalSteps').textContent = totalSteps;
     document.getElementById('progressFill').style.width = ((stepNum / totalSteps) * 100) + '%';
   }
@@ -1867,7 +2125,14 @@ function goToSection(sectionId, stepNum) {
 
 function updateScenarioProgress() {
   const counter = document.getElementById('scenarioCounter');
-  counter.textContent = `${state.currentIndex + 1} / ${state.scenarios.length} scenarios`;
+  if (!counter) return;
+  const scenario = state.scenarios[state.currentIndex];
+  const isDe = scenario && scenario.lang === 'de';
+  if (isDe) {
+    counter.textContent = `Szenario ${state.currentIndex + 1} von ${state.scenarios.length}`;
+  } else {
+    counter.textContent = `${state.currentIndex + 1} / ${state.scenarios.length} scenarios`;
+  }
 }
 
 // ============================================================
@@ -1897,22 +2162,43 @@ async function goToCalibration() {
   }
 
   // Separate free-form (Part A) and read-aloud (Part B)
-  // IMPORTANT: Free-form MUST come first to avoid priming participants
-  // with exact phrasings before they give natural commands
   const freeForm = allScenarios.filter(s => s.type !== 'read-aloud');
   const readAloud = allScenarios.filter(s => s.type === 'read-aloud');
 
-  // Shuffle each group independently (Fisher-Yates)
+  // Shuffle helper (Fisher-Yates)
   const shuffle = (arr) => {
-    for (let i = arr.length - 1; i > 0; i--) {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+      [copy[i], copy[j]] = [copy[j], copy[i]];
     }
-    return arr;
+    return copy;
   };
 
-  // Concatenate: all free-form first, then all read-aloud
-  state.scenarios = [...shuffle(freeForm), ...shuffle(readAloud)];
+  // Group by language in Part A: all German prompts come together, all English prompts come together
+  const freeFormDE = shuffle(freeForm.filter(s => s.lang === 'de'));
+  const freeFormEN = shuffle(freeForm.filter(s => s.lang === 'en'));
+
+  // Group by language in Part B: all German prompts come together, all English prompts come together
+  const readAloudDE = shuffle(readAloud.filter(s => s.lang === 'de'));
+  const readAloudEN = shuffle(readAloud.filter(s => s.lang === 'en'));
+
+  // Sequence: Part A (DE then EN), then Part B (DE then EN)
+  state.scenarios = [
+    ...freeFormDE,
+    ...freeFormEN,
+    ...readAloudDE,
+    ...readAloudEN
+  ];
+
+  state.counts = {
+    freeFormDE: freeFormDE.length,
+    freeFormEN: freeFormEN.length,
+    readAloudDE: readAloudDE.length,
+    readAloudEN: readAloudEN.length,
+    partATotal: freeFormDE.length + freeFormEN.length,
+    partBTotal: readAloudDE.length + readAloudEN.length
+  };
 
   goToSection('sectionCalibration', 3);
 }
@@ -2009,11 +2295,233 @@ async function startCalibration() {
 // ============================================================
 //  RECORDING FLOW
 // ============================================================
-function goToRecording() {
+// ============================================================
+//  PART A & PART B INTRO / TRANSITION SCREENS
+// ============================================================
+function goToPartAIntro() {
+  goToSection('sectionPartAIntro', 4);
+  const roadmapEl = document.getElementById('partALangRoadmap');
+  const btnStartEl = document.getElementById('btnStartPartA');
+
+  if (roadmapEl) {
+    if (state.primaryLanguage === 'both') {
+      roadmapEl.innerHTML = `
+        <div class="lang-roadmap-title">
+          <span>🗺️</span> Planned Language Sequence in Part A (${state.counts.partATotal} Scenarios Total)
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-de">Block 1 · 🇩🇪 Deutsch</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.freeFormDE} Deutsche Notfallsituationen (zusammenhängend)</h4>
+            <p>Alle deutschen Szenarien erscheinen direkt nacheinander. Die gesamte Oberfläche, Hinweise und Anweisungen werden auf Deutsch angezeigt. <strong>Bitte formulieren Sie alle Sprachbefehle auf Deutsch.</strong></p>
+          </div>
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-en">Block 2 · 🇬🇧 English</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.freeFormEN} English Emergency Scenarios (Grouped)</h4>
+            <p>Following the German block, English scenarios will appear together. The interface will switch to English. <strong>Please speak your commands in English.</strong></p>
+          </div>
+        </div>
+      `;
+      if (btnStartEl) btnStartEl.textContent = '🚀 Start Part A (German Scenarios First) →';
+    } else if (state.primaryLanguage === 'de') {
+      roadmapEl.innerHTML = `
+        <div class="lang-roadmap-title">
+          <span>🗺️</span> Geplante Szenarien in Teil A (${state.counts.freeFormDE} Szenarien)
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-de">🇩🇪 Deutsch</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.freeFormDE} Deutsche Notfallsituationen</h4>
+            <p>Alle Prompts und Anweisungen werden auf Deutsch angezeigt. Bitte formulieren Sie alle Sprachbefehle auf Deutsch.</p>
+          </div>
+        </div>
+      `;
+      if (btnStartEl) btnStartEl.textContent = '🚀 Teil A starten (Deutsche Szenarien) →';
+    } else {
+      roadmapEl.innerHTML = `
+        <div class="lang-roadmap-title">
+          <span>🗺️</span> Upcoming Scenarios in Part A (${state.counts.freeFormEN} Scenarios)
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-en">🇬🇧 English</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.freeFormEN} English Emergency Scenarios</h4>
+            <p>All prompts and instructions will appear in English. Please formulate and speak all commands in English.</p>
+          </div>
+        </div>
+      `;
+      if (btnStartEl) btnStartEl.textContent = '🚀 Start Part A (English Scenarios) →';
+    }
+  }
+}
+
+function startPartAScenarios() {
   state.currentIndex = 0;
   goToSection('sectionRecord', 4);
-  document.getElementById('scenarioCounter').textContent = `1 / ${state.scenarios.length} scenarios`;
   loadScenario();
+}
+
+function goToPartBIntro() {
+  goToSection('sectionPartBIntro', 5);
+  const roadmapEl = document.getElementById('partBLangRoadmap');
+  const btnStartEl = document.getElementById('btnStartPartB');
+
+  if (roadmapEl) {
+    if (state.primaryLanguage === 'both') {
+      roadmapEl.innerHTML = `
+        <div class="lang-roadmap-title">
+          <span>🗺️</span> Planned Language Sequence in Part B (${state.counts.partBTotal} Commands Total)
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-de">Block 1 · 🇩🇪 Deutsch</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.readAloudDE} Deutsche Vorlese-Befehle (zusammenhängend)</h4>
+            <p>Lesen Sie die angezeigten deutschen Befehlssätze wortgetreu laut vor.</p>
+          </div>
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-en">Block 2 · 🇬🇧 English</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.readAloudEN} English Read-Aloud Commands (Grouped)</h4>
+            <p>Read the displayed English command sentences word-for-word out loud.</p>
+          </div>
+        </div>
+      `;
+      if (btnStartEl) btnStartEl.textContent = '🚀 Start Part B (German Commands First) →';
+    } else if (state.primaryLanguage === 'de') {
+      roadmapEl.innerHTML = `
+        <div class="lang-roadmap-title">
+          <span>🗺️</span> Geplante Befehle in Teil B (${state.counts.readAloudDE} Befehle)
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-de">🇩🇪 Deutsch</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.readAloudDE} Deutsche Vorlese-Befehle</h4>
+            <p>Lesen Sie jeden Befehl genau so laut vor, wie er auf dem Bildschirm steht.</p>
+          </div>
+        </div>
+      `;
+      if (btnStartEl) btnStartEl.textContent = '🚀 Teil B starten (Deutsche Befehle) →';
+    } else {
+      roadmapEl.innerHTML = `
+        <div class="lang-roadmap-title">
+          <span>🗺️</span> Upcoming Commands in Part B (${state.counts.readAloudEN} Commands)
+        </div>
+        <div class="lang-block-item">
+          <span class="lang-block-pill pill-en">🇬🇧 English</span>
+          <div class="lang-block-content">
+            <h4>${state.counts.readAloudEN} English Read-Aloud Commands</h4>
+            <p>Read each command aloud exactly as displayed on screen.</p>
+          </div>
+        </div>
+      `;
+      if (btnStartEl) btnStartEl.textContent = '🚀 Start Part B (English Commands) →';
+    }
+  }
+}
+
+function startPartBScenarios() {
+  goToSection('sectionRecord', 5);
+  loadScenario();
+}
+
+function showLanguageTransition(fromLang, toLang, partName) {
+  const isTargetDe = toLang === 'de';
+
+  const iconEl = document.getElementById('langTransitionIcon');
+  const titleEl = document.getElementById('langTransitionTitle');
+  const descEl = document.getElementById('langTransitionDesc');
+  const pillEl = document.getElementById('langTransitionPill');
+  const btnEl = document.getElementById('btnContinueLangTransition');
+
+  if (isTargetDe) {
+    if (iconEl) iconEl.textContent = '🇬🇧 ➔ 🇩🇪';
+    if (titleEl) titleEl.textContent = `Wechsel zu deutschen Szenarien (${partName})`;
+    if (descEl) descEl.innerHTML = `Sie haben alle englischen Prompts für diesen Abschnitt abgeschlossen. Ab dem nächsten Szenario erscheinen die Prompts und Anweisungen auf <strong>Deutsch</strong>. Bitte sprechen Sie Ihren Funkspruch / Befehl auf <strong>Deutsch</strong>.`;
+    if (pillEl) {
+      pillEl.textContent = '🇩🇪 Deutsch (Auf Deutsch sprechen)';
+      pillEl.style.color = 'var(--accent-amber)';
+    }
+    if (btnEl) btnEl.textContent = 'Weiter zu den deutschen Szenarien →';
+  } else {
+    if (iconEl) iconEl.textContent = '🇩🇪 ➔ 🇬🇧';
+    if (titleEl) titleEl.textContent = `Switching to English Scenarios (${partName})`;
+    if (descEl) descEl.innerHTML = `You have completed all German prompts for this block. The upcoming scenarios and instructions will be presented in <strong>English</strong>. Please formulate and speak all upcoming commands in <strong>English</strong>.`;
+    if (pillEl) {
+      pillEl.textContent = '🇬🇧 English (Speak in English)';
+      pillEl.style.color = 'var(--accent-purple)';
+    }
+    if (btnEl) btnEl.textContent = 'Continue to English Scenarios →';
+  }
+
+  const stepNum = partName.includes('Part B') ? 5 : 4;
+  goToSection('sectionLangTransition', stepNum);
+}
+
+function continueAfterLangTransition() {
+  const currentScenario = state.scenarios[state.currentIndex];
+  const stepNum = currentScenario && currentScenario.type === 'read-aloud' ? 5 : 4;
+  goToSection('sectionRecord', stepNum);
+  loadScenario();
+}
+
+function advanceToNextScenario() {
+  const currentScenario = state.scenarios[state.currentIndex];
+  const nextIndex = state.currentIndex + 1;
+
+  if (nextIndex >= state.scenarios.length) {
+    state.currentIndex = nextIndex;
+    goToReview();
+    return;
+  }
+
+  const nextScenario = state.scenarios[nextIndex];
+  state.currentIndex = nextIndex;
+
+  // Transition 1: From Part A to Part B
+  if (currentScenario.type !== 'read-aloud' && nextScenario.type === 'read-aloud') {
+    goToPartBIntro();
+    return;
+  }
+
+  // Transition 2: Language switch within Part A
+  if (currentScenario.type !== 'read-aloud' && nextScenario.type !== 'read-aloud' && currentScenario.lang !== nextScenario.lang) {
+    showLanguageTransition(currentScenario.lang, nextScenario.lang, 'Part A');
+    return;
+  }
+
+  // Transition 3: Language switch within Part B
+  if (currentScenario.type === 'read-aloud' && nextScenario.type === 'read-aloud' && currentScenario.lang !== nextScenario.lang) {
+    showLanguageTransition(currentScenario.lang, nextScenario.lang, 'Part B');
+    return;
+  }
+
+  loadScenario();
+}
+
+// ============================================================
+//  RECORDING FLOW
+// ============================================================
+const INTENT_LABELS_DE = {
+  create_mission: 'Auftrag erstellen (create_mission)',
+  ask_clarification: 'Rückfrage klären (ask_clarification)',
+  abort_mission: 'Mission abbrechen (abort_mission)',
+  land: 'Drohne landen (land)',
+  return_to_base: 'Zur Basis zurück (return_to_base)',
+  loiter: 'Warteschleife / Schweben (loiter)',
+  adjust_altitude: 'Flughöhe anpassen (adjust_altitude)',
+  change_speed: 'Geschwindigkeit anpassen (change_speed)',
+  divert_mission: 'Route umleiten (divert_mission)',
+  mission_eta: 'Ankunftszeit abfragen (mission_eta)',
+  drone_status: 'Drohnenstatus abfragen (drone_status)',
+  query_payload_health: 'Kühlkette prüfen (query_payload_health)',
+  launch_mission: 'Start ausführen (launch_mission)'
+};
+
+function goToRecording() {
+  goToPartAIntro();
 }
 
 function loadScenario() {
@@ -2025,54 +2533,80 @@ function loadScenario() {
   setDownloadNotice("");
 
   const isReadAloud = scenario.type === 'read-aloud';
+  const isDe = scenario.lang === 'de';
 
-  // Title
-  const partLabel = isReadAloud ? 'Part B · Read-Aloud' : 'Part A · Free-Form';
-  document.getElementById('scenarioTitle').textContent =
-    `${partLabel} — ${state.currentIndex + 1} / ${state.scenarios.length}`;
+  // Title & Subtitle
+  const titleEl = document.getElementById('scenarioTitle');
+  const subtitleEl = document.getElementById('scenarioSubtitle');
+
+  if (isDe) {
+    if (isReadAloud) {
+      titleEl.textContent = `Teil B · Laut Vorlesen — Szenario ${state.currentIndex + 1} von ${state.scenarios.length}`;
+      subtitleEl.textContent = 'Lesen Sie den folgenden Befehl genau so laut auf Deutsch vor.';
+    } else {
+      titleEl.textContent = `Teil A · Freie Formulierung — Szenario ${state.currentIndex + 1} von ${state.scenarios.length}`;
+      subtitleEl.textContent = 'Lesen Sie die Notfallsituation gedanklich und formulieren Sie Ihren Funkspruch auf Deutsch.';
+    }
+  } else {
+    if (isReadAloud) {
+      titleEl.textContent = `Part B · Read-Aloud — Scenario ${state.currentIndex + 1} of ${state.scenarios.length}`;
+      subtitleEl.textContent = 'Read the command below aloud in English exactly as written.';
+    } else {
+      titleEl.textContent = `Part A · Free-Form — Scenario ${state.currentIndex + 1} of ${state.scenarios.length}`;
+      subtitleEl.textContent = 'Read the emergency situation and formulate your command in English.';
+    }
+  }
 
   // Meta tags
   const metaContainer = document.getElementById('scenarioMeta');
   metaContainer.innerHTML = '';
 
-  // Type tag (read-aloud vs free-form)
+  // Type tag
+  const typeTag = document.createElement('span');
+  typeTag.className = 'scenario-tag';
   if (isReadAloud) {
-    const typeTag = document.createElement('span');
-    typeTag.className = 'scenario-tag';
     typeTag.style.background = 'rgba(45,212,191,0.1)';
     typeTag.style.color = 'var(--accent-teal)';
-    typeTag.style.border = '1px solid rgba(45,212,191,0.2)';
-    typeTag.textContent = '🔊 Read Aloud';
-    metaContainer.appendChild(typeTag);
+    typeTag.style.border = '1px solid rgba(45,212,191,0.25)';
+    typeTag.textContent = isDe ? '🔊 Laut Vorlesen' : '🔊 Read Aloud';
+  } else {
+    typeTag.style.background = 'rgba(251,191,36,0.1)';
+    typeTag.style.color = 'var(--accent-amber)';
+    typeTag.style.border = '1px solid rgba(251,191,36,0.25)';
+    typeTag.textContent = isDe ? '💡 Freie Formulierung' : '💡 Free-Form';
   }
+  metaContainer.appendChild(typeTag);
 
+  // Intent tag
   const intentTag = document.createElement('span');
   intentTag.className = 'scenario-tag tag-intent';
-  intentTag.textContent = scenario.intent;
+  intentTag.textContent = isDe && INTENT_LABELS_DE[scenario.intent] ? INTENT_LABELS_DE[scenario.intent] : scenario.intent;
   metaContainer.appendChild(intentTag);
 
+  // Language tag
   const langTag = document.createElement('span');
-  langTag.className = `scenario-tag ${scenario.lang === 'de' ? 'tag-lang-de' : 'tag-lang-en'}`;
-  langTag.textContent = scenario.lang === 'de' ? '🇩🇪 Deutsch' : '🇬🇧 English';
+  langTag.className = `scenario-tag ${isDe ? 'tag-lang-de' : 'tag-lang-en'}`;
+  langTag.style.fontWeight = '700';
+  langTag.textContent = isDe ? '🇩🇪 DEUTSCH · Bitte auf Deutsch sprechen' : '🇬🇧 ENGLISH · Please speak in English';
   metaContainer.appendChild(langTag);
 
+  // Safety tag
   if (scenario.safety) {
     const safetyTag = document.createElement('span');
     safetyTag.className = 'scenario-tag tag-safety';
-    safetyTag.textContent = '⚠ Safety-Critical';
+    safetyTag.textContent = isDe ? '⚠️ Sicherheitskritisch' : '⚠️ Safety-Critical';
     metaContainer.appendChild(safetyTag);
   }
 
   // Language & situation label
+  const langLabelEl = document.getElementById('scenarioLangLabel');
   if (isReadAloud) {
-    document.getElementById('scenarioLangLabel').textContent =
-      scenario.lang === 'de' ? '🔊 Befehl zum Vorlesen — Deutsch' : '🔊 Command to Read Aloud — English';
+    langLabelEl.textContent = isDe ? '🔊 BEFEHL ZUM VORLESEN — DEUTSCH' : '🔊 COMMAND TO READ ALOUD — ENGLISH';
   } else {
-    document.getElementById('scenarioLangLabel').textContent =
-      scenario.lang === 'de' ? '🚨 Notfallsituation — Deutsch' : '🚨 Emergency Situation — English';
+    langLabelEl.textContent = isDe ? '🚨 NOTFALLSITUATION — DEUTSCH (AUF DEUTSCH SPRECHEN)' : '🚨 EMERGENCY SITUATION — ENGLISH (SPEAK IN ENGLISH)';
   }
 
-  // Situation text — distinct styling for read-aloud commands
+  // Situation text
   const situationEl = document.getElementById('scenarioText');
   if (isReadAloud) {
     situationEl.textContent = `"${scenario.situation}"`;
@@ -2101,36 +2635,91 @@ function loadScenario() {
   if (isReadAloud) {
     calloutEl.classList.add('read-aloud-mode');
     badgeEl.className = 'task-callout-badge badge-readaloud';
-    badgeEl.textContent = '🔊 Part B · Read-Aloud Command';
-    mainEl.textContent = 'Read the exact sentence in quotes above out loud.';
-    hintEl.textContent = 'Speak clearly and naturally at your normal conversational speaking speed.';
+    badgeEl.textContent = isDe ? '🔊 Teil B · Laut Vorlesen (Wortgetreu)' : '🔊 Part B · Read-Aloud Command (Word-for-Word)';
+    mainEl.textContent = isDe
+      ? 'Lesen Sie den obigen Befehl in Anführungszeichen genau so auf Deutsch vor!'
+      : 'Read the exact sentence in quotes above out loud in English!';
+    hintEl.textContent = isDe
+      ? 'Sprechen Sie klar, deutlich und in normaler Sprechgeschwindigkeit in Ihr Mikrofon.'
+      : 'Speak clearly and naturally at your normal conversational speaking speed.';
     warningEl.style.display = 'none';
   } else {
     calloutEl.classList.remove('read-aloud-mode');
     badgeEl.className = 'task-callout-badge badge-freeform';
-    badgeEl.textContent = '💡 Part A · Free-Form (In Your Own Words)';
-    mainEl.textContent = 'Speak what command you would give to dispatch or control the drone.';
-    hintEl.textContent = 'Read the emergency situation in your head, then formulate what command you would speak.';
+    badgeEl.textContent = isDe ? '💡 Teil A · Freie Formulierung (Eigene Worte)' : '💡 Part A · Free-Form (In Your Own Words)';
+    mainEl.textContent = isDe
+      ? 'Sprechen Sie Ihren Befehl in Ihren eigenen Worten auf Deutsch!'
+      : 'Speak what command you would give to dispatch or control the drone in English!';
+    hintEl.textContent = isDe
+      ? 'Lesen Sie die Notfallsituation gedanklich durch und formulieren Sie den Funkspruch / Befehl, den Sie zur Drohnensteuerung sagen würden.'
+      : 'Read the emergency situation in your head, then formulate what command you would speak.';
     warningEl.style.display = 'block';
-    warningEl.textContent = '⚠️ Do NOT read the situation description aloud! Formulate your own natural command.';
+    warningEl.textContent = isDe
+      ? '⚠️ Den Text der Notfallsituation oben NICHT laut vorlesen! Formulieren Sie einen eigenen, direkten Befehl auf Deutsch.'
+      : '⚠️ Do NOT read the situation description aloud! Formulate your own natural command in English.';
   }
 
-  instructionEl.textContent = scenario.instruction ? `💬 Prompt: ${scenario.instruction}` : '';
+  if (scenario.instruction) {
+    instructionEl.textContent = isDe ? `💬 Anweisung: ${scenario.instruction}` : `💬 Instruction: ${scenario.instruction}`;
+  } else {
+    instructionEl.textContent = '';
+  }
+
+  // Hint strip localization
+  const hintStripEl = document.getElementById('recordingHintStrip');
+  if (hintStripEl) {
+    if (isDe) {
+      hintStripEl.innerHTML = `
+        <span class="recording-hint-step">1️⃣ <strong>Auf 🔴 Aufnahme klicken</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">2️⃣ <strong>Befehl auf Deutsch sprechen</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">3️⃣ <strong>Auf ⏹️ Stopp klicken</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">4️⃣ <strong>Speichern & Weiter</strong></span>
+      `;
+    } else {
+      hintStripEl.innerHTML = `
+        <span class="recording-hint-step">1️⃣ <strong>Click 🔴 Record</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">2️⃣ <strong>Speak Command in English</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">3️⃣ <strong>Click ⏹️ Stop</strong></span>
+        <span>→</span>
+        <span class="recording-hint-step">4️⃣ <strong>Save & Next</strong></span>
+      `;
+    }
+  }
+
+  // Action buttons labels
+  const btnSkip = document.getElementById('btnSkipScenario');
+  if (btnSkip) btnSkip.textContent = isDe ? 'Überspringen' : 'Skip';
+
+  const btnReRecord = document.getElementById('btnReRecord');
+  if (btnReRecord) btnReRecord.textContent = isDe ? '🔄 Wiederholen' : '🔄 Re-record';
+
+  const btnNext = document.getElementById('btnNextScenario');
+  if (btnNext) btnNext.textContent = isDe ? 'Speichern & Weiter →' : 'Save & Next →';
 
   // Reset recording UI
   resetRecordingUI();
   updateScenarioProgress();
 
   // Update progress
-  const pct = ((state.currentIndex + 1) / state.scenarios.length) * 100;
-  document.getElementById('progressFill').style.width =
-    (75 + (pct * 0.25)) + '%'; // 75%-100% for recording phase (step 4 of 5)
+  const currentStep = isReadAloud ? 5 : 4;
+  document.getElementById('currentStep').textContent = currentStep;
+  document.getElementById('progressFill').style.width = ((currentStep / 6) * 100) + '%';
 }
 
 function resetRecordingUI() {
+  const scenario = state.scenarios[state.currentIndex];
+  const isDe = scenario && scenario.lang === 'de';
+
   document.getElementById('recordingTimer').textContent = '00:00';
   document.getElementById('recordingTimer').classList.remove('is-recording');
-  document.getElementById('recordingStatus').textContent = 'Tap red button to record';
+  document.getElementById('recordingStatus').textContent = isDe
+    ? 'Rote Taste drücken zum Aufnehmen (auf Deutsch sprechen)'
+    : 'Tap red button to record (speak in English)';
   document.getElementById('recordingStatus').className = 'recording-status';
   document.getElementById('recordingControls').className = 'recording-controls';
   document.getElementById('recordBtn').classList.remove('is-recording');
@@ -2157,6 +2746,9 @@ async function toggleRecording() {
 
 async function startRecording() {
   try {
+    const scenario = state.scenarios[state.currentIndex];
+    const isDe = scenario && scenario.lang === 'de';
+
     // Use existing stream if available, otherwise request new
     if (!state.audioStream || state.audioStream.getTracks().some(t => t.readyState === 'ended')) {
       state.audioStream = await navigator.mediaDevices.getUserMedia({
@@ -2187,7 +2779,9 @@ async function startRecording() {
     document.getElementById('recordBtn').classList.add('is-recording');
     document.getElementById('recordingControls').classList.add('is-recording');
     document.getElementById('recordingTimer').classList.add('is-recording');
-    document.getElementById('recordingStatus').textContent = 'Recording...';
+    document.getElementById('recordingStatus').textContent = isDe
+      ? '🔴 Aufnahme läuft... Bitte auf Deutsch sprechen!'
+      : '🔴 Recording... Please speak in English!';
     document.getElementById('recordingStatus').className = 'recording-status is-recording';
 
     // Timer
@@ -2198,7 +2792,8 @@ async function startRecording() {
 
   } catch (err) {
     console.error('Recording error:', err);
-    document.getElementById('recordingStatus').textContent = '❌ Mic error: ' + err.message;
+    const isDe = state.scenarios[state.currentIndex] && state.scenarios[state.currentIndex].lang === 'de';
+    document.getElementById('recordingStatus').textContent = (isDe ? '❌ Mikrofon-Fehler: ' : '❌ Mic error: ') + err.message;
   }
 }
 
@@ -2225,6 +2820,8 @@ function onRecordingComplete() {
   const blob = new Blob(state.audioChunks, { type: 'audio/webm' });
   const url = URL.createObjectURL(blob);
   const duration = ((Date.now() - state.recordingStartTime) / 1000).toFixed(1);
+  const scenario = state.scenarios[state.currentIndex];
+  const isDe = scenario && scenario.lang === 'de';
 
   // Show playback
   const audioEl = document.getElementById('audioPlayback');
@@ -2232,7 +2829,9 @@ function onRecordingComplete() {
   document.getElementById('playbackContainer').classList.add('visible');
 
   // Status
-  document.getElementById('recordingStatus').textContent = `✓ Recorded (${duration}s)`;
+  document.getElementById('recordingStatus').textContent = isDe
+    ? `✓ Aufgenommen (${duration}s) — Anhören oder Wiederholen`
+    : `✓ Recorded (${duration}s) — Listen or Re-record`;
   document.getElementById('recordingStatus').className = 'recording-status has-recording';
 
   // Show action buttons
@@ -2297,13 +2896,7 @@ function nextScenario() {
 
   state.currentBlob = null;
   state.currentDuration = null;
-  state.currentIndex++;
-
-  if (state.currentIndex >= state.scenarios.length) {
-    goToReview();
-  } else {
-    loadScenario();
-  }
+  advanceToNextScenario();
 }
 
 function skipScenario() {
@@ -2315,13 +2908,7 @@ function skipScenario() {
 
   state.currentBlob = null;
   state.currentDuration = null;
-  state.currentIndex++;
-
-  if (state.currentIndex >= state.scenarios.length) {
-    goToReview();
-  } else {
-    loadScenario();
-  }
+  advanceToNextScenario();
 }
 
 // ============================================================
@@ -2329,7 +2916,7 @@ function skipScenario() {
 // ============================================================
 function goToReview() {
   setDownloadNotice("");
-  goToSection('sectionReview', 5);
+  goToSection('sectionReview', 6);
   document.getElementById('progressFill').style.width = '100%';
 
   const totalDuration = state.recordings.reduce((sum, r) => sum + r.duration, 0);
