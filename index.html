@@ -101,7 +101,7 @@
     .app-container {
       position: relative;
       z-index: 1;
-      max-width: 900px;
+      max-width: 1060px;
       margin: 0 auto;
       padding: 24px 20px 60px;
     }
@@ -313,6 +313,111 @@
       background-repeat: no-repeat;
       background-position: right 16px center;
       padding-right: 40px;
+    }
+
+    /* ============================================
+       RECORDING ENVIRONMENT RADIO BUTTONS
+       ============================================ */
+    .env-radio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .env-radio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .env-radio-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .env-radio-card:hover {
+      border-color: rgba(99, 179, 237, 0.4);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .env-radio-card.active {
+      border-color: var(--accent-blue);
+      background: rgba(96, 165, 250, 0.09);
+      box-shadow: 0 0 16px rgba(96, 165, 250, 0.12);
+    }
+
+    .env-radio-card input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--text-muted);
+      border-radius: 50%;
+      outline: none;
+      margin: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      transition: all var(--transition-fast);
+    }
+
+    .env-radio-card input[type="radio"]::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 120ms ease-in-out;
+      background: var(--accent-blue);
+    }
+
+    .env-radio-card.active input[type="radio"] {
+      border-color: var(--accent-blue);
+    }
+
+    .env-radio-card.active input[type="radio"]::before {
+      transform: scale(1);
+    }
+
+    .env-radio-icon {
+      font-size: 20px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .env-radio-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .env-radio-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .env-radio-card.active .env-radio-title {
+      color: var(--accent-blue);
+    }
+
+    .env-radio-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* ============================================
@@ -865,8 +970,113 @@
     }
 
     /* ============================================
-       SCENARIO DISPLAY
+       SCENARIO DISPLAY & SIDE HINTS
        ============================================ */
+    .record-layout-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .record-layout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .side-hints-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 18px;
+      position: sticky;
+      top: 24px;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(12px);
+    }
+
+    .side-hints-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .side-hint-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 13px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .side-hint-bullet {
+      font-size: 14px;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+
+    .side-hint-text strong {
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 12.5px;
+    }
+
+    .side-hint-text {
+      color: var(--text-secondary);
+    }
+
+    .side-hint-example-box {
+      margin-top: 14px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .side-hint-example-box strong {
+      color: var(--accent-teal);
+      display: block;
+      margin-bottom: 6px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .side-hint-example-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .side-hint-example-list li {
+      position: relative;
+      padding-left: 14px;
+      color: var(--text-primary);
+      font-size: 11.5px;
+      font-style: italic;
+    }
+
+    .side-hint-example-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: var(--accent-teal);
+    }
+
     .scenario-card {
       position: relative;
       overflow: hidden;
@@ -1618,12 +1828,46 @@
 
           <div class="form-group">
             <label class="form-label" id="setupEnvLabel">Aufnahmeumgebung</label>
-            <select class="form-input" id="recordingEnv">
-              <option value="quiet_indoor" id="optEnvQuiet">Ruhiger Innenraum (Büro / Labor / Zuhause)</option>
-              <option value="indoor_noise" id="optEnvNoise">Innenraum mit Hintergrundgeräuschen</option>
-              <option value="outdoor" id="optEnvOutdoor">Im Freien / Outdoor</option>
-              <option value="vehicle" id="optEnvVehicle">Im Fahrzeug</option>
-            </select>
+            <input type="hidden" id="recordingEnv" value="quiet_indoor">
+            <div class="env-radio-grid" role="radiogroup" aria-labelledby="setupEnvLabel">
+              
+              <label class="env-radio-card active" for="envQuiet">
+                <input type="radio" name="recordingEnvRadio" id="envQuiet" value="quiet_indoor" checked onchange="selectEnvRadio('quiet_indoor')">
+                <div class="env-radio-icon">🤫</div>
+                <div class="env-radio-body">
+                  <div class="env-radio-title" id="optEnvQuiet">Ruhiger Innenraum</div>
+                  <div class="env-radio-sub" id="optEnvQuietSub">Büro, Labor, Zuhause</div>
+                </div>
+              </label>
+
+              <label class="env-radio-card" for="envNoise">
+                <input type="radio" name="recordingEnvRadio" id="envNoise" value="indoor_noise" onchange="selectEnvRadio('indoor_noise')">
+                <div class="env-radio-icon">☕</div>
+                <div class="env-radio-body">
+                  <div class="env-radio-title" id="optEnvNoise">Innenraum mit Hintergrundgeräuschen</div>
+                  <div class="env-radio-sub" id="optEnvNoiseSub">Café, Großraumbüro</div>
+                </div>
+              </label>
+
+              <label class="env-radio-card" for="envOutdoor">
+                <input type="radio" name="recordingEnvRadio" id="envOutdoor" value="outdoor" onchange="selectEnvRadio('outdoor')">
+                <div class="env-radio-icon">🌳</div>
+                <div class="env-radio-body">
+                  <div class="env-radio-title" id="optEnvOutdoor">Im Freien / Outdoor</div>
+                  <div class="env-radio-sub" id="optEnvOutdoorSub">Straße, Park, Campus</div>
+                </div>
+              </label>
+
+              <label class="env-radio-card" for="envVehicle">
+                <input type="radio" name="recordingEnvRadio" id="envVehicle" value="vehicle" onchange="selectEnvRadio('vehicle')">
+                <div class="env-radio-icon">🚗</div>
+                <div class="env-radio-body">
+                  <div class="env-radio-title" id="optEnvVehicle">Im Fahrzeug</div>
+                  <div class="env-radio-sub" id="optEnvVehicleSub">Auto, Bus, Bahn</div>
+                </div>
+              </label>
+
+            </div>
           </div>
 
           <div class="form-group">
@@ -1700,51 +1944,65 @@
        SECTION 4 — SCENARIO RECORDING
        ============================ -->
       <div class="section" id="sectionRecord">
-        <div class="card scenario-card">
+        <div class="record-layout-grid">
           
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-            <div class="card-title" id="scenarioTitle" style="margin: 0; font-size: 19px; font-weight: 700;">Part 2 · Teil A: Freie Formulierung (1 / 14)</div>
-            <div class="scenario-meta" id="scenarioMeta" style="margin: 0;"></div>
-          </div>
-
-          <!-- Situation / Prompt Card -->
-          <div class="scenario-situation">
-            <div class="scenario-situation-text" id="scenarioText">
-              <!-- Scenario text injected by JS -->
+          <div class="card scenario-card" style="margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+              <div class="card-title" id="scenarioTitle" style="margin: 0; font-size: 19px; font-weight: 700;">Part 2 · Teil A: Freie Formulierung (1 / 14)</div>
+              <div class="scenario-meta" id="scenarioMeta" style="margin: 0;"></div>
             </div>
-            <div class="task-instruction-text" id="scenarioInstruction" style="margin-top: 12px; font-weight: 500; font-size: 13.5px; color: var(--accent-blue);"></div>
-          </div>
 
-          <!-- Recording Controls -->
-          <div class="recording-area" style="margin-top: 20px;">
-            <div class="recording-controls" id="recordingControls">
-              <div class="recording-timer" id="recordingTimer">00:00</div>
-
-              <div class="waveform-container" id="waveformContainer">
-                <!-- 40 waveform bars -->
+            <!-- Situation / Prompt Card -->
+            <div class="scenario-situation">
+              <div class="scenario-situation-text" id="scenarioText">
+                <!-- Scenario text injected by JS -->
               </div>
+              <div class="task-instruction-text" id="scenarioInstruction" style="margin-top: 12px; font-weight: 500; font-size: 13.5px; color: var(--accent-blue);"></div>
+            </div>
 
-              <button class="record-btn" id="recordBtn" onclick="toggleRecording()"
-                title="Click to start/stop recording">
-                <div class="inner"></div>
-              </button>
+            <!-- Recording Controls -->
+            <div class="recording-area" style="margin-top: 20px;">
+              <div class="recording-controls" id="recordingControls">
+                <div class="recording-timer" id="recordingTimer">00:00</div>
 
-              <div class="recording-status" id="recordingStatus">Aufnahme starten</div>
+                <div class="waveform-container" id="waveformContainer">
+                  <!-- 40 waveform bars -->
+                </div>
 
-              <div class="record-actions" style="justify-content: center;">
-                <button class="btn btn-ghost" id="btnSkipScenario" type="button" onclick="skipScenario()">Überspringen</button>
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording()"
+                  title="Click to start/stop recording">
+                  <div class="inner"></div>
+                </button>
+
+                <div class="recording-status" id="recordingStatus">Aufnahme starten</div>
+
+                <div class="record-actions" style="justify-content: center;">
+                  <button class="btn btn-ghost" id="btnSkipScenario" type="button" onclick="skipScenario()">Überspringen</button>
+                </div>
+
+                <div class="playback-container" id="playbackContainer">
+                  <audio id="audioPlayback" controls></audio>
+                </div>
               </div>
+            </div>
 
-              <div class="playback-container" id="playbackContainer">
-                <audio id="audioPlayback" controls></audio>
-              </div>
+            <div class="btn-group" style="margin-top: 20px;">
+              <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Wiederholen</button>
+              <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Speichern & Weiter →</button>
             </div>
           </div>
 
-          <div class="btn-group" style="margin-top: 20px;">
-            <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Wiederholen</button>
-            <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Speichern & Weiter →</button>
-          </div>
+          <!-- Side Hints Panel (Fills side space on desktop) -->
+          <aside class="side-hints-panel" id="sideHintsPanel">
+            <div class="side-hints-header">
+              <span style="font-size: 18px;">💡</span>
+              <span id="sideHintsTitle">Tipps für Teil A</span>
+            </div>
+            <div class="side-hints-content" id="sideHintsContent">
+              <!-- Dynamically populated by renderSideHints() -->
+            </div>
+          </aside>
+
         </div>
       </div>
       <!-- ============================
@@ -1825,30 +2083,19 @@
                 id="ncBoxBadge">Kein Konto erforderlich</span>
             </div>
 
-            <div class="nextcloud-steps-list">
-              <div class="nc-step-row">
-                <span class="nc-step-pill" id="ncStep1Pill">Schritt 1</span>
-                <div id="ncStep1Text"><strong>Aufnahmen als ZIP herunterladen:</strong> Klicken Sie auf die Schaltfläche
-                  unten, um Ihre anonymen Sprachaufnahmen und das Manifest zu packen.</div>
-              </div>
-              <div class="nc-step-row">
-                <span class="nc-step-pill" id="ncStep2Pill">Schritt 2</span>
-                <div id="ncStep2Text"><strong>In Academic Cloud hochladen:</strong> Öffnen Sie den sicheren Upload-Link
-                  und ziehen Sie Ihre heruntergeladene ZIP-Datei per Drag & Drop in den Ordner.</div>
-              </div>
-            </div>
-
-            <div class="nextcloud-action-row">
-              <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()">📦 1. ZIP-Datei
-                herunterladen</button>
+            <div class="nextcloud-action-row" style="margin-top: 14px;">
+              <button class="btn btn-success" id="btnDownloadZip" type="button" onclick="downloadZip()"
+                style="font-size: 14px; padding: 14px 22px;">
+                📦 Schritt 1: ZIP-Datei herunterladen
+              </button>
               <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" id="btnNextcloudUpload" target="_blank"
-                rel="noopener noreferrer" class="btn btn-teal">
-                ☁️ 2. Academic Cloud Upload-Ordner öffnen ↗
+                rel="noopener noreferrer" class="btn btn-teal" style="font-size: 14px; padding: 14px 22px;">
+                ☁️ Schritt 2: In Academic Cloud hochladen ↗
               </a>
             </div>
             <p class="download-zip-notice" data-download-notice role="status"></p>
 
-            <div style="margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
               <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600;"
                 id="ncUrlLabel">Nextcloud-Ordnerlink:</span>
               <a href="https://gwdg.files.academiccloud.de/s/3KeMrJed3ydoDTN" target="_blank" rel="noopener noreferrer"
@@ -1860,9 +2107,15 @@
             </div>
           </div>
 
-          <p class="text-sm text-muted text-center mt-24" id="reviewDisclaimer">Alle Aufnahmen werden lokal in Ihrem
-            Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre
-            Zustimmung.</p>
+          <div style="margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+            <button class="btn btn-ghost" id="btnRedoStudy" type="button" onclick="redoEntireStudy()"
+              style="font-size: 13.5px; padding: 10px 24px; border: 1px solid var(--border-subtle); color: var(--text-secondary); border-radius: var(--radius-sm);">
+              🔄 Gesamte Studie neu starten (Startseite)
+            </button>
+            <p class="text-sm text-muted text-center" id="reviewDisclaimer" style="margin: 0; max-width: 620px;">
+              Alle Aufnahmen werden lokal in Ihrem Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre Zustimmung.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -2394,12 +2647,23 @@
       if (envLabel) envLabel.textContent = isDe ? 'Aufnahmeumgebung' : 'Recording Environment';
       const envQuiet = document.getElementById('optEnvQuiet');
       if (envQuiet) envQuiet.textContent = isDe ? 'Ruhiger Innenraum' : 'Quiet Indoor';
+      const envQuietSub = document.getElementById('optEnvQuietSub');
+      if (envQuietSub) envQuietSub.textContent = isDe ? 'Büro, Labor, Zuhause' : 'Office, Lab, Home';
+
       const envNoise = document.getElementById('optEnvNoise');
       if (envNoise) envNoise.textContent = isDe ? 'Innenraum mit Hintergrundgeräuschen' : 'Indoor with Background Noise';
+      const envNoiseSub = document.getElementById('optEnvNoiseSub');
+      if (envNoiseSub) envNoiseSub.textContent = isDe ? 'Café, Großraumbüro' : 'Café, Open Office';
+
       const envOutdoor = document.getElementById('optEnvOutdoor');
       if (envOutdoor) envOutdoor.textContent = isDe ? 'Im Freien / Outdoor' : 'Outdoor';
+      const envOutdoorSub = document.getElementById('optEnvOutdoorSub');
+      if (envOutdoorSub) envOutdoorSub.textContent = isDe ? 'Straße, Park, Campus' : 'Street, Park, Campus';
+
       const envVehicle = document.getElementById('optEnvVehicle');
       if (envVehicle) envVehicle.textContent = isDe ? 'Im Fahrzeug' : 'Inside Vehicle';
+      const envVehicleSub = document.getElementById('optEnvVehicleSub');
+      if (envVehicleSub) envVehicleSub.textContent = isDe ? 'Auto, Bus, Bahn' : 'Car, Bus, Train';
 
       const notesLabel = document.getElementById('setupNotesLabel');
       if (notesLabel) notesLabel.textContent = isDe ? 'Notizen (optional)' : 'Notes (optional)';
@@ -2466,24 +2730,22 @@
       if (revTitle) revTitle.innerHTML = `<span class="icon">📊</span> Part 4 · Export & Upload`;
 
       const ncBoxTitle = document.getElementById('ncBoxTitle');
-      if (ncBoxTitle) ncBoxTitle.textContent = isDe ? '☁️ Aufnahmen in Academic Cloud hochladen' : '☁️ Upload Recordings to Academic Cloud';
+      if (ncBoxTitle) ncBoxTitle.textContent = isDe ? '☁️ Aufnahmen abgeben' : '☁️ Submit Recordings';
       const ncBoxBadge = document.getElementById('ncBoxBadge');
       if (ncBoxBadge) ncBoxBadge.textContent = isDe ? 'Kein Konto erforderlich' : 'No account required';
 
-      const ncStep1Pill = document.getElementById('ncStep1Pill');
-      if (ncStep1Pill) ncStep1Pill.textContent = isDe ? 'Schritt 1' : 'Step 1';
-      const ncStep1Text = document.getElementById('ncStep1Text');
-      if (ncStep1Text) ncStep1Text.innerHTML = isDe ? '<strong>Aufnahmen als ZIP herunterladen:</strong> Klicken Sie auf die Schaltfläche unten, um Ihre anonymen Sprachaufnahmen zu packen.' : '<strong>Download your recordings ZIP:</strong> Click the button below to package your anonymous recordings.';
-
-      const ncStep2Pill = document.getElementById('ncStep2Pill');
-      if (ncStep2Pill) ncStep2Pill.textContent = isDe ? 'Schritt 2' : 'Step 2';
-      const ncStep2Text = document.getElementById('ncStep2Text');
-      if (ncStep2Text) ncStep2Text.innerHTML = isDe ? '<strong>In Academic Cloud hochladen:</strong> Öffnen Sie den sicheren Upload-Link und ziehen Sie Ihre heruntergeladene ZIP-Datei per Drag & Drop in den Ordner.' : '<strong>Upload to Academic Cloud:</strong> Open the secure upload link and drag & drop your downloaded ZIP file into the folder.';
-
       const btnDownloadZip = document.getElementById('btnDownloadZip');
-      if (btnDownloadZip) btnDownloadZip.textContent = isDe ? '📦 1. ZIP-Datei herunterladen' : '📦 1. Download ZIP File';
+      if (btnDownloadZip) btnDownloadZip.textContent = isDe ? '📦 Schritt 1: ZIP-Datei herunterladen' : '📦 Step 1: Download ZIP File';
       const btnNextcloudUpload = document.getElementById('btnNextcloudUpload');
-      if (btnNextcloudUpload) btnNextcloudUpload.textContent = isDe ? '☁️ 2. Academic Cloud Upload-Ordner öffnen ↗' : '☁️ 2. Open Academic Cloud Upload Folder ↗';
+      if (btnNextcloudUpload) btnNextcloudUpload.textContent = isDe ? '☁️ Schritt 2: In Academic Cloud hochladen ↗' : '☁️ Step 2: Upload to Academic Cloud ↗';
+
+      const btnRedoStudy = document.getElementById('btnRedoStudy');
+      if (btnRedoStudy) btnRedoStudy.textContent = isDe ? '🔄 Gesamte Studie neu starten (Startseite)' : '🔄 Redo Entire Study (Return to Home)';
+
+      const reviewDisclaimer = document.getElementById('reviewDisclaimer');
+      if (reviewDisclaimer) reviewDisclaimer.textContent = isDe
+        ? 'Alle Aufnahmen werden lokal in Ihrem Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre Zustimmung.'
+        : 'All recordings remain locally in your browser until downloaded. No audio leaves your device without your consent.';
 
       // 8. Completion Section
       const compTitle = document.getElementById('completeTitle');
@@ -2593,13 +2855,26 @@
     }
 
     // ============================================================
-    //  CALIBRATION
+    //  CALIBRATION & ENVIRONMENT SELECTION
     // ============================================================
+    function selectEnvRadio(value) {
+      state.recordingEnv = value;
+      const hidden = document.getElementById('recordingEnv');
+      if (hidden) hidden.value = value;
+      document.querySelectorAll('.env-radio-card').forEach(card => {
+        const input = card.querySelector('input[type="radio"]');
+        if (input) {
+          card.classList.toggle('active', input.value === value);
+        }
+      });
+    }
+
     async function goToCalibration() {
       // Save setup
       state.participantId = document.getElementById('participantId').value || 'P000';
       state.primaryLanguage = document.getElementById('primaryLanguage').value;
-      state.recordingEnv = document.getElementById('recordingEnv').value;
+      const checkedEnv = document.querySelector('input[name="recordingEnvRadio"]:checked');
+      state.recordingEnv = checkedEnv ? checkedEnv.value : (document.getElementById('recordingEnv')?.value || 'quiet_indoor');
       state.notes = document.getElementById('participantNotes').value;
 
       // Filter scenarios by language
@@ -2885,6 +3160,78 @@
       goToPartAIntro();
     }
 
+    // ============================================================
+    //  SIDE HINTS PANEL (Part 2 & Part 3)
+    // ============================================================
+    function renderSideHints(isReadAloud, lang) {
+      const isDe = lang === 'de';
+      const titleEl = document.getElementById('sideHintsTitle');
+      const contentEl = document.getElementById('sideHintsContent');
+      if (!titleEl || !contentEl) return;
+
+      if (!isReadAloud) {
+        // Part 2 · Free-Form (Teil A: Freie Formulierung)
+        titleEl.textContent = isDe ? 'Tipps für Teil A' : 'Tips for Part A';
+        contentEl.innerHTML = `
+          <div class="side-hint-item">
+            <span class="side-hint-bullet">🗣️</span>
+            <div class="side-hint-text">
+              <strong>${isDe ? 'In eigenen Worten sprechen' : 'Speak in your own words'}</strong>
+              ${isDe ? 'Bitte nicht den Text vorlesen! Formulieren Sie einen kurzen Befehl, wie Sie ihn einer Drohnenleitstelle funken würden.' : 'Do not read the text! Give a short radio command as you would to a drone dispatch center.'}
+            </div>
+          </div>
+          <div class="side-hint-item">
+            <span class="side-hint-bullet">⏱️</span>
+            <div class="side-hint-text">
+              <strong>${isDe ? 'Kurz & Natürlich' : 'Short & Natural'}</strong>
+              ${isDe ? 'Ein kurzer Befehl (2 bis 5 Sekunden) reicht völlig aus. Sprechen Sie ganz natürlich.' : 'A brief command (2 to 5 seconds) is ideal. Speak naturally.'}
+            </div>
+          </div>
+          <div class="side-hint-item">
+            <span class="side-hint-bullet">🔄</span>
+            <div class="side-hint-text">
+              <strong>${isDe ? 'Jederzeit wiederholbar' : 'Re-record anytime'}</strong>
+              ${isDe ? 'Versprochen oder Nebengeräusch? Nach dem Stoppen einfach auf „Wiederholen“ klicken.' : 'Misspoke or background noise? Simply click "Re-record" after stopping.'}
+            </div>
+          </div>
+          <div class="side-hint-example-box">
+            <strong>${isDe ? '💡 Beispielhafte Befehle:' : '💡 Example Commands:'}</strong>
+            <ul class="side-hint-example-list">
+              <li>${isDe ? '„Drohne starten und zum Einsatzort fliegen“' : '"Launch drone and fly to incident scene"'}</li>
+              <li>${isDe ? '„Mission abbrechen und zur Basis zurück“' : '"Abort mission and return to base"'}</li>
+              <li>${isDe ? '„Sofort landen und Status melden“' : '"Land immediately and report status"'}</li>
+            </ul>
+          </div>
+        `;
+      } else {
+        // Part 3 · Read-Aloud (Teil B: Laut Vorlesen)
+        titleEl.textContent = isDe ? 'Tipps für Teil B' : 'Tips for Part B';
+        contentEl.innerHTML = `
+          <div class="side-hint-item">
+            <span class="side-hint-bullet">📖</span>
+            <div class="side-hint-text">
+              <strong>${isDe ? 'Exakter Wortlaut' : 'Exact Wording'}</strong>
+              ${isDe ? 'Lesen Sie den hervorgehobenen Befehlssatz genau so laut vor, wie er dort steht.' : 'Read the highlighted command sentence aloud exactly as written.'}
+            </div>
+          </div>
+          <div class="side-hint-item">
+            <span class="side-hint-bullet">🎙️</span>
+            <div class="side-hint-text">
+              <strong>${isDe ? 'Klar & Deutlich' : 'Clear & Loud'}</strong>
+              ${isDe ? 'In normaler Gesprächslautstärke und flüssigem Sprechtempo vorlesen.' : 'Speak at conversational volume and steady pace.'}
+            </div>
+          </div>
+          <div class="side-hint-item">
+            <span class="side-hint-bullet">🎧</span>
+            <div class="side-hint-text">
+              <strong>${isDe ? 'Audio überprüfen' : 'Audio Check'}</strong>
+              ${isDe ? 'Sie können Ihre Aufnahme vor dem Speichern nochmals kurz anhören.' : 'You can listen to your playback before saving.'}
+            </div>
+          </div>
+        `;
+      }
+    }
+
     function loadScenario() {
       const scenario = state.scenarios[state.currentIndex];
       if (!scenario) {
@@ -2976,6 +3323,7 @@
       if (btnNext) btnNext.textContent = isDe ? 'Speichern & Weiter →' : 'Save & Next →';
 
       resetRecordingUI();
+      renderSideHints(isReadAloud, scenario.lang);
     }
 
     function resetRecordingUI() {
@@ -3237,6 +3585,16 @@
     `;
         list.appendChild(item);
       });
+    }
+
+    function redoEntireStudy() {
+      const isDe = state.currentUiLang === 'de';
+      const msg = isDe
+        ? 'Möchten Sie die gesamte Studie neu starten?\n\nAlle bisherigen Aufnahmen werden verworfen und Sie kehren zur Startseite zurück.'
+        : 'Do you want to restart the entire study?\n\nAll current recordings will be cleared and you will return to the home page.';
+      if (confirm(msg)) {
+        window.location.reload();
+      }
     }
 
     function getEmptyRecordingMessage() {
