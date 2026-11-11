@@ -171,6 +171,52 @@
     }
 
     /* ============================================
+       PERSISTENT BOTTOM MAIN PAGE BUTTON
+       ============================================ */
+    .bottom-home-bar {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .bottom-home-btn {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: rgba(17, 24, 39, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(99, 179, 237, 0.3);
+      border-radius: var(--radius-full);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), 0 0 14px rgba(96, 165, 250, 0.14);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .bottom-home-btn:hover {
+      border-color: var(--accent-blue);
+      background: rgba(30, 41, 59, 0.98);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 18px rgba(96, 165, 250, 0.25);
+      color: #ffffff;
+    }
+
+    .bottom-home-btn:active {
+      transform: translateY(0);
+    }
+
+    /* ============================================
        PROGRESS BAR
        ============================================ */
     .progress-bar-container {
@@ -1754,7 +1800,7 @@
     <!-- ============================
        MAIN APPLICATION (OPENS AFTER CONSENT)
        ============================ -->
-    <div id="mainApp" style="display: none;">
+    <div id="mainApp" style="display: none; padding-bottom: 72px;">
 
       <!-- HEADER -->
       <header class="header">
@@ -1766,23 +1812,23 @@
 
       </header>
 
-      <!-- 4-PART STUDY PROGRESS BANNER -->
+      <!-- 4-STEP STUDY PROGRESS BANNER -->
       <div class="guide-banner" id="studyProgressBanner">
         <div class="guide-steps-grid">
           <div class="guide-step-card active" id="guideStep1Card">
-            <span class="guide-step-num" id="guideStep1Num">Part 1</span>
+            <span class="guide-step-num" id="guideStep1Num">Step 1</span>
             <div class="guide-step-heading" id="guideStep1Head">Kalibrierung</div>
           </div>
           <div class="guide-step-card" id="guideStep2Card">
-            <span class="guide-step-num" id="guideStep2Num">Part 2</span>
-            <div class="guide-step-heading" id="guideStep2Head">Teil A: Freie Formulierung</div>
+            <span class="guide-step-num" id="guideStep2Num">Step 2</span>
+            <div class="guide-step-heading" id="guideStep2Head">Freie Formulierung</div>
           </div>
           <div class="guide-step-card" id="guideStep3Card">
-            <span class="guide-step-num" id="guideStep3Num">Part 3</span>
-            <div class="guide-step-heading" id="guideStep3Head">Teil B: Laut Vorlesen</div>
+            <span class="guide-step-num" id="guideStep3Num">Step 3</span>
+            <div class="guide-step-heading" id="guideStep3Head">Laut Vorlesen</div>
           </div>
           <div class="guide-step-card" id="guideStep4Card">
-            <span class="guide-step-num" id="guideStep4Num">Part 4</span>
+            <span class="guide-step-num" id="guideStep4Num">Step 4</span>
             <div class="guide-step-heading" id="guideStep4Head">Export & Upload</div>
           </div>
         </div>
@@ -1890,7 +1936,7 @@
        ============================ -->
       <div class="section" id="sectionCalibration">
         <div class="card">
-          <div class="card-title" id="calCardTitle"><span class="icon">🎙️</span> Part 1 · Kalibrierung</div>
+          <div class="card-title" id="calCardTitle"><span class="icon">🎙️</span> Step 1 · Kalibrierung</div>
           <div class="card-subtitle" id="calCardSubtitle">Kurzer Mikrofontest vor Beginn der Aufnahmen.</div>
 
           <div class="calib-cards-grid">
@@ -1913,20 +1959,19 @@
           <div class="btn-group">
             <button class="btn btn-ghost" id="btnBackToSetup" onclick="goToSection('sectionSetup', 1)">← Zurück</button>
             <button class="btn btn-primary" id="btnCalibrate" onclick="startCalibration()">🎙️ Start</button>
-            <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToPartAIntro()">Weiter zu Teil A ✓ →</button>
+            <button class="btn btn-success hidden" id="btnCalibrationDone" onclick="goToPartAIntro()">Weiter zu Step 2 ✓ →</button>
             <button class="btn btn-ghost" id="btnSkipCalibrate" onclick="goToPartAIntro()"
               style="font-size: 12px; color: var(--text-muted);">Überspringen →</button>
           </div>
         </div>
       </div>
       <!-- ============================
-       SECTION 3B<!-- ============================
-       SECTION 3B — PART A INTRO & LANGUAGE ROADMAP
+       SECTION 3B — STEP 2 INTRO
        ============================ -->
       <div class="section" id="sectionPartAIntro">
         <div class="card text-center" style="padding: 44px 28px;">
           <div style="font-size: 42px; margin-bottom: 12px;">💡</div>
-          <h2 id="partATitle" style="font-size: 24px; font-weight: 800; margin-bottom: 10px;">Part 2 · Teil A: Freie Formulierung</h2>
+          <h2 id="partATitle" style="font-size: 24px; font-weight: 800; margin-bottom: 10px;">Step 2 · Freie Formulierung</h2>
           <p id="partASubtitle" style="color: var(--text-secondary); max-width: 560px; margin: 0 auto 24px; line-height: 1.6; font-size: 14.5px;">
             Lesen Sie die jeweilige Notfallsituation durch und formulieren Sie Ihren Befehl in eigenen Worten (den Text bitte nicht vorlesen).
           </p>
@@ -1934,13 +1979,12 @@
           <div class="btn-group" style="justify-content: center;">
             <button class="btn btn-ghost" id="btnBackToCalibration" onclick="goToSection('sectionCalibration', 1)">← Zurück</button>
             <button class="btn btn-primary" id="btnStartPartA" onclick="startPartAScenarios()" style="font-size: 15px; padding: 12px 32px;">
-              🚀 Teil A starten →
+              🚀 Step 2 starten →
             </button>
           </div>
         </div>
       </div>
       <!-- ============================
-       SECTION 4 <!-- ============================
        SECTION 4 — SCENARIO RECORDING
        ============================ -->
       <div class="section" id="sectionRecord">
@@ -1948,7 +1992,7 @@
           
           <div class="card scenario-card" style="margin: 0;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-              <div class="card-title" id="scenarioTitle" style="margin: 0; font-size: 19px; font-weight: 700;">Part 2 · Teil A: Freie Formulierung (1 / 14)</div>
+              <div class="card-title" id="scenarioTitle" style="margin: 0; font-size: 19px; font-weight: 700;">Step 2 · Freie Formulierung (1 / 14)</div>
               <div class="scenario-meta" id="scenarioMeta" style="margin: 0;"></div>
             </div>
 
@@ -1996,7 +2040,7 @@
           <aside class="side-hints-panel" id="sideHintsPanel">
             <div class="side-hints-header">
               <span style="font-size: 18px;">💡</span>
-              <span id="sideHintsTitle">Tipps für Teil A</span>
+              <span id="sideHintsTitle">Tipps für Step 2</span>
             </div>
             <div class="side-hints-content" id="sideHintsContent">
               <!-- Dynamically populated by renderSideHints() -->
@@ -2006,20 +2050,19 @@
         </div>
       </div>
       <!-- ============================
-       SECTION 4B<!-- ============================
-       SECTION 4B — PART B INTRO & LANGUAGE ROADMAP
+       SECTION 4B — STEP 3 INTRO
        ============================ -->
       <div class="section" id="sectionPartBIntro">
         <div class="card text-center" style="padding: 44px 28px;">
           <div style="font-size: 42px; margin-bottom: 12px;">🔊</div>
-          <h2 id="partBTitle" style="font-size: 24px; font-weight: 800; margin-bottom: 10px;">Part 3 · Teil B: Laut Vorlesen</h2>
+          <h2 id="partBTitle" style="font-size: 24px; font-weight: 800; margin-bottom: 10px;">Step 3 · Laut Vorlesen</h2>
           <p id="partBSubtitle" style="color: var(--text-secondary); max-width: 560px; margin: 0 auto 24px; line-height: 1.6; font-size: 14.5px;">
             Lesen Sie den angezeigten Befehlssatz genau so laut und deutlich vor.
           </p>
 
           <div class="btn-group" style="justify-content: center;">
             <button class="btn btn-primary" id="btnStartPartB" onclick="startPartBScenarios()" style="font-size: 15px; padding: 12px 32px;">
-              🚀 Teil B starten →
+              🚀 Step 3 starten →
             </button>
           </div>
         </div>
@@ -2063,7 +2106,7 @@
        ============================ -->
       <div class="section" id="sectionReview">
         <div class="card">
-          <div class="card-title" id="reviewCardTitle"><span class="icon">📊</span> Part 4 · Export & Upload</div>
+          <div class="card-title" id="reviewCardTitle"><span class="icon">📊</span> Step 4 · Export & Upload</div>
           <div class="card-subtitle" id="reviewCardSubtitle">Überprüfen Sie Ihre Aufnahmen unten. Folgen Sie den beiden
             Schritten, um Ihre Daten zu exportieren und abzugeben.</div>
 
@@ -2108,9 +2151,9 @@
           </div>
 
           <div style="margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
-            <button class="btn btn-ghost" id="btnRedoStudy" type="button" onclick="redoEntireStudy()"
+            <button class="btn btn-ghost" id="btnRedoStudy" type="button" onclick="goToMainPage()"
               style="font-size: 13.5px; padding: 10px 24px; border: 1px solid var(--border-subtle); color: var(--text-secondary); border-radius: var(--radius-sm);">
-              🔄 Gesamte Studie neu starten (Startseite)
+              🏠 Zur Startseite (Studie neu starten)
             </button>
             <p class="text-sm text-muted text-center" id="reviewDisclaimer" style="margin: 0; max-width: 620px;">
               Alle Aufnahmen werden lokal in Ihrem Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre Zustimmung.
@@ -2146,8 +2189,15 @@
             </a>
           </div>
 
-          <button class="btn btn-ghost" id="btnRestartSession" onclick="location.reload()">Neue Sitzung starten</button>
+          <button class="btn btn-ghost" id="btnRestartSession" onclick="goToMainPage()">Neue Sitzung starten</button>
         </div>
+      </div>
+
+      <!-- PERSISTENT BOTTOM MAIN PAGE BUTTON (Always visible at bottom of screen after test starts) -->
+      <div class="bottom-home-bar">
+        <button type="button" class="bottom-home-btn" id="btnGlobalMainPage" onclick="goToMainPage()">
+          🏠 Zur Startseite
+        </button>
       </div>
 
     </div> <!-- End #mainApp -->
@@ -2484,6 +2534,7 @@
       audioStream: null,
       analyserNode: null,
       calibrated: false,
+      zipDownloaded: false,
       counts: {
         freeFormDE: 0,
         freeFormEN: 0,
@@ -2616,19 +2667,22 @@
       document.documentElement.lang = lang;
       const isDe = lang === 'de';
 
-      // 1. Header
+      // 1. Header & Global Main Page Button
+      const btnGlobalMain = document.getElementById('btnGlobalMainPage');
+      if (btnGlobalMain) btnGlobalMain.textContent = isDe ? '🏠 Zur Startseite' : '🏠 Go to Main Page';
+
       const headerBadge = document.getElementById('headerBadgeText');
       if (headerBadge) headerBadge.textContent = isDe ? 'NIGHT-FAST · Sprachdatenerfassung' : 'NIGHT-FAST · Voice Collection';
       const headerTitle = document.getElementById('headerTitle');
       if (headerTitle) headerTitle.textContent = isDe ? 'Sprachaufnahme-Tool' : 'Voice Sample Recorder';
 
-      // 2. 4-Part Study Banner (Strict Word Integrity)
+      // 2. 4-Step Study Banner (Strict Word Integrity)
       const step1Head = document.getElementById('guideStep1Head');
       if (step1Head) step1Head.textContent = isDe ? 'Kalibrierung' : 'Calibration';
       const step2Head = document.getElementById('guideStep2Head');
-      if (step2Head) step2Head.textContent = isDe ? 'Teil A: Freie Formulierung' : 'Part A: Free-Form';
+      if (step2Head) step2Head.textContent = isDe ? 'Freie Formulierung' : 'Free-Form';
       const step3Head = document.getElementById('guideStep3Head');
-      if (step3Head) step3Head.textContent = isDe ? 'Teil B: Laut Vorlesen' : 'Part B: Read-Aloud';
+      if (step3Head) step3Head.textContent = isDe ? 'Laut Vorlesen' : 'Read-Aloud';
       const step4Head = document.getElementById('guideStep4Head');
       if (step4Head) step4Head.textContent = 'Export & Upload';
 
@@ -2675,7 +2729,7 @@
 
       // 4. Calibration Section
       const calTitle = document.getElementById('calCardTitle');
-      if (calTitle) calTitle.innerHTML = `<span class="icon">🎙️</span> Part 1 · ${isDe ? 'Kalibrierung' : 'Calibration'}`;
+      if (calTitle) calTitle.innerHTML = `<span class="icon">🎙️</span> Step 1 · ${isDe ? 'Kalibrierung' : 'Calibration'}`;
       const calSubtitle = document.getElementById('calCardSubtitle');
       if (calSubtitle) calSubtitle.textContent = isDe ? 'Kurzer Mikrofontest vor Beginn der Aufnahmen.' : 'Quick microphone test before starting recordings.';
 
@@ -2699,13 +2753,13 @@
       const btnStartCal = document.getElementById('btnCalibrate');
       if (btnStartCal && !btnStartCal.disabled) btnStartCal.textContent = isDe ? '🎙️ Start' : '🎙️ Start';
       const btnDoneCal = document.getElementById('btnCalibrationDone');
-      if (btnDoneCal) btnDoneCal.textContent = isDe ? 'Weiter zu Teil A ✓ →' : 'Continue to Part A ✓ →';
+      if (btnDoneCal) btnDoneCal.textContent = isDe ? 'Weiter zu Step 2 ✓ →' : 'Continue to Step 2 ✓ →';
       const btnSkipCal = document.getElementById('btnSkipCalibrate');
       if (btnSkipCal) btnSkipCal.textContent = isDe ? 'Überspringen →' : 'Skip →';
 
-      // 5. Part A Intro Section
+      // 5. Step 2 Intro Section
       const partATitle = document.getElementById('partATitle');
-      if (partATitle) partATitle.textContent = isDe ? 'Part 2 · Teil A: Freie Formulierung' : 'Part 2 · Part A: Free-Form';
+      if (partATitle) partATitle.textContent = isDe ? 'Step 2 · Freie Formulierung' : 'Step 2 · Free-Form';
       const partASubtitle = document.getElementById('partASubtitle');
       if (partASubtitle) partASubtitle.textContent = isDe
         ? 'Lesen Sie die jeweilige Notfallsituation durch und formulieren Sie Ihren Befehl in eigenen Worten (den Text bitte nicht vorlesen).'
@@ -2713,21 +2767,21 @@
       const btnBackPartA = document.getElementById('btnBackToCalibration');
       if (btnBackPartA) btnBackPartA.textContent = isDe ? '← Zurück' : '← Back';
       const btnStartPartA = document.getElementById('btnStartPartA');
-      if (btnStartPartA) btnStartPartA.textContent = isDe ? '🚀 Teil A starten →' : '🚀 Start Part A →';
+      if (btnStartPartA) btnStartPartA.textContent = isDe ? '🚀 Step 2 starten →' : '🚀 Start Step 2 →';
 
-      // 6. Part B Intro Section
+      // 6. Step 3 Intro Section
       const partBTitle = document.getElementById('partBTitle');
-      if (partBTitle) partBTitle.textContent = isDe ? 'Part 3 · Teil B: Laut Vorlesen' : 'Part 3 · Part B: Read-Aloud';
+      if (partBTitle) partBTitle.textContent = isDe ? 'Step 3 · Laut Vorlesen' : 'Step 3 · Read-Aloud';
       const partBSubtitle = document.getElementById('partBSubtitle');
       if (partBSubtitle) partBSubtitle.textContent = isDe
         ? 'Lesen Sie den angezeigten Befehlssatz genau so laut und deutlich vor.'
         : 'Read the displayed command sentence aloud clearly exactly as written.';
       const btnStartPartB = document.getElementById('btnStartPartB');
-      if (btnStartPartB) btnStartPartB.textContent = isDe ? '🚀 Teil B starten →' : '🚀 Start Part B →';
+      if (btnStartPartB) btnStartPartB.textContent = isDe ? '🚀 Step 3 starten →' : '🚀 Start Step 3 →';
 
       // 7. Review & Export
       const revTitle = document.getElementById('reviewCardTitle');
-      if (revTitle) revTitle.innerHTML = `<span class="icon">📊</span> Part 4 · Export & Upload`;
+      if (revTitle) revTitle.innerHTML = `<span class="icon">📊</span> Step 4 · Export & Upload`;
 
       const ncBoxTitle = document.getElementById('ncBoxTitle');
       if (ncBoxTitle) ncBoxTitle.textContent = isDe ? '☁️ Aufnahmen abgeben' : '☁️ Submit Recordings';
@@ -2740,7 +2794,7 @@
       if (btnNextcloudUpload) btnNextcloudUpload.textContent = isDe ? '☁️ Schritt 2: In Academic Cloud hochladen ↗' : '☁️ Step 2: Upload to Academic Cloud ↗';
 
       const btnRedoStudy = document.getElementById('btnRedoStudy');
-      if (btnRedoStudy) btnRedoStudy.textContent = isDe ? '🔄 Gesamte Studie neu starten (Startseite)' : '🔄 Redo Entire Study (Return to Home)';
+      if (btnRedoStudy) btnRedoStudy.textContent = isDe ? '🏠 Zur Startseite (Studie neu starten)' : '🏠 Go to Main Page (Redo Study)';
 
       const reviewDisclaimer = document.getElementById('reviewDisclaimer');
       if (reviewDisclaimer) reviewDisclaimer.textContent = isDe
@@ -2808,7 +2862,7 @@
     }
 
     // ============================================================
-    //  NAVIGATION & 4-PART STUDY PROGRESS
+    //  NAVIGATION & 4-STEP STUDY PROGRESS
     // ============================================================
     function setStudyPart(partNum) {
       state.currentPart = partNum;
@@ -2820,12 +2874,12 @@
         card.classList.remove('active', 'completed');
         if (i < partNum) {
           card.classList.add('completed');
-          if (numEl) numEl.textContent = `✓ Part ${i}`;
+          if (numEl) numEl.textContent = `✓ Step ${i}`;
         } else if (i === partNum) {
           card.classList.add('active');
-          if (numEl) numEl.textContent = `Part ${i}`;
+          if (numEl) numEl.textContent = `Step ${i}`;
         } else {
-          if (numEl) numEl.textContent = `Part ${i}`;
+          if (numEl) numEl.textContent = `Step ${i}`;
         }
       }
 
@@ -3071,11 +3125,11 @@
       const pillEl = document.getElementById('langTransitionPill');
       const btnEl = document.getElementById('btnContinueLangTransition');
 
-      const partNum = partName.includes('Part B') ? 3 : 2;
+      const stepNum = (partName.includes('Step 3') || partName.includes('Part B')) ? 3 : 2;
 
       if (isTargetDe) {
         if (iconEl) iconEl.textContent = '🇬🇧 ➔ 🇩🇪';
-        if (titleEl) titleEl.textContent = `Wechsel zu Deutsch (${partNum === 3 ? 'Part 3 · Teil B: Laut Vorlesen' : 'Part 2 · Teil A: Freie Formulierung'})`;
+        if (titleEl) titleEl.textContent = `Wechsel zu Deutsch (Step ${stepNum} · ${stepNum === 3 ? 'Laut Vorlesen' : 'Freie Formulierung'})`;
         if (descEl) descEl.innerHTML = `Die kommenden Szenarien sind auf <strong>Deutsch</strong>. Bitte sprechen Sie auf <strong>Deutsch</strong>.`;
         if (pillEl) {
           pillEl.textContent = '🇩🇪 Deutsch';
@@ -3084,7 +3138,7 @@
         if (btnEl) btnEl.textContent = 'Weiter →';
       } else {
         if (iconEl) iconEl.textContent = '🇩🇪 ➔ 🇬🇧';
-        if (titleEl) titleEl.textContent = `Switching to English (${partNum === 3 ? 'Part 3 · Part B: Read-Aloud' : 'Part 2 · Part A: Free-Form'})`;
+        if (titleEl) titleEl.textContent = `Switching to English (Step ${stepNum} · ${stepNum === 3 ? 'Read-Aloud' : 'Free-Form'})`;
         if (descEl) descEl.innerHTML = `The upcoming scenarios are in <strong>English</strong>. Please speak in <strong>English</strong>.`;
         if (pillEl) {
           pillEl.textContent = '🇬🇧 English';
@@ -3093,7 +3147,7 @@
         if (btnEl) btnEl.textContent = 'Continue →';
       }
 
-      goToSection('sectionLangTransition', partNum);
+      goToSection('sectionLangTransition', stepNum);
     }
 
     function continueAfterLangTransition() {
@@ -3122,15 +3176,15 @@
         return;
       }
 
-      // Transition 2: Language switch within Part A
+      // Transition 2: Language switch within Step 2
       if (currentScenario.type !== 'read-aloud' && nextScenario.type !== 'read-aloud' && currentScenario.lang !== nextScenario.lang) {
-        showLanguageTransition(currentScenario.lang, nextScenario.lang, 'Part A');
+        showLanguageTransition(currentScenario.lang, nextScenario.lang, 'Step 2');
         return;
       }
 
-      // Transition 3: Language switch within Part B
+      // Transition 3: Language switch within Step 3
       if (currentScenario.type === 'read-aloud' && nextScenario.type === 'read-aloud' && currentScenario.lang !== nextScenario.lang) {
-        showLanguageTransition(currentScenario.lang, nextScenario.lang, 'Part B');
+        showLanguageTransition(currentScenario.lang, nextScenario.lang, 'Step 3');
         return;
       }
 
@@ -3161,7 +3215,7 @@
     }
 
     // ============================================================
-    //  SIDE HINTS PANEL (Part 2 & Part 3)
+    //  SIDE HINTS PANEL (Step 2 & Step 3)
     // ============================================================
     function renderSideHints(isReadAloud, lang) {
       const isDe = lang === 'de';
@@ -3170,8 +3224,8 @@
       if (!titleEl || !contentEl) return;
 
       if (!isReadAloud) {
-        // Part 2 · Free-Form (Teil A: Freie Formulierung)
-        titleEl.textContent = isDe ? 'Tipps für Teil A' : 'Tips for Part A';
+        // Step 2 · Free-Form (Freie Formulierung)
+        titleEl.textContent = isDe ? 'Tipps für Step 2' : 'Tips for Step 2';
         contentEl.innerHTML = `
           <div class="side-hint-item">
             <span class="side-hint-bullet">🗣️</span>
@@ -3204,8 +3258,8 @@
           </div>
         `;
       } else {
-        // Part 3 · Read-Aloud (Teil B: Laut Vorlesen)
-        titleEl.textContent = isDe ? 'Tipps für Teil B' : 'Tips for Part B';
+        // Step 3 · Read-Aloud (Laut Vorlesen)
+        titleEl.textContent = isDe ? 'Tipps für Step 3' : 'Tips for Step 3';
         contentEl.innerHTML = `
           <div class="side-hint-item">
             <span class="side-hint-bullet">📖</span>
@@ -3250,7 +3304,7 @@
       const isReadAloud = scenario.type === 'read-aloud';
       const isDe = scenario.lang === 'de';
 
-      // Highlight Part 2 or Part 3 in top progress banner
+      // Highlight Step 2 or Step 3 in top progress banner
       setStudyPart(isReadAloud ? 3 : 2);
 
       // Title (Strict Word Integrity)
@@ -3258,12 +3312,12 @@
       if (titleEl) {
         if (isDe) {
           titleEl.textContent = isReadAloud
-            ? `Part 3 · Teil B: Laut Vorlesen (${state.currentIndex + 1} / ${state.scenarios.length})`
-            : `Part 2 · Teil A: Freie Formulierung (${state.currentIndex + 1} / ${state.scenarios.length})`;
+            ? `Step 3 · Laut Vorlesen (${state.currentIndex + 1} / ${state.scenarios.length})`
+            : `Step 2 · Freie Formulierung (${state.currentIndex + 1} / ${state.scenarios.length})`;
         } else {
           titleEl.textContent = isReadAloud
-            ? `Part 3 · Part B: Read-Aloud (${state.currentIndex + 1} / ${state.scenarios.length})`
-            : `Part 2 · Part A: Free-Form (${state.currentIndex + 1} / ${state.scenarios.length})`;
+            ? `Step 3 · Read-Aloud (${state.currentIndex + 1} / ${state.scenarios.length})`
+            : `Step 2 · Free-Form (${state.currentIndex + 1} / ${state.scenarios.length})`;
         }
       }
 
@@ -3550,11 +3604,11 @@
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${freeFormCount}</div>
-      <div class="summary-stat-label">${isDe ? 'Teil A: Freie Formulierung' : 'Part A: Free-Form'}</div>
+      <div class="summary-stat-label">${isDe ? 'Step 2: Freie Formulierung' : 'Step 2: Free-Form'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${readAloudCount}</div>
-      <div class="summary-stat-label">${isDe ? 'Teil B: Laut Vorlesen' : 'Part B: Read-Aloud'}</div>
+      <div class="summary-stat-label">${isDe ? 'Step 3: Laut Vorlesen' : 'Step 3: Read-Aloud'}</div>
     </div>
     <div class="summary-stat">
       <div class="summary-stat-value">${state.skipped.length}</div>
@@ -3587,14 +3641,33 @@
       });
     }
 
-    function redoEntireStudy() {
+    function goToMainPage() {
       const isDe = state.currentUiLang === 'de';
-      const msg = isDe
-        ? 'Möchten Sie die gesamte Studie neu starten?\n\nAlle bisherigen Aufnahmen werden verworfen und Sie kehren zur Startseite zurück.'
-        : 'Do you want to restart the entire study?\n\nAll current recordings will be cleared and you will return to the home page.';
+      const reviewActive = document.getElementById('sectionReview')?.classList.contains('active');
+      const completeActive = document.getElementById('sectionComplete')?.classList.contains('active');
+      const isOnLastPage = Boolean(reviewActive || completeActive);
+
+      // On the last page, skip the warning if the ZIP file has already been downloaded
+      if (isOnLastPage && state.zipDownloaded) {
+        window.location.reload();
+        return;
+      }
+
+      const msg = isOnLastPage
+        ? (isDe
+          ? 'Sie haben die ZIP-Datei noch nicht heruntergeladen!\n\nWenn Sie jetzt zur Startseite zurückkehren, gehen alle Aufnahmen verloren. Trotzdem fortfahren?'
+          : 'You have not downloaded the ZIP file yet!\n\nIf you return to the main page now, all recordings will be lost. Continue anyway?')
+        : (isDe
+          ? 'Möchten Sie wirklich zur Startseite zurückkehren?\n\nAlle bisherigen Aufnahmen gehen dabei verloren.'
+          : 'Are you sure you want to return to the main page?\n\nAll current recordings will be lost.');
+
       if (confirm(msg)) {
         window.location.reload();
       }
+    }
+
+    function redoEntireStudy() {
+      goToMainPage();
     }
 
     function getEmptyRecordingMessage() {
@@ -3732,6 +3805,9 @@
       // Generate and download
       const content = await zip.generateAsync({ type: 'blob' });
       saveAs(content, `nightfast_voice_${state.participantId}_${Date.now()}.zip`);
+      state.zipDownloaded = true;
+      const isDe = state.currentUiLang === 'de';
+      setDownloadNotice(isDe ? '✅ ZIP-Datei erfolgreich heruntergeladen!' : '✅ ZIP file downloaded!');
       return true;
     }
 
