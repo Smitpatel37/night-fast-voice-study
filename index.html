@@ -1128,6 +1128,35 @@
       overflow: hidden;
     }
 
+    .scenario-mini-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-left: 8px;
+    }
+
+    .scenario-mini-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      width: 30px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all var(--transition-fast);
+      padding: 0;
+    }
+
+    .scenario-mini-btn:hover:not(:disabled) {
+      border-color: var(--accent-blue);
+      color: var(--text-primary);
+      background: rgba(96, 165, 250, 0.15);
+    }
+
     .scenario-meta {
       display: flex;
       gap: 10px;
@@ -1992,7 +2021,13 @@
           
           <div class="card scenario-card" style="margin: 0;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-              <div class="card-title" id="scenarioTitle" style="margin: 0; font-size: 19px; font-weight: 700;">Step 2 · Freie Formulierung (1 / 14)</div>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <div class="card-title" id="scenarioTitle" style="margin: 0; font-size: 19px; font-weight: 700;">Step 2 · Freie Formulierung (1 / 14)</div>
+                <div class="scenario-mini-nav">
+                  <button type="button" class="scenario-mini-btn" id="btnHeaderPrev" onclick="goToPreviousScenario()" title="Vorheriges Szenario">◀</button>
+                  <button type="button" class="scenario-mini-btn" id="btnHeaderNext" onclick="goToNextScenario()" title="Nächstes Szenario">▶</button>
+                </div>
+              </div>
               <div class="scenario-meta" id="scenarioMeta" style="margin: 0;"></div>
             </div>
 
@@ -2030,9 +2065,19 @@
               </div>
             </div>
 
-            <div class="btn-group" style="margin-top: 20px;">
-              <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Wiederholen</button>
-              <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Speichern & Weiter →</button>
+            <div class="scenario-nav-container" style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <button type="button" class="btn btn-ghost" id="btnPrevScenario" onclick="goToPreviousScenario()" style="font-size: 13.5px; padding: 10px 18px; display: inline-flex; align-items: center; gap: 6px;">
+                <span>←</span> <span id="btnPrevScenarioText">Vorheriges</span>
+              </button>
+
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button class="btn btn-danger hidden" id="btnReRecord" onclick="reRecord()">🔄 Wiederholen</button>
+                <button class="btn btn-success hidden" id="btnNextScenario" onclick="nextScenario()">Speichern & Weiter →</button>
+              </div>
+
+              <button type="button" class="btn btn-ghost" id="btnNextScenarioNav" onclick="goToNextScenario()" style="font-size: 13.5px; padding: 10px 18px; display: inline-flex; align-items: center; gap: 6px;">
+                <span id="btnNextScenarioNavText">Nächstes</span> <span>→</span>
+              </button>
             </div>
           </div>
 
@@ -2060,7 +2105,10 @@
             Lesen Sie den angezeigten Befehlssatz genau so laut und deutlich vor.
           </p>
 
-          <div class="btn-group" style="justify-content: center;">
+          <div class="btn-group" style="justify-content: center; gap: 12px;">
+            <button class="btn btn-ghost" id="btnBackToStep2" onclick="goBackToStep2()" style="font-size: 15px; padding: 12px 24px;">
+              ← Zurück zu Step 2
+            </button>
             <button class="btn btn-primary" id="btnStartPartB" onclick="startPartBScenarios()" style="font-size: 15px; padding: 12px 32px;">
               🚀 Step 3 starten →
             </button>
@@ -2092,7 +2140,11 @@
               English</span>
           </div>
 
-          <div>
+          <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+            <button class="btn btn-ghost" id="btnBackLangTransition" onclick="goToPreviousScenario()"
+              style="font-size: 15px; padding: 12px 24px;">
+              ← Zurück
+            </button>
             <button class="btn btn-primary" id="btnContinueLangTransition" onclick="continueAfterLangTransition()"
               style="font-size: 15px; padding: 12px 32px;">
               Continue to English Scenarios →
@@ -2151,10 +2203,16 @@
           </div>
 
           <div style="margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
-            <button class="btn btn-ghost" id="btnRedoStudy" type="button" onclick="goToMainPage()"
-              style="font-size: 13.5px; padding: 10px 24px; border: 1px solid var(--border-subtle); color: var(--text-secondary); border-radius: var(--radius-sm);">
-              🏠 Zur Startseite (Studie neu starten)
-            </button>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+              <button class="btn btn-ghost" id="btnBackToRecordings" type="button" onclick="goBackToRecordings()"
+                style="font-size: 13.5px; padding: 10px 24px; border: 1px solid var(--border-subtle); color: var(--text-secondary); border-radius: var(--radius-sm);">
+                ← Zurück zu den Aufnahmen (bearbeiten)
+              </button>
+              <button class="btn btn-ghost" id="btnRedoStudy" type="button" onclick="goToMainPage()"
+                style="font-size: 13.5px; padding: 10px 24px; border: 1px solid var(--border-subtle); color: var(--text-secondary); border-radius: var(--radius-sm);">
+                🏠 Zur Startseite (Studie neu starten)
+              </button>
+            </div>
             <p class="text-sm text-muted text-center" id="reviewDisclaimer" style="margin: 0; max-width: 620px;">
               Alle Aufnahmen werden lokal in Ihrem Browser gespeichert, bis sie heruntergeladen werden. Keine Audiodaten verlassen Ihr Gerät ohne Ihre Zustimmung.
             </p>
@@ -2778,6 +2836,22 @@
         : 'Read the displayed command sentence aloud clearly exactly as written.';
       const btnStartPartB = document.getElementById('btnStartPartB');
       if (btnStartPartB) btnStartPartB.textContent = isDe ? '🚀 Step 3 starten →' : '🚀 Start Step 3 →';
+      const btnBackStep2 = document.getElementById('btnBackToStep2');
+      if (btnBackStep2) btnBackStep2.textContent = isDe ? '← Zurück zu Step 2' : '← Back to Step 2';
+      const btnBackLang = document.getElementById('btnBackLangTransition');
+      if (btnBackLang) btnBackLang.textContent = isDe ? '← Zurück' : '← Back';
+
+      const btnPrevNav = document.getElementById('btnPrevScenarioText');
+      if (btnPrevNav) btnPrevNav.textContent = isDe ? 'Vorheriges' : 'Previous';
+      const btnNextNav = document.getElementById('btnNextScenarioNavText');
+      if (btnNextNav) {
+        const isLast = state.scenarios && state.currentIndex >= state.scenarios.length - 1;
+        btnNextNav.textContent = isLast ? (isDe ? 'Zum Export' : 'To Export') : (isDe ? 'Nächstes' : 'Next');
+      }
+      const btnHeadPrev = document.getElementById('btnHeaderPrev');
+      if (btnHeadPrev) btnHeadPrev.title = isDe ? 'Vorheriges Szenario' : 'Previous scenario';
+      const btnHeadNext = document.getElementById('btnHeaderNext');
+      if (btnHeadNext) btnHeadNext.title = isDe ? 'Nächstes Szenario' : 'Next scenario';
 
       // 7. Review & Export
       const revTitle = document.getElementById('reviewCardTitle');
@@ -2792,6 +2866,9 @@
       if (btnDownloadZip) btnDownloadZip.textContent = isDe ? '📦 Schritt 1: ZIP-Datei herunterladen' : '📦 Step 1: Download ZIP File';
       const btnNextcloudUpload = document.getElementById('btnNextcloudUpload');
       if (btnNextcloudUpload) btnNextcloudUpload.textContent = isDe ? '☁️ Schritt 2: In Academic Cloud hochladen ↗' : '☁️ Step 2: Upload to Academic Cloud ↗';
+
+      const btnBackRec = document.getElementById('btnBackToRecordings');
+      if (btnBackRec) btnBackRec.textContent = isDe ? '← Zurück zu den Aufnahmen (bearbeiten)' : '← Back to Recordings (edit)';
 
       const btnRedoStudy = document.getElementById('btnRedoStudy');
       if (btnRedoStudy) btnRedoStudy.textContent = isDe ? '🏠 Zur Startseite (Studie neu starten)' : '🏠 Go to Main Page (Redo Study)';
@@ -3115,6 +3192,18 @@
       loadScenario();
     }
 
+    function goBackToStep2() {
+      let lastStep2Index = 0;
+      for (let i = 0; i < state.scenarios.length; i++) {
+        if (state.scenarios[i].type !== 'read-aloud') {
+          lastStep2Index = i;
+        }
+      }
+      state.currentIndex = lastStep2Index;
+      goToSection('sectionRecord', 2);
+      loadScenario();
+    }
+
     function showLanguageTransition(fromLang, toLang, partName) {
       applyUiLanguage(toLang);
       const isTargetDe = toLang === 'de';
@@ -3377,6 +3466,75 @@
       if (btnNext) btnNext.textContent = isDe ? 'Speichern & Weiter →' : 'Save & Next →';
 
       resetRecordingUI();
+
+      // Check if this scenario has already been recorded
+      const existingRec = state.recordings.find(r => r.scenarioId === scenario.id);
+      if (existingRec && existingRec.blob) {
+        state.currentBlob = existingRec.blob;
+        state.currentDuration = existingRec.duration;
+
+        const audioEl = document.getElementById('audioPlayback');
+        if (audioEl) {
+          audioEl.src = URL.createObjectURL(existingRec.blob);
+        }
+        const playbackContainer = document.getElementById('playbackContainer');
+        if (playbackContainer) playbackContainer.classList.add('visible');
+
+        const recordingControls = document.getElementById('recordingControls');
+        if (recordingControls) recordingControls.classList.add('has-recording');
+
+        const recordingStatus = document.getElementById('recordingStatus');
+        if (recordingStatus) {
+          recordingStatus.textContent = isDe
+            ? `✓ Gespeicherte Aufnahme (${existingRec.duration}s) — Anhören oder Wiederholen`
+            : `✓ Saved recording (${existingRec.duration}s) — Listen or Re-record`;
+          recordingStatus.className = 'recording-status has-recording';
+        }
+
+        const timerEl = document.getElementById('recordingTimer');
+        if (timerEl) {
+          const mins = Math.floor(existingRec.duration / 60).toString().padStart(2, '0');
+          const secs = Math.floor(existingRec.duration % 60).toString().padStart(2, '0');
+          timerEl.textContent = `${mins}:${secs}`;
+        }
+
+        if (btnReRecord) btnReRecord.classList.remove('hidden');
+        if (btnNext) btnNext.classList.remove('hidden');
+      } else if (state.skipped && state.skipped.includes(scenario.id)) {
+        const recordingStatus = document.getElementById('recordingStatus');
+        if (recordingStatus) {
+          recordingStatus.textContent = isDe
+            ? '⚠️ Szenario zuvor übersprungen — Aufnahme jederzeit möglich'
+            : '⚠️ Scenario previously skipped — you may record at any time';
+          recordingStatus.className = 'recording-status';
+        }
+      }
+
+      // Update Navigation button states (Prev / Next)
+      const isFirstScenario = state.currentIndex === 0;
+      const isLastScenario = state.currentIndex === state.scenarios.length - 1;
+
+      const btnPrev = document.getElementById('btnPrevScenario');
+      if (btnPrev) {
+        btnPrev.disabled = isFirstScenario;
+        btnPrev.style.opacity = isFirstScenario ? '0.35' : '1';
+        btnPrev.style.pointerEvents = isFirstScenario ? 'none' : 'auto';
+      }
+      const btnHPrev = document.getElementById('btnHeaderPrev');
+      if (btnHPrev) {
+        btnHPrev.disabled = isFirstScenario;
+        btnHPrev.style.opacity = isFirstScenario ? '0.35' : '1';
+        btnHPrev.style.pointerEvents = isFirstScenario ? 'none' : 'auto';
+      }
+
+      const btnNextNavText = document.getElementById('btnNextScenarioNavText');
+      if (btnNextNavText) {
+        btnNextNavText.textContent = isLastScenario
+          ? (isDe ? 'Zum Export' : 'To Export')
+          : (isDe ? 'Nächstes' : 'Next');
+      }
+
+      updateScenarioProgress();
       renderSideHints(isReadAloud, scenario.lang);
     }
 
@@ -3538,42 +3696,106 @@
       requestAnimationFrame(animateWaveform);
     }
 
+    function saveCurrentRecording() {
+      const scenario = state.scenarios[state.currentIndex];
+      if (!scenario || !state.currentBlob) return;
+
+      const dur = parseFloat(state.currentDuration) || 0;
+      const existingIdx = state.recordings.findIndex(r => r.scenarioId === scenario.id);
+      const recData = {
+        scenarioId: scenario.id,
+        lang: scenario.lang,
+        intent: scenario.intent,
+        safety: scenario.safety,
+        type: scenario.type || 'free-form',
+        groundTruth: scenario.groundTruth || null,
+        presentationOrder: state.currentIndex + 1,
+        blob: state.currentBlob,
+        duration: dur,
+        timestamp: new Date().toISOString()
+      };
+
+      if (existingIdx >= 0) {
+        state.recordings[existingIdx] = recData;
+      } else {
+        state.recordings.push(recData);
+      }
+
+      state.skipped = state.skipped.filter(id => id !== scenario.id);
+    }
+
     function reRecord() {
+      const scenario = state.scenarios[state.currentIndex];
+      if (scenario) {
+        state.recordings = state.recordings.filter(r => r.scenarioId !== scenario.id);
+      }
       state.currentBlob = null;
       state.currentDuration = null;
       resetRecordingUI();
     }
 
     function nextScenario() {
-      // Save recording
-      const scenario = state.scenarios[state.currentIndex];
-      if (state.currentBlob) {
-        state.recordings.push({
-          scenarioId: scenario.id,
-          lang: scenario.lang,
-          intent: scenario.intent,
-          safety: scenario.safety,
-          type: scenario.type || 'free-form',
-          groundTruth: scenario.groundTruth || null,
-          presentationOrder: state.currentIndex + 1,
-          blob: state.currentBlob,
-          duration: parseFloat(state.currentDuration),
-          timestamp: new Date().toISOString()
-        });
+      if (state.isRecording) {
+        stopRecording();
       }
-
+      if (state.currentBlob) {
+        saveCurrentRecording();
+      }
       state.currentBlob = null;
       state.currentDuration = null;
       advanceToNextScenario();
     }
 
+    function goToNextScenario() {
+      if (state.isRecording) {
+        stopRecording();
+      }
+      if (state.currentBlob) {
+        saveCurrentRecording();
+      } else {
+        const scenario = state.scenarios[state.currentIndex];
+        if (scenario) {
+          const hasRecording = state.recordings.some(r => r.scenarioId === scenario.id);
+          if (!hasRecording && !state.skipped.includes(scenario.id)) {
+            state.skipped.push(scenario.id);
+          }
+        }
+      }
+      state.currentBlob = null;
+      state.currentDuration = null;
+      advanceToNextScenario();
+    }
+
+    function goToPreviousScenario() {
+      if (state.isRecording) {
+        stopRecording();
+      }
+      if (state.currentBlob) {
+        saveCurrentRecording();
+      }
+      if (state.currentIndex <= 0) return;
+
+      state.currentBlob = null;
+      state.currentDuration = null;
+      state.currentIndex--;
+
+      const currentScenario = state.scenarios[state.currentIndex];
+      const partNum = currentScenario && currentScenario.type === 'read-aloud' ? 3 : 2;
+      goToSection('sectionRecord', partNum);
+      loadScenario();
+    }
+
     function skipScenario() {
+      if (state.isRecording) {
+        stopRecording();
+      }
       const scenario = state.scenarios[state.currentIndex];
-      state.skipped.push(scenario.id);
-
-      // Stop any ongoing recording
-      if (state.isRecording) stopRecording();
-
+      if (scenario) {
+        state.recordings = state.recordings.filter(r => r.scenarioId !== scenario.id);
+        if (!state.skipped.includes(scenario.id)) {
+          state.skipped.push(scenario.id);
+        }
+      }
       state.currentBlob = null;
       state.currentDuration = null;
       advanceToNextScenario();
@@ -3630,15 +3852,38 @@
       state.recordings.forEach(r => {
         const item = document.createElement('div');
         item.className = 'recording-item';
+        item.style.cursor = 'pointer';
+        item.title = isDe ? 'Klicken, um Aufnahme anzuhören oder neu aufzunehmen' : 'Click to listen or re-record';
+        item.onclick = () => jumpToScenario(r.scenarioId);
+
         const typeLabel = r.type === 'read-aloud' ? '🔊' : '🎤';
         const intentLabel = (isDe && INTENT_LABELS_DE[r.intent]) ? INTENT_LABELS_DE[r.intent] : r.intent;
         item.innerHTML = `
       <div class="ri-status"></div>
-      <div class="ri-name">${typeLabel} ${r.scenarioId} — ${intentLabel} (${r.lang.toUpperCase()})</div>
+      <div class="ri-name">${typeLabel} ${r.scenarioId} — ${intentLabel} (${r.lang.toUpperCase()}) <span style="font-size: 11px; color: var(--accent-blue); margin-left: 8px;">✏️ ${isDe ? 'Anhören / Ändern' : 'Listen / Edit'}</span></div>
       <div class="ri-meta">${r.duration}s</div>
     `;
         list.appendChild(item);
       });
+    }
+
+    function jumpToScenario(scenarioId) {
+      const idx = state.scenarios.findIndex(s => s.id === scenarioId);
+      if (idx >= 0) {
+        state.currentIndex = idx;
+        const s = state.scenarios[idx];
+        const partNum = s && s.type === 'read-aloud' ? 3 : 2;
+        goToSection('sectionRecord', partNum);
+        loadScenario();
+      }
+    }
+
+    function goBackToRecordings() {
+      state.currentIndex = Math.max(0, state.scenarios.length - 1);
+      const s = state.scenarios[state.currentIndex];
+      const partNum = s && s.type === 'read-aloud' ? 3 : 2;
+      goToSection('sectionRecord', partNum);
+      loadScenario();
     }
 
     function goToMainPage() {
